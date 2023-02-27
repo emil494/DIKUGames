@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DIKUArcade.GUI;
 
 namespace Galaga
@@ -11,7 +11,7 @@ namespace Galaga
             var game = new Game(windowArgs);
             game.Run();
             //Console.WriteLine("Hello World!"); // TODO: Delete this line!
-            // Hej!
+            // Hej!!
         }
     }
 }
