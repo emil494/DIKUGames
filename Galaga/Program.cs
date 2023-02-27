@@ -12,6 +12,6 @@ namespace Galaga
             game.Run();
             //Console.WriteLine("Hello World!"); // TODO: Delete this line!
             // Hej!
-        }
+        }//Allah er stor
     }
 }
