@@ -28,7 +28,8 @@ namespace Galaga;
     }
 
     public override void Update() {
-        //throw new System.NotImplementedException("Galaga game has no entities to update yet.");
+        eventBus.ProcessEventsSequentially();
+        player.Move();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -37,7 +38,7 @@ namespace Galaga;
                 GameEvent close = new GameEvent();
                 close.EventType = GameEventType.WindowEvent;
                 close.Message = "CLOSE_GAME";
-                close.To = ProcessEvent(close);
+                eventBus.RegisterEvent(close);
                 break;
             case KeyboardKey.Left:
                 player.SetMoveLeft(true);
