@@ -34,20 +34,43 @@ namespace Galaga;
     private void KeyPress(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Escape:
-                close = new GameEvent();
+                GameEvent close = new GameEvent();
                 close.EventType = GameEventType.WindowEvent;
                 close.Message = "CLOSE_GAME";
                 close.To = ProcessEvent(close);
+                break;
+            case KeyboardKey.Left:
+                player.SetMoveLeft(true);
+                break;
+            case KeyboardKey.Right:
+                player.SetMoveRight(true);
+                break;
         }
         // TODO: Close window if escape is pressed
         // TODO: switch on key string and set the player's move direction
     }
 
     private void KeyRelease(KeyboardKey key) {
+        switch (key){
+            case KeyboardKey.Left:
+                player.SetMoveLeft(false);
+                break;
+            case KeyboardKey.Right:
+                player.SetMoveRight(false);
+                break;
+        }
         // TODO: switch on key string and disable the player's move direction
     }
 
     private void KeyHandler(KeyboardAction action, KeyboardKey key) {
+        switch (action){
+            case KeyboardAction.KeyPress:
+                KeyPress(key);
+                break;
+            case KeyboardAction.KeyRelease:
+                KeyRelease(key);
+                break;
+        }
         // TODO: Switch on KeyBoardAction and call proper method
     }
 
@@ -55,7 +78,8 @@ namespace Galaga;
         if (gameEvent.EventType == GameEventType.WindowEvent){
             switch (gameEvent.Message){
                 case "CLOSE_GAME":
-                    game.CloseWindow();
+                    window.CloseWindow();
+                    break;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace Galaga {
         }
 
         public void Move() {
-            if (shape.Direction != -1 || shape.Direction != 1){
+            if (shape.Direction.X != -1.0f && shape.Direction.X != 1.0f){
                 shape.Move();
             }
         }
@@ -47,7 +47,7 @@ namespace Galaga {
         }
 
         private void UpdateDirection(){
-            shape.Direction = (moveLeft + moveRight,0);
+            shape.Direction.X = moveLeft + moveRight;
         }
     }
 }
