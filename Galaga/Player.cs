@@ -19,14 +19,15 @@ namespace Galaga {
         }
 
         public void Move() {
-            if (shape.Direction.X != -1.0f && shape.Direction.X != 1.0f){
+            if (shape.Position.X + shape.Direction.X >= 0.0f && 
+            shape.Position.X + shape.Direction.X <= 1.0f-shape.Extent.X){
                 shape.Move();
             }
         }
 
         public void SetMoveLeft(bool val){
             if (val){
-                moveLeft += MOVEMENT_SPEED;
+                moveLeft -= MOVEMENT_SPEED;
                 UpdateDirection();
             }
             else {
