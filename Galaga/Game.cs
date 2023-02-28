@@ -7,25 +7,42 @@ using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System.Collections.Generic;
+using DIKUArcade.Physics;
 
 namespace Galaga;
-    public class Game : DIKUGame, IGameEventProcessor {
-        private Player player;
-        private GameEventBus eventBus;
+public class Game : DIKUGame, IGameEventProcessor {
+    private EntityContainer<Enemy> enemies;
+    private EntityContainer<PlayerShot> playerShots;
+    private IBaseImage playerShotImage;
+    private Player player;
+    private GameEventBus eventBus;
+    public Game(WindowArgs windowArgs) : base(windowArgs) {
+        player = new Player(
+            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
+            new Image(Path.Combine("Assets", "Images", "Player.png")));
+        eventBus = new GameEventBus();
+        eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent});
+        window.SetKeyEventHandler(KeyHandler);
+        eventBus.Subscribe(GameEventType.InputEvent, this);
+        eventBus.Subscribe(GameEventType.WindowEvent, this);
 
-        public Game(WindowArgs windowArgs) : base(windowArgs) {
-            player = new Player(
-                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
-            eventBus = new GameEventBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.WindowEvent});
-            window.SetKeyEventHandler(KeyHandler);
-            eventBus.Subscribe(GameEventType.InputEvent, this);
-            eventBus.Subscribe(GameEventType.WindowEvent, this);
+        playerShots = new EntityContainer<PlayerShot>();
+        playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
+
+        List<Image> images = ImageStride.CreateStrides
+            (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        const int numEnemies = 8;
+        enemies = new EntityContainer<Enemy>(numEnemies);
+        for (int i = 0; i < numEnemies; i++) {
+            enemies.AddEntity(new Enemy(
+                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
+                new ImageStride(80, images)));
         }
+    }
 
     public override void Render() {
         player.Render();
+        enemies.RenderEntities();
     }
 
     public override void Update() {
@@ -84,5 +101,18 @@ namespace Galaga;
                     break;
             }
         }
+    }
+    private void IterateShots() {
+        playerShots.Iterate(shot => {
+            shot.shape.position += shot.direction;
+            // TODO: move the shot's shape
+            if ( /* TODO: guard against window borders */ true) {
+                // TODO: delete shot
+            } else {
+                enemies.Iterate(enemy => {
+                    // TODO: if collision btw shot and enemy -> delete both entities
+                });
+            }
+        });
     }
 }
