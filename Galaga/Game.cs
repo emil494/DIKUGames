@@ -119,7 +119,7 @@ public class Game : DIKUGame, IGameEventProcessor {
     }
     private void IterateShots() {
         playerShots.Iterate(shot => {
-            shot.Move();
+            shot.Shape.Move();
             if ( shot.Shape.Position.Y >= 1.0f) {
                 shot.DeleteEntity();
             } else {
