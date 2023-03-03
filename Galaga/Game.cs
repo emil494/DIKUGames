@@ -43,11 +43,13 @@ public class Game : DIKUGame, IGameEventProcessor {
     public override void Render() {
         player.Render();
         enemies.RenderEntities();
+        playerShots.RenderEntities();
     }
 
     public override void Update() {
         eventBus.ProcessEventsSequentially();
         player.Move();
+        IterateShots();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -64,9 +66,8 @@ public class Game : DIKUGame, IGameEventProcessor {
             case KeyboardKey.Right:
                 player.SetMoveRight(true);
                 break;
+
         }
-        // TODO: Close window if escape is pressed
-        // TODO: switch on key string and set the player's move direction
     }
 
     private void KeyRelease(KeyboardKey key) {
@@ -77,8 +78,11 @@ public class Game : DIKUGame, IGameEventProcessor {
             case KeyboardKey.Right:
                 player.SetMoveRight(false);
                 break;
+            case KeyboardKey.Space:
+                PlayerShot newShot = new PlayerShot(player.GetPosition(), playerShotImage);
+                playerShots.AddEntity(newShot);
+                break;
         }
-        // TODO: switch on key string and disable the player's move direction
     }
 
     private void KeyHandler(KeyboardAction action, KeyboardKey key) {
@@ -90,7 +94,6 @@ public class Game : DIKUGame, IGameEventProcessor {
                 KeyRelease(key);
                 break;
         }
-        // TODO: Switch on KeyBoardAction and call proper method
     }
 
     public void ProcessEvent(GameEvent gameEvent) {
@@ -103,13 +106,21 @@ public class Game : DIKUGame, IGameEventProcessor {
         }
     }
     private void IterateShots() {
+        System.Console.WriteLine(playerShots.CountEntities());
         playerShots.Iterate(shot => {
-            shot.shape.position += shot.direction;
+            shot.Move();
             // TODO: move the shot's shape
-            if ( /* TODO: guard against window borders */ true) {
+            if ( shot.Shape.Position.Y >= 1.0f) {
+                shot.DeleteEntity();
                 // TODO: delete shot
             } else {
                 enemies.Iterate(enemy => {
+                    //CollisionDetection detection = new CollisionDetection();
+                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape)).Collision){
+                        shot.DeleteEntity();
+                        enemy.DeleteEntity();
+                    }
+
                     // TODO: if collision btw shot and enemy -> delete both entities
                 });
             }
