@@ -13,6 +13,8 @@ using System;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
+    private List<Image> enemyStridesGreen;
+
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -38,13 +40,16 @@ public class Game : DIKUGame, IGameEventProcessor {
 
         List<Image> images = ImageStride.CreateStrides
             (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        enemyStridesGreen = ImageStride.CreateStrides(2, Path.Combine("Assets",
+            "Images", "GreenMonster.png"));
         const int numEnemies = 8;
         enemies = new EntityContainer<Enemy>(numEnemies);
         for (int i = 0; i < numEnemies; i++) {
             enemies.AddEntity(new Enemy(
                 new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-                new ImageStride(80, images)));
+                new ImageStride(80, enemyStridesGreen)));
         }
+
         enemyExplosions = new AnimationContainer(numEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
@@ -62,6 +67,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
+        IterateEnemies();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -82,6 +88,18 @@ public class Game : DIKUGame, IGameEventProcessor {
                     StringArg1 = "RIGHT"}
                 );
                 break;
+            case KeyboardKey.Up:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "UP"}
+                );
+                break;
+            case KeyboardKey.Down:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "DOWN"}
+                );
+                break;
 
         }
     }
@@ -100,6 +118,18 @@ public class Game : DIKUGame, IGameEventProcessor {
                     StringArg1 = "RIGHT"}
                 );
                 break;
+            case KeyboardKey.Up:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "UP"}
+                );
+                break;
+            case KeyboardKey.Down:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "DOWN"}
+                );
+                break;  
             case KeyboardKey.Space:
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
                     new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
@@ -128,6 +158,7 @@ public class Game : DIKUGame, IGameEventProcessor {
             }
         }
     }
+
     private void IterateShots() {
         playerShots.Iterate(shot => {
             shot.Shape.Move();
@@ -135,15 +166,30 @@ public class Game : DIKUGame, IGameEventProcessor {
                 shot.DeleteEntity();
             } else {
                 enemies.Iterate(enemy => {
-                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
-                    enemy.Shape)).Collision){
+                    if (enemy.Hitpoints <= 0){
                         AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         shot.DeleteEntity();
                         enemy.DeleteEntity();
+                    } else if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
+                        enemy.Shape)).Collision && enemy.Hitpoints > 0){
+                        if (enemy.Hitpoints - 5 <= 10){
+                            enemy.Enrage();
+                            enemy.Hit();
+                            shot.DeleteEntity();
+                        } else {
+                            enemy.Hit();
+                            shot.DeleteEntity();
+                        }
                     }
                 });
             }
         });
+    }
+
+    private void IterateEnemies(){
+        enemies.Iterate(enemy => 
+            {enemy.Shape.Move();}
+        );
     }
 
     public void AddExplosion(Vec2F position, Vec2F extent) {
