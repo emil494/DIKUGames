@@ -89,7 +89,7 @@ public class Game : DIKUGame, IGameEventProcessor {
                 break;
             case KeyboardKey.Space:
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
-                    new Vec2F(0.045f,0.0f), playerShotImage);
+                    new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
                 playerShots.AddEntity(newShot);
                 break;
         }
