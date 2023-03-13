@@ -16,6 +16,10 @@ namespace Galaga {
             moveRight = 0.0f;
         }
 
+        public Vec2F GetExtend(){
+            return shape.Extent;
+        } 
+
         public Vec2F GetPosition(){
             return shape.Position;
         }
