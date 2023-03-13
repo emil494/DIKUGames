@@ -27,10 +27,11 @@ public class Game : DIKUGame, IGameEventProcessor {
             new Image(Path.Combine("Assets", "Images", "Player.png")));
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> 
-            { GameEventType.InputEvent, GameEventType.WindowEvent});
+            { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent});
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
+        eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
@@ -70,10 +71,16 @@ public class Game : DIKUGame, IGameEventProcessor {
                     new GameEvent {EventType = GameEventType.WindowEvent, Message = "CLOSE_GAME"});
                 break;
             case KeyboardKey.Left:
-                player.SetMoveLeft(true);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "LEFT"}
+                );
                 break;
             case KeyboardKey.Right:
-                player.SetMoveRight(true);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "RIGHT"}
+                );
                 break;
 
         }
@@ -82,10 +89,16 @@ public class Game : DIKUGame, IGameEventProcessor {
     private void KeyRelease(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Left:
-                player.SetMoveLeft(false);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "LEFT"}
+                );
                 break;
             case KeyboardKey.Right:
-                player.SetMoveRight(false);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "RIGHT"}
+                );
                 break;
             case KeyboardKey.Space:
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
