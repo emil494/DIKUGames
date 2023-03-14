@@ -9,6 +9,7 @@ using DIKUArcade.Input;
 using System.Collections.Generic;
 using DIKUArcade.Physics;
 using System;
+using Galaga.Squadron;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
@@ -21,6 +22,7 @@ public class Game : DIKUGame, IGameEventProcessor {
     private GameEventBus eventBus;
     private AnimationContainer enemyExplosions;
     private List<Image> explosionStrides;
+    private ISquadron squadron;
     private const int EXPLOSION_LENGTH_MS = 500;
 
     public Game(WindowArgs windowArgs) : base(windowArgs) {
@@ -40,20 +42,14 @@ public class Game : DIKUGame, IGameEventProcessor {
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
 
-        this.enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-        this.enemyStridesRed = ImageStride.CreateStrides (2, Path.Combine("Assets", "Images", "RedMonster.png"));
+        enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        enemyStridesRed = ImageStride.CreateStrides (2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
-        const int numEnemies = 8;
-        enemies = new EntityContainer<Enemy>(numEnemies);
+        squadron = new CheckeredSquadron();
+        squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+        enemies = squadron.Enemies;
 
-        for (int i = 0; i < numEnemies; i++) {
-            enemies.AddEntity(new Enemy(
-                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f), 
-                new Vec2F(0.0f, -0.002f)),
-                new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
-        }
-
-        enemyExplosions = new AnimationContainer(numEnemies);
+        enemyExplosions = new AnimationContainer(squadron.MaxEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
     }
