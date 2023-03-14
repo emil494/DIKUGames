@@ -13,7 +13,8 @@ using System;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
-    //private List<Image> enemyStridesGreen;
+    private List<Image> enemyStridesBlue;
+    private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -26,9 +27,11 @@ public class Game : DIKUGame, IGameEventProcessor {
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
             new Image(Path.Combine("Assets", "Images", "Player.png")));
+        
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> 
             { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent});
+
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
@@ -37,19 +40,22 @@ public class Game : DIKUGame, IGameEventProcessor {
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
 
-        List<Image> images = ImageStride.CreateStrides
-            (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        this.enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+        this.enemyStridesRed = ImageStride.CreateStrides (2, Path.Combine("Assets", "Images", "RedMonster.png"));
+
         const int numEnemies = 8;
         enemies = new EntityContainer<Enemy>(numEnemies);
+
         for (int i = 0; i < numEnemies; i++) {
             enemies.AddEntity(new Enemy(
-                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-                new ImageStride(80, images)));
+                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f), 
+                new Vec2F(0.0f, -0.002f)),
+                new ImageStride(80, enemyStridesBlue), new ImageStride(80, enemyStridesRed)));
         }
+
         enemyExplosions = new AnimationContainer(numEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
-
     }
 
     public override void Render() {
@@ -63,6 +69,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
+        IterateEnemies();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -130,13 +137,19 @@ public class Game : DIKUGame, IGameEventProcessor {
                 enemies.Iterate(enemy => {
                     if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
                     enemy.Shape)).Collision){
-                        AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         shot.DeleteEntity();
-                        enemy.DeleteEntity();
+                        enemy.LoseHealth();
+                        if (enemy.IsDeleted()) {
+                        AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                        }
                     }
                 });
             }
         });
+    }
+
+    private void IterateEnemies() {
+        enemies.Iterate (enemy => {enemy.Shape.Move();});
     }
 
     public void AddExplosion(Vec2F position, Vec2F extent) {
