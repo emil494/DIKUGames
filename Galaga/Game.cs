@@ -13,8 +13,7 @@ using System;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
-    private List<Image> enemyStridesGreen;
-
+    //private List<Image> enemyStridesGreen;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -75,10 +74,10 @@ public class Game : DIKUGame, IGameEventProcessor {
             case KeyboardKey.Left:
                 eventBus.RegisterEvent(
                     new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE", StringArg1 = "LEFT"});
-                player.SetMoveLeft(true);
                 break;
             case KeyboardKey.Right:
-                player.SetMoveRight(true);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE", StringArg1 = "RIGHT"});
                 break;
 
         }
@@ -87,10 +86,12 @@ public class Game : DIKUGame, IGameEventProcessor {
     private void KeyRelease(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Left:
-                player.SetMoveLeft(false);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE", StringArg1 = "LEFT"});
                 break;
             case KeyboardKey.Right:
-                player.SetMoveRight(false);
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE", StringArg1 = "RIGHT"});
                 break;
             case KeyboardKey.Space:
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
