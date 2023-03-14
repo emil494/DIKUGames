@@ -1,9 +1,10 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
 
 namespace Galaga {
-    public class Player {
+    public class Player : IGameEventProcessor {
         private Entity entity;
         private DynamicShape shape;
         private float moveLeft;
@@ -59,6 +60,14 @@ namespace Galaga {
 
         private void UpdateDirection(){
             shape.Direction.X = moveLeft + moveRight;
+        }
+    }
+
+    public void ProcessEvent (GameEvent gameEvent) {
+        if (gameEvent.EventType == GameEventType.PlayerEvent) {
+            switch (gameEvent.Message) {
+                
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
-        eventBus.Subscribe(GameEventType.PlayerEvent, this);
+        eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
@@ -73,6 +73,8 @@ public class Game : DIKUGame, IGameEventProcessor {
                     new GameEvent {EventType = GameEventType.WindowEvent, Message = "CLOSE_GAME"});
                 break;
             case KeyboardKey.Left:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "LEFT"});
                 player.SetMoveLeft(true);
                 break;
             case KeyboardKey.Right:
