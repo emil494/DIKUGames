@@ -37,7 +37,7 @@ namespace Galaga {
 
         public void SetMoveLeft(bool val){
             if (val){
-                moveLeft -= MOVEMENT_SPEED;
+                moveLeft = -MOVEMENT_SPEED;
                 UpdateDirection();
             }
             else {
@@ -48,7 +48,7 @@ namespace Galaga {
 
         public void SetMoveRight(bool val){
             if (val){
-                moveRight += MOVEMENT_SPEED;
+                moveRight = MOVEMENT_SPEED;
                 UpdateDirection();
             }
             else {
