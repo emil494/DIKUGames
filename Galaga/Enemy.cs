@@ -6,10 +6,14 @@ namespace Galaga;
 public class Enemy : Entity {
     private int hitpoints;
     private IBaseImage enragedImage;
+    private bool enraged;
+    public float X_0, Y_0;
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage EnragedImage) : base(shape, image) {
         this.hitpoints = 4;
         this.enragedImage = EnragedImage;
-        Shape.AsDynamicShape().Direction = new Vec2F(0.0f, -0.002f);
+        this.enraged = false;
+        this.X_0 = shape.Position.X;
+        this.Y_0 = shape.Position.Y;
 
     }
 
@@ -24,6 +28,19 @@ public class Enemy : Entity {
 
     public void Enrage() {
         Image = enragedImage;
-        Shape.AsDynamicShape().Direction *= 2.0f;
+        enraged = true;
+        //Shape.AsDynamicShape().Direction *= 2.0f;
+    }
+
+    public bool IsEnraged() {
+        return enraged;
+    }
+
+    public float GetStartX() {
+        return X_0;
+    }
+
+    public float GetStartY() {
+        return Y_0;
     }
 }
