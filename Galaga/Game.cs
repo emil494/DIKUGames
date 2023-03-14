@@ -31,6 +31,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
+        eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
