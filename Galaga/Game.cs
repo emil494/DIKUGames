@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -6,15 +8,15 @@ using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
-using System.Collections.Generic;
 using DIKUArcade.Physics;
-using System;
+using Galaga.Squadron;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
+    private SquareShape square = new SquareShape();
     private List<Image> enemyStridesGreen;
-
+    private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -42,14 +44,14 @@ public class Game : DIKUGame, IGameEventProcessor {
             (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
         enemyStridesGreen = ImageStride.CreateStrides(2, Path.Combine("Assets",
             "Images", "GreenMonster.png"));
+        enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine(
+                "Assets", "Images", "RedMonster.png"));
+        
         const int numEnemies = 8;
         enemies = new EntityContainer<Enemy>(numEnemies);
-        for (int i = 0; i < numEnemies; i++) {
-            enemies.AddEntity(new Enemy(
-                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-                new ImageStride(80, enemyStridesGreen)));
-        }
 
+        square.CreateEnemies(enemyStridesGreen, enemyStridesRed);
+        Enqueue(square.Enemies);
         enemyExplosions = new AnimationContainer(numEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
@@ -172,7 +174,7 @@ public class Game : DIKUGame, IGameEventProcessor {
                         enemy.DeleteEntity();
                     } else if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
                         enemy.Shape)).Collision && enemy.Hitpoints > 0){
-                        if (enemy.Hitpoints - 5 <= 10){
+                        if (enemy.Hitpoints - 1 <= 2){
                             enemy.Enrage();
                             enemy.Hit();
                             shot.DeleteEntity();
@@ -189,6 +191,12 @@ public class Game : DIKUGame, IGameEventProcessor {
     private void IterateEnemies(){
         enemies.Iterate(enemy => 
             {enemy.Shape.Move();}
+        );
+    }
+
+    private void Enqueue(EntityContainer<Enemy> EnemyContainer){
+        EnemyContainer.Iterate(enemy =>
+            {enemies.AddEntity(enemy);}    
         );
     }
 
