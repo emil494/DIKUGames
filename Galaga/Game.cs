@@ -15,7 +15,7 @@ namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
     private SquareShape square = new SquareShape();
-    private List<Image> enemyStridesGreen;
+    private List<Image> enemyStridesBlue;
     private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
@@ -40,17 +40,15 @@ public class Game : DIKUGame, IGameEventProcessor {
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
 
-        List<Image> images = ImageStride.CreateStrides
+        enemyStridesBlue = ImageStride.CreateStrides
             (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-        enemyStridesGreen = ImageStride.CreateStrides(2, Path.Combine("Assets",
-            "Images", "GreenMonster.png"));
-        enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine(
-                "Assets", "Images", "RedMonster.png"));
+        enemyStridesRed = ImageStride.CreateStrides
+            (2, Path.Combine("Assets", "Images", "RedMonster.png"));
         
         const int numEnemies = 8;
         enemies = new EntityContainer<Enemy>(numEnemies);
 
-        square.CreateEnemies(enemyStridesGreen, enemyStridesRed);
+        square.CreateEnemies(enemyStridesBlue, enemyStridesRed);
         Enqueue(square.Enemies);
         enemyExplosions = new AnimationContainer(numEnemies);
         explosionStrides = ImageStride.CreateStrides(8,

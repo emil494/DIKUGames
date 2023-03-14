@@ -25,9 +25,7 @@ public class Enemy : Entity {
     }
 
     public void Enrage(){
-        if (enrageImage is not null){
-            Image = enrageImage;
-            Shape.AsDynamicShape().Direction += new Vec2F(0.0f, -0.004f);
-        }
+        Image = enrageImage;
+        Shape.AsDynamicShape().Direction += new Vec2F(0.0f, -0.004f);
     }   
 }
