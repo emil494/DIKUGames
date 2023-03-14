@@ -13,6 +13,8 @@ using System;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
+    private List<Image> enemyStridesGreen;
+
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
