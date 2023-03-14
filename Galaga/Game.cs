@@ -74,7 +74,7 @@ public class Game : DIKUGame, IGameEventProcessor {
                 break;
             case KeyboardKey.Left:
                 eventBus.RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "LEFT"});
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE", StringArg1 = "LEFT"});
                 player.SetMoveLeft(true);
                 break;
             case KeyboardKey.Right:

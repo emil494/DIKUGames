@@ -66,7 +66,15 @@ namespace Galaga {
     public void ProcessEvent (GameEvent gameEvent) {
         if (gameEvent.EventType == GameEventType.PlayerEvent) {
             switch (gameEvent.Message) {
-                
+                case "MOVE":
+                    switch (gameEvent.StringArg1) {
+                        case "LEFT":
+                            SetMoveLeft(true);
+                            break;
+                    }
+                    break;    
+                case "STOP_MOVE"
+            
             }
         }
     }
