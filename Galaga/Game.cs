@@ -14,26 +14,27 @@ using Galaga.MovementStrategy;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
-    private ZigZagDown down = new ZigZagDown();
     private EntityContainer<Enemy> enemies;
-    private SquareShape square = new SquareShape();
     private List<Image> enemyStridesBlue;
     private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
     private GameEventBus eventBus;
-    private AnimationContainer enemyExplosions;
-    private List<Image> explosionStrides;
-    private const int EXPLOSION_LENGTH_MS = 500;
+    private Explosion explosion;
+    private IMovementStrategy move;
+    private Wave wave;
+    private int waveNum;
 
     public Game(WindowArgs windowArgs) : base(windowArgs) {
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
             new Image(Path.Combine("Assets", "Images", "Player.png")));
+        
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> 
             { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent});
+            
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
@@ -42,34 +43,40 @@ public class Game : DIKUGame, IGameEventProcessor {
         playerShots = new EntityContainer<PlayerShot>();
         playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
 
-        enemyStridesBlue = ImageStride.CreateStrides
-            (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-        enemyStridesRed = ImageStride.CreateStrides
-            (2, Path.Combine("Assets", "Images", "RedMonster.png"));
+        wave = new Wave();
+        waveNum = wave.num;
+
+        enemies = wave.GetEnemies();
+
+        move = new Down();
+
+        explosion = new Explosion(new AnimationContainer(wave.GetSquadron().MaxEnemies), 
+            ImageStride.CreateStrides(8, Path.Combine("Assets", "Images", "Explosion.png")));
         
-        const int numEnemies = 8;
-        enemies = new EntityContainer<Enemy>(numEnemies);
-
-        square.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-        AddEnemies(square.Enemies);
-        enemyExplosions = new AnimationContainer(numEnemies);
-        explosionStrides = ImageStride.CreateStrides(8,
-            Path.Combine("Assets", "Images", "Explosion.png"));
-
     }
 
     public override void Render() {
         player.Render();
         enemies.RenderEntities();
         playerShots.RenderEntities();
-        enemyExplosions.RenderAnimations();
+        explosion.container.RenderAnimations();
     }
 
     public override void Update() {
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
-        down.MoveEnemies(enemies);
+        move.MoveEnemies(enemies);
+        wave.NextWave();
+        UpdateEnemies();
+    }
+
+    public void UpdateEnemies() {
+        if (waveNum != wave.num) {
+            enemies = wave.GetEnemies();
+            waveNum = wave.num;
+            move = wave.GetMove();
+        }
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -168,27 +175,16 @@ public class Game : DIKUGame, IGameEventProcessor {
                 shot.DeleteEntity();
             } else {
                 enemies.Iterate(enemy => {
-                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
-                        enemy.Shape)).Collision){
-                        enemy.Hit();
-                        if (enemy.IsDeleted()){
-                            AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                        }
+                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(),
+                    enemy.Shape)).Collision){
                         shot.DeleteEntity();
+                        enemy.LoseHealth();
+                        if (enemy.IsDeleted()) {
+                        explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                        }
                     }
                 });
             }
         });
-    }
-
-    private void AddEnemies(EntityContainer<Enemy> EnemyContainer){
-        EnemyContainer.Iterate(enemy =>
-            {enemies.AddEntity(enemy);}    
-        );
-    }
-
-    public void AddExplosion(Vec2F position, Vec2F extent) {
-        enemyExplosions.AddAnimation(new StationaryShape(position, extent), 
-            EXPLOSION_LENGTH_MS/8, new ImageStride(EXPLOSION_LENGTH_MS/8, explosionStrides));
     }
 }

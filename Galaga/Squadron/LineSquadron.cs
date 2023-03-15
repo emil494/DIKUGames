@@ -5,16 +5,17 @@ using DIKUArcade.Math;
 
 namespace Galaga.Squadron;
 
-public class LineShape : ISquadron{
+
+public class LineSquadron : ISquadron{
     public EntityContainer<Enemy> Enemies {get;}
     public int MaxEnemies {get;}
 
-    public LineShape(){
+    public LineSquadron() {
         MaxEnemies = 8;
         Enemies = new EntityContainer<Enemy>(MaxEnemies);
     }
-
-    public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride){
+    
+    public void CreateEnemies (List<Image> enemyStride, List<Image> alternativeEnemyStride) {
         for (int i = 0; i < MaxEnemies; i++) {
             Enemies.AddEntity(new Enemy(
                 new DynamicShape(
