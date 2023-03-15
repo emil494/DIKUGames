@@ -25,6 +25,8 @@ public class Game : DIKUGame, IGameEventProcessor {
     private List<Image> explosionStrides;
     private ISquadron squadron;
     private IMovementStrategy move;
+    private Random rnd;
+    private float wave;
     private const int EXPLOSION_LENGTH_MS = 500;
 
     public Game(WindowArgs windowArgs) : base(windowArgs) {
@@ -47,15 +49,18 @@ public class Game : DIKUGame, IGameEventProcessor {
         enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
         enemyStridesRed = ImageStride.CreateStrides (2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
-        squadron = new PyramidSquadron();
+        squadron = new LineSquadron();
         squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
         enemies = squadron.Enemies;
 
-        move = new ZigZagDown();
+        move = new Down();
 
         enemyExplosions = new AnimationContainer(squadron.MaxEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
+        
+        rnd = new Random();
+        wave = 1.0f;
     }
 
     public override void Render() {
@@ -70,6 +75,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         player.Move();
         IterateShots();
         move.MoveEnemies(enemies);
+        Waves();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -148,7 +154,39 @@ public class Game : DIKUGame, IGameEventProcessor {
         });
     }
 
-    public void AddExplosion(Vec2F position, Vec2F extent) {
+    private void Waves() {
+        if (enemies.CountEntities() <= 0) {
+            wave += 1.0f;
+            switch (rnd.Next(2)) {
+                case 0:
+                    move = new Down();
+                    break;
+                case 1:
+                    move = new ZigZagDown();
+                    break;
+            }
+            switch (rnd.Next(3)) {
+                case 0:
+                    squadron = new LineSquadron();
+                    squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                    enemies = squadron.Enemies;
+                    break;
+                case 1:
+                    squadron = new CheckeredSquadron();
+                    squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                    enemies = squadron.Enemies;
+                    break;
+                case 2:
+                    squadron = new PyramidSquadron();
+                    squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                    enemies = squadron.Enemies;
+                    break;
+            }
+            move.UpdateSpeed(wave * 0.0003f);
+        }
+    }
+
+    private void AddExplosion(Vec2F position, Vec2F extent) {
         enemyExplosions.AddAnimation(new StationaryShape(position, extent), 
             EXPLOSION_LENGTH_MS/8, new ImageStride(EXPLOSION_LENGTH_MS/8, explosionStrides));
     }

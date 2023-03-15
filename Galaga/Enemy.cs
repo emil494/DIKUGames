@@ -7,7 +7,7 @@ public class Enemy : Entity {
     private int hitpoints;
     private IBaseImage enragedImage;
     private bool enraged;
-    public float X_0, Y_0;
+    private float X_0, Y_0;
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage EnragedImage) : base(shape, image) {
         this.hitpoints = 4;
         this.enragedImage = EnragedImage;

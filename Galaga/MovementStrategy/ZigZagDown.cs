@@ -30,4 +30,7 @@ public class ZigZagDown : IMovementStrategy{
     public void MoveEnemies (EntityContainer<Enemy> enemies) {
         enemies.Iterate(enemy => MoveEnemy(enemy));
     }
+    public void UpdateSpeed(float spd) {
+        speed = spd;
+    }
 }
