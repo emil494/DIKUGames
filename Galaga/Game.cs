@@ -15,8 +15,6 @@ using Galaga.MovementStrategy;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
-    private List<Image> enemyStridesBlue;
-    private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
