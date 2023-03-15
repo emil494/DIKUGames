@@ -22,7 +22,7 @@ public class ZigZagDown : IMovementStrategy{
         float X = x - enemy.Shape.Position.X;
 
         if (enemy.IsEnraged()) {
-            enemy.Shape.Move(new Vec2F(X*2, Y*2));
+            enemy.Shape.Move(new Vec2F(X, Y*2));
         } else {
             enemy.Shape.Move(new Vec2F(X, Y));
         }
