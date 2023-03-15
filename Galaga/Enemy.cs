@@ -6,11 +6,17 @@ using DIKUArcade.Math;
 
 namespace Galaga;
 public class Enemy : Entity {
+    private bool enraged = false;
     private IBaseImage enrageImage;
     private int hitpoints;
+    private Vec2F startPos;
 
-    public int Hitpoints{
-        get {return hitpoints;}
+    public bool IsEnraged{
+        get {return enraged;}
+    }
+
+    public Vec2F StartPos{
+        get {return startPos;}
     }
 
     public Enemy(DynamicShape shape, IBaseImage image, IBaseImage enrage)
@@ -18,14 +24,21 @@ public class Enemy : Entity {
             hitpoints = 4;
             enrageImage = enrage;
             shape.Direction = new Vec2F(0.0f, -0.002f);
+            startPos = Shape.Position;
         }
     
     public void Hit(){
         hitpoints -= 1;
+        if (hitpoints <= 0){
+            DeleteEntity();
+        } else if (hitpoints <= 2 && !enraged){
+            Enrage();
+        }
     }
 
-    public void Enrage(){
+    private void Enrage(){
+        enraged = true;
         Image = enrageImage;
-        Shape.AsDynamicShape().Direction += new Vec2F(0.0f, -0.004f);
+        Shape.AsDynamicShape().Direction *= 2;
     }   
 }

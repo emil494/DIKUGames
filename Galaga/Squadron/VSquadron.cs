@@ -5,11 +5,11 @@ using DIKUArcade.Math;
 
 namespace Galaga.Squadron;
 
-public class VShape : ISquadron{
+public class VSquadron : ISquadron{
     public EntityContainer<Enemy> Enemies {get;}
     public int MaxEnemies {get;}
 
-    public VShape(){
+    public VSquadron(){
         MaxEnemies = 7;
         Enemies = new EntityContainer<Enemy>(MaxEnemies);
     }

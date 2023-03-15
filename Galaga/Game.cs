@@ -10,9 +10,11 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 using DIKUArcade.Physics;
 using Galaga.Squadron;
+using Galaga.MovementStrategy;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
+    private ZigZagDown down = new ZigZagDown();
     private EntityContainer<Enemy> enemies;
     private SquareShape square = new SquareShape();
     private List<Image> enemyStridesBlue;
@@ -49,7 +51,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         enemies = new EntityContainer<Enemy>(numEnemies);
 
         square.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-        Enqueue(square.Enemies);
+        AddEnemies(square.Enemies);
         enemyExplosions = new AnimationContainer(numEnemies);
         explosionStrides = ImageStride.CreateStrides(8,
             Path.Combine("Assets", "Images", "Explosion.png"));
@@ -67,7 +69,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
-        IterateEnemies();
+        down.MoveEnemies(enemies);
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -166,33 +168,20 @@ public class Game : DIKUGame, IGameEventProcessor {
                 shot.DeleteEntity();
             } else {
                 enemies.Iterate(enemy => {
-                    if (enemy.Hitpoints <= 0){
-                        AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                        shot.DeleteEntity();
-                        enemy.DeleteEntity();
-                    } else if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
-                        enemy.Shape)).Collision && enemy.Hitpoints > 0){
-                        if (enemy.Hitpoints - 1 <= 2){
-                            enemy.Enrage();
-                            enemy.Hit();
-                            shot.DeleteEntity();
-                        } else {
-                            enemy.Hit();
-                            shot.DeleteEntity();
+                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
+                        enemy.Shape)).Collision){
+                        enemy.Hit();
+                        if (enemy.IsDeleted()){
+                            AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         }
+                        shot.DeleteEntity();
                     }
                 });
             }
         });
     }
 
-    private void IterateEnemies(){
-        enemies.Iterate(enemy => 
-            {enemy.Shape.Move();}
-        );
-    }
-
-    private void Enqueue(EntityContainer<Enemy> EnemyContainer){
+    private void AddEnemies(EntityContainer<Enemy> EnemyContainer){
         EnemyContainer.Iterate(enemy =>
             {enemies.AddEntity(enemy);}    
         );
