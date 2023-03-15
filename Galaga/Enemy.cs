@@ -29,7 +29,6 @@ public class Enemy : Entity {
     public void Enrage() {
         Image = enragedImage;
         enraged = true;
-        //Shape.AsDynamicShape().Direction *= 2.0f;
     }
 
     public bool IsEnraged() {

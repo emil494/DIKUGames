@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Collections.Generic;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -6,7 +8,6 @@ using DIKUArcade;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
-using System.Collections.Generic;
 using DIKUArcade.Physics;
 using Galaga.Squadron;
 using Galaga.MovementStrategy;
@@ -14,6 +15,8 @@ using Galaga.MovementStrategy;
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
     private EntityContainer<Enemy> enemies;
+    private List<Image> enemyStridesBlue;
+    private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -31,7 +34,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> 
             { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent});
-
+            
         window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
@@ -84,11 +87,27 @@ public class Game : DIKUGame, IGameEventProcessor {
                 break;
             case KeyboardKey.Left:
                 eventBus.RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE", StringArg1 = "LEFT"});
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "LEFT"}
+                );
                 break;
             case KeyboardKey.Right:
                 eventBus.RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE", StringArg1 = "RIGHT"});
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "RIGHT"}
+                );
+                break;
+            case KeyboardKey.Up:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "UP"}
+                );
+                break;
+            case KeyboardKey.Down:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+                    StringArg1 = "DOWN"}
+                );
                 break;
 
         }
@@ -98,12 +117,28 @@ public class Game : DIKUGame, IGameEventProcessor {
         switch (key){
             case KeyboardKey.Left:
                 eventBus.RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE", StringArg1 = "LEFT"});
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "LEFT"}
+                );
                 break;
             case KeyboardKey.Right:
                 eventBus.RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE", StringArg1 = "RIGHT"});
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "RIGHT"}
+                );
                 break;
+            case KeyboardKey.Up:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "UP"}
+                );
+                break;
+            case KeyboardKey.Down:
+                eventBus.RegisterEvent(
+                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+                    StringArg1 = "DOWN"}
+                );
+                break;  
             case KeyboardKey.Space:
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
                     new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
@@ -132,6 +167,7 @@ public class Game : DIKUGame, IGameEventProcessor {
             }
         }
     }
+
     private void IterateShots() {
         playerShots.Iterate(shot => {
             shot.Shape.Move();
@@ -139,7 +175,7 @@ public class Game : DIKUGame, IGameEventProcessor {
                 shot.DeleteEntity();
             } else {
                 enemies.Iterate(enemy => {
-                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), 
+                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(),
                     enemy.Shape)).Collision){
                         shot.DeleteEntity();
                         enemy.LoseHealth();

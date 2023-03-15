@@ -4,6 +4,7 @@ using DIKUArcade.Math;
 using System;
 
 namespace Galaga.MovementStrategy;
+
 public class ZigZagDown : IMovementStrategy{
     private float speed;
     private float period;
