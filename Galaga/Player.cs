@@ -123,4 +123,12 @@ public class Player : IGameEventProcessor {
                 break;
         }
     }
+
+    public DynamicShape GetShape() {
+        return shape;
+    }
+
+    public Entity GetEntity() {
+        return entity;
+    }
 }

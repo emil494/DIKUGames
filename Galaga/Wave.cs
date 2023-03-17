@@ -5,6 +5,7 @@ using Galaga.MovementStrategy;
 using System.Collections.Generic;
 using DIKUArcade.Graphics;
 using System.IO;
+using DIKUArcade.Math;
 
 namespace Galaga;
 
@@ -17,9 +18,9 @@ public class Wave {
     private List<Image> enemyStridesBlue;
     private List<Image> enemyStridesRed;
     private float speed;
-
+    private Text score;
     public Wave() {
-        this.num = 1;
+        num = 1;
         rnd = new Random();
         
         enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
@@ -31,11 +32,15 @@ public class Wave {
         enemies = squadron.Enemies;
         move = new Down();
         speed = 0.0003f;
+
+        score = new Text (num.ToString(), new Vec2F(0.0f,0.6f), new Vec2F(0.3f,0.4f));
+        score.SetColor(System.Drawing.Color.Coral);
     }
 
     public void NextWave() {
         if (enemies.CountEntities() <= 0) {
             num ++;
+            score.SetText(num.ToString());
             switch (rnd.Next(2)) {
                 case 0:
                     move = new Down();
@@ -85,5 +90,9 @@ public class Wave {
 
     public IMovementStrategy GetMove() {
         return move;
+    }
+
+    public void RenderScore() {
+        score.RenderText();
     }
 }
