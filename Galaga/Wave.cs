@@ -44,7 +44,7 @@ public class Wave {
                     move = new ZigZagDown();
                     break;
             }
-            switch (rnd.Next(3)) {
+            switch (rnd.Next(6)) {
                 case 0:
                     squadron = new LineSquadron();
                     squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
@@ -57,6 +57,16 @@ public class Wave {
                     break;
                 case 2:
                     squadron = new PyramidSquadron();
+                    squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                    enemies = squadron.Enemies;
+                    break;
+                case 3:
+                    squadron = new VSquadron();
+                    squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+                    enemies = squadron.Enemies;
+                    break;
+                case 4:
+                    squadron = new SquareSquadron();
                     squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
                     enemies = squadron.Enemies;
                     break;

@@ -14,9 +14,8 @@ using Galaga.MovementStrategy;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
+    private Health hp;
     private EntityContainer<Enemy> enemies;
-    private List<Image> enemyStridesBlue;
-    private List<Image> enemyStridesRed;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
     private Player player;
@@ -53,6 +52,7 @@ public class Game : DIKUGame, IGameEventProcessor {
         explosion = new Explosion(new AnimationContainer(wave.GetSquadron().MaxEnemies), 
             ImageStride.CreateStrides(8, Path.Combine("Assets", "Images", "Explosion.png")));
         
+        hp = new Health(new Vec2F(0.0f,-0.3f), new Vec2F(0.3f,0.4f));
     }
 
     public override void Render() {
@@ -60,15 +60,16 @@ public class Game : DIKUGame, IGameEventProcessor {
         enemies.RenderEntities();
         playerShots.RenderEntities();
         explosion.container.RenderAnimations();
+        hp.RenderHealth();
     }
 
     public override void Update() {
+        UpdateEnemies();
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
         move.MoveEnemies(enemies);
         wave.NextWave();
-        UpdateEnemies();
     }
 
     public void UpdateEnemies() {
@@ -77,6 +78,7 @@ public class Game : DIKUGame, IGameEventProcessor {
             waveNum = wave.num;
             move = wave.GetMove();
         }
+        IterateHealth();
     }
 
     private void KeyPress(KeyboardKey key) {
@@ -166,6 +168,16 @@ public class Game : DIKUGame, IGameEventProcessor {
                     break;
             }
         }
+    }
+
+    private void IterateHealth() {
+        enemies.Iterate(enemy => {
+            if ((CollisionDetection.Aabb(player.GetShape(), enemy.Shape)).Collision || enemy.Shape.Position.Y <= 0.0f){
+                    hp.LoseHealth();
+                    explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                    enemy.DeleteEntity();    
+                }
+        });
     }
 
     private void IterateShots() {
