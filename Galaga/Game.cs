@@ -23,6 +23,7 @@ public class Game : DIKUGame, IGameEventProcessor {
     private IMovementStrategy move;
     private Wave wave;
     private int waveNum;
+    private Health health;
 
     public Game(WindowArgs windowArgs) : base(windowArgs) {
         player = new Player(
@@ -50,23 +51,31 @@ public class Game : DIKUGame, IGameEventProcessor {
 
         explosion = new Explosion(new AnimationContainer(wave.GetSquadron().MaxEnemies), 
             ImageStride.CreateStrides(8, Path.Combine("Assets", "Images", "Explosion.png")));
-        
+
+        health = new Health(new Vec2F(0.0f,-0.3f), new Vec2F(0.3f,0.4f));
     }
 
     public override void Render() {
-        player.Render();
-        enemies.RenderEntities();
-        playerShots.RenderEntities();
-        explosion.container.RenderAnimations();
+        if (!health.GetGameOver()) {
+            player.Render();
+            enemies.RenderEntities();
+            playerShots.RenderEntities();
+            explosion.container.RenderAnimations();
+        }
+        health.RenderHealth();
+        wave.RenderScore();
     }
 
     public override void Update() {
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
-        move.MoveEnemies(enemies);
-        wave.NextWave();
+        if (!health.GetGameOver()) {
+            move.MoveEnemies(enemies);
+            wave.NextWave();
+        }
         UpdateEnemies();
+        IterateHealth();
     }
 
     public void UpdateEnemies() {
@@ -77,6 +86,15 @@ public class Game : DIKUGame, IGameEventProcessor {
         }
     }
 
+    private void IterateHealth() {
+        enemies.Iterate(enemy =>{
+            if (enemy.Shape.Position.Y + enemy.Shape.Extent.Y <= 0.0f) {
+                health.LoseHealth();
+                enemy.DeleteEntity();
+                explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+            }
+        });
+    }
     private void KeyPress(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Escape:
