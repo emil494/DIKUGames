@@ -1,5 +1,6 @@
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+
 namespace Galaga;
 
 public class Health {
