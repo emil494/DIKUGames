@@ -3,18 +3,17 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using DIKUArcade.GUI;
 using Galaga;
 public class Tests
 {
-    [SetUp]
-   
-    
+    [SetUp] 
     public void Setup()
     {
-        
+        Window.CreateOpenGLContext();
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            new Image(Path.Combine("Assets", "Images", "Player.png")));
+            new Image(@"Assets\Images\Player.png"));
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> {GameEventType.PlayerEvent});
         eventBus.Subscribe(GameEventType.PlayerEvent, player);
@@ -32,7 +31,7 @@ public class Tests
         );
         player.Move();
         var temp = player.GetPosition();
-        var OtherTemp = start + 0.01f; 
+        var OtherTemp = start + new Vec2F(0.0f, 0.01f); 
         Assert.AreEqual(temp,OtherTemp);
     }
 }
