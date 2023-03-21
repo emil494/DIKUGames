@@ -28,16 +28,3 @@ public class SquareSquadron : ISquadron{
         }
     }
 }
-
-public interface ILiquid{
-    private string name;
-    private int amount;
-
-    public string Name{
-        get {return name;}
-    }
-
-    public int Amount{
-        get {return name;}
-    }
-} 
