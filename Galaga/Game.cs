@@ -11,9 +11,11 @@ using DIKUArcade.Input;
 using DIKUArcade.Physics;
 using Galaga.Squadron;
 using Galaga.MovementStrategy;
+using Galaga.GalagaStates;
 
 namespace Galaga;
 public class Game : DIKUGame, IGameEventProcessor {
+    private MainMenu menu;
     private EntityContainer<Enemy> enemies;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
@@ -34,7 +36,6 @@ public class Game : DIKUGame, IGameEventProcessor {
         eventBus.InitializeEventBus(new List<GameEventType> 
             { GameEventType.InputEvent, GameEventType.WindowEvent, GameEventType.PlayerEvent});
             
-        window.SetKeyEventHandler(KeyHandler);
         eventBus.Subscribe(GameEventType.InputEvent, this);
         eventBus.Subscribe(GameEventType.WindowEvent, this);
         eventBus.Subscribe(GameEventType.PlayerEvent, player);
@@ -51,22 +52,26 @@ public class Game : DIKUGame, IGameEventProcessor {
 
         explosion = new Explosion(new AnimationContainer(wave.GetSquadron().MaxEnemies), 
             ImageStride.CreateStrides(8, Path.Combine("Assets", "Images", "Explosion.png")));
-
         health = new Health(new Vec2F(0.0f,-0.3f), new Vec2F(0.3f,0.4f));
+
+        menu = MainMenu.GetInstance();
+        window.SetKeyEventHandler(menu.HandleKeyEvent);
     }
 
     public override void Render() {
-        if (!health.GetGameOver()) {
+        menu.RenderState();
+        /*if (!health.GetGameOver()) {
             player.Render();
             enemies.RenderEntities();
             playerShots.RenderEntities();
             explosion.container.RenderAnimations();
         }
         health.RenderHealth();
-        wave.RenderScore();
+        wave.RenderScore();*/
     }
 
     public override void Update() {
+        UpdateEnemies();
         eventBus.ProcessEventsSequentially();
         player.Move();
         IterateShots();
@@ -84,6 +89,7 @@ public class Game : DIKUGame, IGameEventProcessor {
             waveNum = wave.num;
             move = wave.GetMove();
         }
+        IterateHealth();
     }
 
     private void IterateHealth() {

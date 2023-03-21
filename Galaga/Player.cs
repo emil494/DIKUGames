@@ -25,6 +25,10 @@ public class Player : IGameEventProcessor {
         return shape.Extent;
     } 
 
+    public DynamicShape GetShape(){
+        return shape;
+    }
+
     public Vec2F GetPosition(){
         return shape.Position;
     }
@@ -122,10 +126,6 @@ public class Player : IGameEventProcessor {
                 }
                 break;
         }
-    }
-
-    public DynamicShape GetShape() {
-        return shape;
     }
 
     public Entity GetEntity() {
