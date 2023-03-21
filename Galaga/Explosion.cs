@@ -17,6 +17,6 @@ public class Explosion {
 
     public void AddExplosion(Vec2F position, Vec2F extent) {
         container.AddAnimation(new StationaryShape(position, extent), 
-            EXPLOSION_LENGTH_MS/8, new ImageStride(EXPLOSION_LENGTH_MS/8, strides));
+            EXPLOSION_LENGTH_MS, new ImageStride(EXPLOSION_LENGTH_MS/8, strides));
     }
 }
