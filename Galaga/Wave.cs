@@ -5,6 +5,7 @@ using Galaga.MovementStrategy;
 using System.Collections.Generic;
 using DIKUArcade.Graphics;
 using System.IO;
+using DIKUArcade.Math;
 
 namespace Galaga;
 
@@ -17,9 +18,9 @@ public class Wave {
     private List<Image> enemyStridesBlue;
     private List<Image> enemyStridesRed;
     private float speed;
-
+    private Text score;
     public Wave() {
-        this.num = 1;
+        num = 1;
         rnd = new Random();
         
         enemyStridesBlue = ImageStride.CreateStrides (4, Path.Combine("Assets", "Images", "BlueMonster.png"));
@@ -31,11 +32,15 @@ public class Wave {
         enemies = squadron.Enemies;
         move = new Down();
         speed = 0.0003f;
+
+        score = new Text (num.ToString(), new Vec2F(0.0f,0.6f), new Vec2F(0.3f,0.4f));
+        score.SetColor(System.Drawing.Color.Coral);
     }
 
     public void NextWave() {
         if (enemies.CountEntities() <= 0) {
             num ++;
+            score.SetText(num.ToString());
             switch (rnd.Next(2)) {
                 case 0:
                     move = new Down();
@@ -44,7 +49,7 @@ public class Wave {
                     move = new ZigZagDown();
                     break;
             }
-            switch (rnd.Next(6)) {
+            switch (rnd.Next(5)) {
                 case 0:
                     squadron = new LineSquadron();
                     squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
@@ -61,12 +66,12 @@ public class Wave {
                     enemies = squadron.Enemies;
                     break;
                 case 3:
-                    squadron = new VSquadron();
+                    squadron = new SquareSquadron();
                     squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
                     enemies = squadron.Enemies;
                     break;
                 case 4:
-                    squadron = new SquareSquadron();
+                    squadron = new VSquadron();
                     squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
                     enemies = squadron.Enemies;
                     break;
@@ -85,5 +90,9 @@ public class Wave {
 
     public IMovementStrategy GetMove() {
         return move;
+    }
+
+    public void RenderScore() {
+        score.RenderText();
     }
 }
