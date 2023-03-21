@@ -18,6 +18,7 @@ public class Health {
         health--;
         if (health <= 0){
             display.SetText("GAME OVER");
+            
         } else {
             display.SetText(health.ToString());
         }
