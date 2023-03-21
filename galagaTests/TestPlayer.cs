@@ -5,6 +5,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.GUI;
 using Galaga;
+using DIKUArcade.GUI;
 public class Tests
 {
     [SetUp] 
