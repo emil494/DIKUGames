@@ -128,10 +128,6 @@ public class Player : IGameEventProcessor {
         }
     }
 
-    public DynamicShape GetShape() {
-        return shape;
-    }
-
     public Entity GetEntity() {
         return entity;
     }

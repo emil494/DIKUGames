@@ -186,16 +186,6 @@ public class Game : DIKUGame, IGameEventProcessor {
         }
     }
 
-    private void IterateHealth() {
-        enemies.Iterate(enemy => {
-            if ((CollisionDetection.Aabb(player.GetShape(), enemy.Shape)).Collision || enemy.Shape.Position.Y <= 0.0f){
-                    hp.LoseHealth();
-                    explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                    enemy.DeleteEntity();    
-                }
-        });
-    }
-
     private void IterateShots() {
         playerShots.Iterate(shot => {
             shot.Shape.Move();
