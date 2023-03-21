@@ -81,7 +81,6 @@ public class Game : DIKUGame, IGameEventProcessor {
         }
         UpdateEnemies();
         IterateHealth();
-        menu.UpdateState();
     }
 
     public void UpdateEnemies() {
