@@ -22,7 +22,7 @@ public class StateMachine : DIKUGame, IGameEventProcessor {
     private void SwitchState(GameStateType stateType) {
         switch (stateType) {
             case GameStateType.GameRunning:
-                ActiveState = Game.GetInstance();
+                ActiveState = GameRunning.GetInstance();
                 window.SetKeyEventHandler(ActiveState.HandleKeyEvent);
                 break;
             case GameStateType.GamePaused:
@@ -50,7 +50,7 @@ public class StateMachine : DIKUGame, IGameEventProcessor {
         if (gameEvent.EventType == GameEventType.WindowEvent){
             switch (gameEvent.Message){
                 case "ESCAPE":
-                    if (ActiveState is Game) {
+                    if (ActiveState is GameRunning) {
                         SwitchState(GameStateType.GamePaused);
                     }
                     /*if (ActiveState.GetType() == GameStateType.GamePaused) {

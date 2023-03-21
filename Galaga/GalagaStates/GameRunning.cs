@@ -12,11 +12,10 @@ using DIKUArcade.Physics;
 using DIKUArcade.State;
 using Galaga.Squadron;
 using Galaga.MovementStrategy;
-using Galaga.GalagaStates;
 
-namespace Galaga;
-public class Game : IGameState {
-    private static Game instance = null;
+namespace Galaga.GalagaStates;
+public class GameRunning : IGameState {
+    private static GameRunning instance = null;
     private EntityContainer<Enemy> enemies;
     private EntityContainer<PlayerShot> playerShots;
     private IBaseImage playerShotImage;
@@ -27,12 +26,12 @@ public class Game : IGameState {
     private int waveNum;
     private Health health;
 
-    public static Game GetInstance() {
-        if (Game.instance == null) {
-            Game.instance = new Game();
-            Game.instance.InitializeGameState();
+    public static GameRunning GetInstance() {
+        if (GameRunning.instance == null) {
+            GameRunning.instance = new GameRunning();
+            GameRunning.instance.InitializeGameState();
         }
-        return Game.instance;
+        return GameRunning.instance;
     }
     private void InitializeGameState(){
         player = new Player(
