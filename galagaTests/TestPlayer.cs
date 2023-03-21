@@ -32,7 +32,7 @@ public class Tests
         );
         player.Move();
         var temp = player.GetPosition();
-        var OtherTemp = start + 0.01f; 
-        Assert.AreEqual(temp,OtherTemp);
+        var OtherTemp = start + new Vec2F(0.00f,0.01f) ; 
+        Assert.AreEqual(temp,OtherTemp); 
     }
 }
