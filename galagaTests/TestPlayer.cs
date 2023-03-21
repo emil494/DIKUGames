@@ -32,6 +32,7 @@ public class Tests
             StringArg1 = "UP"}
         );
         player.Move();
+        player.Render();
         var temp = player.GetPosition();
         var OtherTemp = start + new Vec2F(0.00f,0.01f) ; 
         Assert.AreEqual(temp,OtherTemp); 
