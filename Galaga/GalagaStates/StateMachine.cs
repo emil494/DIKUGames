@@ -39,5 +39,6 @@ public class StateMachine : IGameEventProcessor<object> {
                         SwitchState(GameStateType.GameRunning);
                     }
                     break;
+            }
     }
 }
