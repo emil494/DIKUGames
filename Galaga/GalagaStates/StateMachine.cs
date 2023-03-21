@@ -3,7 +3,7 @@ using DIKUArcade.State;
 using System;
 
 namespace Galaga.GalagaStates;
-public class StateMachine : IGameEventProcessor<object> {
+public class StateMachine : IGameEventProcessor {
     public IGameState ActiveState { get; private set; }
 
     public StateMachine() {
