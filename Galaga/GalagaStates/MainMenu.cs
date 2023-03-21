@@ -5,6 +5,7 @@ using DIKUArcade.Input;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
 
 namespace Galaga.GalagaStates;
 
@@ -52,12 +53,6 @@ public class MainMenu : IGameState {
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         switch (action){
             case KeyboardAction.KeyPress:
-                /*if (activeMenuButton == maxMenuButtons){
-                    GalagaBus.GetBus().RegisterEvent(
-                        new GameEvent {
-                            EventType = GameEventType.WindowEvent, 
-                            Message = "CLOSE_GAME"});
-                }*/
                 break;
             case KeyboardAction.KeyRelease:
                 switch (key){
@@ -72,7 +67,7 @@ public class MainMenu : IGameState {
                         menuButtons[activeMenuButton].SetColor(System.Drawing.Color.Red);
                         break;
                     case KeyboardKey.Enter:
-                        /*if (activeMenuButton = 0){
+                        if (activeMenuButton == 0){
                             GalagaBus.GetBus().RegisterEvent(
                                 new GameEvent{
                                     EventType = GameEventType.GameStateEvent,
@@ -80,7 +75,12 @@ public class MainMenu : IGameState {
                                     StringArg1 = "GAME_RUNNING"
                                 }
                             );
-                        }*/
+                        } else if (activeMenuButton == maxMenuButtons){
+                            GalagaBus.GetBus().RegisterEvent(
+                                new GameEvent {
+                                EventType = GameEventType.WindowEvent, 
+                                Message = "CLOSE_GAME"});
+                        }
                         break;
                 }
                 break;
