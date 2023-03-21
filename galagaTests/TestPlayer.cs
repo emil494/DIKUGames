@@ -4,6 +4,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 using Galaga;
+using DIKUArcade.GUI;
 public class Tests
 {
     [SetUp]
@@ -11,7 +12,7 @@ public class Tests
     
     public void Setup()
     {
-        
+        Window.CreateOpenGLContext();
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
             new Image(Path.Combine("Assets", "Images", "Player.png")));
