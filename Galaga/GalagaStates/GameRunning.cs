@@ -70,7 +70,7 @@ public class GameRunning : IGameState {
         wave.RenderScore();
     }
 
-   public void UpdateState() {
+    public void UpdateState() {
         UpdateEnemies();
         player.Move();
         IterateShots();
