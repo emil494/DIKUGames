@@ -104,7 +104,9 @@ public class GameRunning : IGameState {
         switch (key){
             case KeyboardKey.Escape:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.WindowEvent, Message = "CLOSE_GAME"});
+                    new GameEvent {EventType = GameEventType.GameStateEvent, Message = "CHANGE_STATE",
+                    StringArg1 = "GAME_PAUSED"}
+                );
                 break;
             case KeyboardKey.Left:
                 GalagaBus.GetBus().RegisterEvent(
@@ -130,7 +132,6 @@ public class GameRunning : IGameState {
                     StringArg1 = "DOWN"}
                 );
                 break;
-
         }
     }
 
