@@ -9,30 +9,28 @@ using DIKUArcade.Events;
 
 namespace Galaga.GalagaStates;
 
-public class MainMenu : IGameState {
-    private static MainMenu instance = null;
-    private Entity backGroundImage;
+public class GamePaused : IGameState{
+    private static GamePaused instance;
+    private IGameState background;
     private Text[] menuButtons;
     private int activeMenuButton;
     private int maxMenuButtons;
 
-    public static MainMenu GetInstance() {
-        if (MainMenu.instance == null) {
-            MainMenu.instance = new MainMenu();
-            MainMenu.instance.InitializeGameState();
+    public static GamePaused GetInstance() {
+        if (GamePaused.instance == null) {
+            GamePaused.instance = new GamePaused();
+            GamePaused.instance.InitializeGameState();
         }
-        return MainMenu.instance;
+        return GamePaused.instance;
     }
 
     private void InitializeGameState(){
+        instance.background = GameRunning.GetInstance();
         instance.menuButtons = new Text[] {
-            new Text ("New Game", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)), 
-            new Text ("Quit", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))};
+            new Text ("Main Menu", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)), 
+            new Text ("Continue", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))};
         instance.menuButtons[0].SetColor(System.Drawing.Color.Red);
         instance.menuButtons[1].SetColor(System.Drawing.Color.Coral);
-        backGroundImage = new Entity(
-            new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f,1.0f)),
-            new Image(Path.Combine("Assets", "Images", "TitleImage.png")));
         activeMenuButton = 0;
         maxMenuButtons = 1;
     }
@@ -44,7 +42,7 @@ public class MainMenu : IGameState {
     public void UpdateState(){}
 
     public void RenderState(){
-        backGroundImage.RenderEntity();
+        background.RenderState();
         foreach (Text button in menuButtons){
             button.RenderText();
         }
@@ -69,21 +67,24 @@ public class MainMenu : IGameState {
                     case KeyboardKey.Enter:
                         if (activeMenuButton == 0){
                             GalagaBus.GetBus().RegisterEvent(
-                                new GameEvent{
+                                new GameEvent {
+                                    EventType = GameEventType.GameStateEvent, 
+                                    Message = "CHANGE_STATE",
+                                    StringArg1 = "MAIN_MENU"
+                                }
+                            );        
+                        } else if (activeMenuButton == maxMenuButtons){
+                            GalagaBus.GetBus().RegisterEvent(
+                                new GameEvent {
                                     EventType = GameEventType.GameStateEvent,
                                     Message = "CHANGE_STATE",
                                     StringArg1 = "GAME_RUNNING"
                                 }
                             );
-                        } else if (activeMenuButton == maxMenuButtons){
-                            GalagaBus.GetBus().RegisterEvent(
-                                new GameEvent {
-                                EventType = GameEventType.WindowEvent,
-                                Message = "CLOSE_GAME"});
                         }
                         break;
                 }
                 break;
         }
-    }   
+    }
 }
