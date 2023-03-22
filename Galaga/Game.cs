@@ -23,11 +23,11 @@ public class Game : DIKUGame, IGameEventProcessor{
     }
 
     public override void Render() {
-        stateMachine.Render();
+        stateMachine.ActiveState.RenderState();
     }
 
     public override void Update() {
-        stateMachine.Update();
+        stateMachine.ActiveState.UpdateState();
         GalagaBus.GetBus().ProcessEventsSequentially();
     }
 
