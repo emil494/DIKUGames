@@ -41,7 +41,7 @@ public class Game : DIKUGame, IGameEventProcessor{
         }
     }
 
-    public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+    private void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
         if (typeof (MainMenu) == stateMachine.ActiveState.GetType()){
             stateMachine.ActiveState.HandleKeyEvent(action, key);
         } else if (typeof (GameRunning) == stateMachine.ActiveState.GetType()){
