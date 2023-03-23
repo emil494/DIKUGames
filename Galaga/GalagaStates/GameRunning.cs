@@ -104,32 +104,47 @@ public class GameRunning : IGameState {
         switch (key){
             case KeyboardKey.Escape:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.GameStateEvent, Message = "CHANGE_STATE",
-                    StringArg1 = "GAME_PAUSED"}
+                    new GameEvent {
+                        EventType = GameEventType.GameStateEvent, 
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_PAUSED"
+                    }
                 );
                 break;
             case KeyboardKey.Left:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "LEFT"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "LEFT"
+                    }
                 );
                 break;
             case KeyboardKey.Right:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "RIGHT"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "RIGHT"
+                    }
                 );
                 break;
             case KeyboardKey.Up:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "UP"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "UP"
+                    }
                 );
                 break;
             case KeyboardKey.Down:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "DOWN"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "DOWN"
+                    }
                 );
                 break;
         }
@@ -139,26 +154,38 @@ public class GameRunning : IGameState {
         switch (key){
             case KeyboardKey.Left:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "LEFT"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "LEFT"
+                    }
                 );
                 break;
             case KeyboardKey.Right:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "RIGHT"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "RIGHT"
+                    }
                 );
                 break;
             case KeyboardKey.Up:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "UP"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "UP"
+                    }
                 );
                 break;
             case KeyboardKey.Down:
                 GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "DOWN"}
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "DOWN"
+                    }
                 );
                 break;  
             case KeyboardKey.Space:
