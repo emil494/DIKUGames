@@ -33,14 +33,6 @@ public class StateMachine : IGameEventProcessor {
         }
     }
 
-    public void Render() {
-        ActiveState.RenderState();
-    }
-
-    public void Update() {
-        ActiveState.UpdateState();
-    }
-
     public void ProcessEvent(GameEvent gameEvent) {
         if (gameEvent.EventType == GameEventType.GameStateEvent){
             switch (gameEvent.Message){
