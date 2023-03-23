@@ -5,6 +5,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 using Galaga;
 using DIKUArcade.GUI;
+
 public class EnemyTests{
     [SetUp] 
     public void Setup(){

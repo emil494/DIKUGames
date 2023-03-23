@@ -2,9 +2,9 @@ namespace galagaTests;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using DIKUArcade.Events;
 using Galaga;
 using DIKUArcade.GUI;
+
 public class PlayerTests{
     [SetUp] 
     public void Setup(){
