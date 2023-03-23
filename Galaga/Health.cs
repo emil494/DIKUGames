@@ -28,6 +28,10 @@ public class Health {
         display.RenderText();
     } 
 
+    public int GetHealth(){
+        return health;
+    }
+
     public bool GetGameOver() {
         return gameOver;
     }

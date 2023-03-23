@@ -1,6 +1,7 @@
 namespace galagaTests;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Events;
 using DIKUArcade.Math;
 using Galaga;
 using DIKUArcade.GUI;

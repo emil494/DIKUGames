@@ -8,15 +8,27 @@ using DIKUArcade.GUI;
 public class HealthTests{
     [SetUp] 
     public void Setup(){
-        Window.CreateOpenGLContext();
-        player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            new Image(@"Assets\Images\Player.png"));
-        eventBus = new GameEventBus();
-        eventBus.InitializeEventBus(new List<GameEventType> 
-            {GameEventType.PlayerEvent});
-        eventBus.Subscribe(GameEventType.PlayerEvent, player);
+        health = new Health(
+            new Vec2F(0.0f, 0.0f),
+            new Vec2F(0.0f, 0.0f)
+        );
     }
     private Health health;
-    private GameEventBus eventBus;
+
+    [Test]
+    public void TestLoseHealth(){
+        var start = health.GetHealth();
+        health.LoseHealth();
+        var temp = health.GetHealth();
+        var OtherTemp = start - 1;
+        Assert.That(temp, Is.EqualTo(OtherTemp));
+    }
+
+    [Test]
+    public void TestGameOver(){
+        health.LoseHealth();
+        health.LoseHealth();
+        health.LoseHealth();
+        Assert.True(health.GetGameOver());
+    }
 }
