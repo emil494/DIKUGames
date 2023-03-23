@@ -5,11 +5,9 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 using Galaga;
 using DIKUArcade.GUI;
-public class Tests
-{
+public class PlayerTests{
     [SetUp] 
-    public void Setup()
-    {
+    public void Setup(){
         Window.CreateOpenGLContext();
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
@@ -23,8 +21,7 @@ public class Tests
     private GameEventBus eventBus;
 
     [Test]
-    public void TestMoveUp()
-    {
+    public void TestMoveUp(){
         var start = player.GetPosition();
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -38,9 +35,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveUpOOB()
-    {
-        var start = player.GetPosition();
+    public void TestMoveUpOOB(){
         for (var i = 0; i <= 79; i++){
             eventBus.RegisterEvent(
                 new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -61,8 +56,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveDown()
-    {
+    public void TestMoveDown(){
         var start = player.GetPosition();
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -72,13 +66,10 @@ public class Tests
         player.Move();
         var temp = player.GetPosition();
         var OtherTemp = start + new Vec2F(0.0f, -0.01f); 
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
+        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));}
 
     [Test]
-    public void TestMoveDownOOB()
-    {
-        var start = player.GetPosition();
+    public void TestMoveDownOOB(){
         for (var i = 0; i <= 9; i++){
             eventBus.RegisterEvent(
                 new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -99,8 +90,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveRight()
-    {
+    public void TestMoveRight(){
         var start = player.GetPosition();
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -114,9 +104,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveRightOOB()
-    {
-        var start = player.GetPosition();
+    public void TestMoveRightOOB(){
         for (var i = 0; i <= 44; i++){
             eventBus.RegisterEvent(
                 new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -137,8 +125,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveLeft()
-    {
+    public void TestMoveLeft(){
         var start = player.GetPosition();
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
@@ -152,9 +139,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMoveLeftOOB()
-    {
-        var start = player.GetPosition();
+    public void TestMoveLeftOOB(){
         for (var i = 0; i <= 44; i++){
             eventBus.RegisterEvent(
                 new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",

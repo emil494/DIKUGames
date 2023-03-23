@@ -100,6 +100,27 @@ public class GameRunning : IGameState {
             }
         });
     }
+
+    private void IterateShots() {
+        playerShots.Iterate(shot => {
+            shot.Shape.Move();
+            if ( shot.Shape.Position.Y >= 1.0f) {
+                shot.DeleteEntity();
+            } else {
+                enemies.Iterate(enemy => {
+                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(),
+                    enemy.Shape)).Collision){
+                        shot.DeleteEntity();
+                        enemy.LoseHealth();
+                        if (enemy.IsDeleted()) {
+                        explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    
     private void KeyPress(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Escape:
@@ -205,25 +226,5 @@ public class GameRunning : IGameState {
                 KeyRelease(key);
                 break;
         }
-    }
-
-    private void IterateShots() {
-        playerShots.Iterate(shot => {
-            shot.Shape.Move();
-            if ( shot.Shape.Position.Y >= 1.0f) {
-                shot.DeleteEntity();
-            } else {
-                enemies.Iterate(enemy => {
-                    if ((CollisionDetection.Aabb(shot.Shape.AsDynamicShape(),
-                    enemy.Shape)).Collision){
-                        shot.DeleteEntity();
-                        enemy.LoseHealth();
-                        if (enemy.IsDeleted()) {
-                        explosion.AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                        }
-                    }
-                });
-            }
-        });
     }
 }
