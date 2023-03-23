@@ -78,8 +78,10 @@ public class MainMenu : IGameState {
                         } else if (activeMenuButton == maxMenuButtons){
                             GalagaBus.GetBus().RegisterEvent(
                                 new GameEvent {
-                                EventType = GameEventType.WindowEvent,
-                                Message = "CLOSE_GAME"});
+                                    EventType = GameEventType.WindowEvent,
+                                    Message = "CLOSE_GAME"
+                                }
+                            );
                         }
                         break;
                 }

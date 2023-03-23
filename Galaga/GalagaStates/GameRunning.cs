@@ -100,85 +100,6 @@ public class GameRunning : IGameState {
             }
         });
     }
-    private void KeyPress(KeyboardKey key) {
-        switch (key){
-            case KeyboardKey.Escape:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.GameStateEvent, Message = "CHANGE_STATE",
-                    StringArg1 = "GAME_PAUSED"}
-                );
-                break;
-            case KeyboardKey.Left:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "LEFT"}
-                );
-                break;
-            case KeyboardKey.Right:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "RIGHT"}
-                );
-                break;
-            case KeyboardKey.Up:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "UP"}
-                );
-                break;
-            case KeyboardKey.Down:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                    StringArg1 = "DOWN"}
-                );
-                break;
-        }
-    }
-
-    private void KeyRelease(KeyboardKey key) {
-        switch (key){
-            case KeyboardKey.Left:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "LEFT"}
-                );
-                break;
-            case KeyboardKey.Right:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "RIGHT"}
-                );
-                break;
-            case KeyboardKey.Up:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "UP"}
-                );
-                break;
-            case KeyboardKey.Down:
-                GalagaBus.GetBus().RegisterEvent(
-                    new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-                    StringArg1 = "DOWN"}
-                );
-                break;  
-            case KeyboardKey.Space:
-                PlayerShot newShot = new PlayerShot(player.GetPosition() + 
-                    new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
-                playerShots.AddEntity(newShot);
-                break;
-        }
-    }
-
-    public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
-        switch (action){
-            case KeyboardAction.KeyPress:
-                KeyPress(key);
-                break;
-            case KeyboardAction.KeyRelease:
-                KeyRelease(key);
-                break;
-        }
-    }
 
     private void IterateShots() {
         playerShots.Iterate(shot => {
@@ -198,5 +119,112 @@ public class GameRunning : IGameState {
                 });
             }
         });
+    }
+    
+    private void KeyPress(KeyboardKey key) {
+        switch (key){
+            case KeyboardKey.Escape:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.GameStateEvent, 
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_PAUSED"
+                    }
+                );
+                break;
+            case KeyboardKey.Left:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "LEFT"
+                    }
+                );
+                break;
+            case KeyboardKey.Right:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "RIGHT"
+                    }
+                );
+                break;
+            case KeyboardKey.Up:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "UP"
+                    }
+                );
+                break;
+            case KeyboardKey.Down:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "MOVE",
+                        StringArg1 = "DOWN"
+                    }
+                );
+                break;
+        }
+    }
+
+    private void KeyRelease(KeyboardKey key) {
+        switch (key){
+            case KeyboardKey.Left:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "LEFT"
+                    }
+                );
+                break;
+            case KeyboardKey.Right:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "RIGHT"
+                    }
+                );
+                break;
+            case KeyboardKey.Up:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "UP"
+                    }
+                );
+                break;
+            case KeyboardKey.Down:
+                GalagaBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "STOP_MOVE",
+                        StringArg1 = "DOWN"
+                    }
+                );
+                break;  
+            case KeyboardKey.Space:
+                PlayerShot newShot = new PlayerShot(player.GetPosition() + 
+                    new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
+                playerShots.AddEntity(newShot);
+                break;
+        }
+    }
+
+    public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+        switch (action){
+            case KeyboardAction.KeyPress:
+                KeyPress(key);
+                break;
+            case KeyboardAction.KeyRelease:
+                KeyRelease(key);
+                break;
+        }
     }
 }

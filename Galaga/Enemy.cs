@@ -26,9 +26,13 @@ public class Enemy : Entity {
         }
     }
 
-    public void Enrage() {
+    private void Enrage() {
         Image = enragedImage;
         enraged = true;
+    }
+
+    public int GetHealth(){
+        return hitpoints;
     }
 
     public bool IsEnraged() {
