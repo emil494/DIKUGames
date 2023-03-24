@@ -82,7 +82,7 @@ public class GameRunning : IGameState {
         IterateHealth();
     }
     
-    public void UpdateEnemies() {
+    private void UpdateEnemies() {
         if (waveNum != wave.num) {
             enemies = wave.GetEnemies();
             waveNum = wave.num;
@@ -119,6 +119,17 @@ public class GameRunning : IGameState {
                 });
             }
         });
+    }
+
+    public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+        switch (action){
+            case KeyboardAction.KeyPress:
+                KeyPress(key);
+                break;
+            case KeyboardAction.KeyRelease:
+                KeyRelease(key);
+                break;
+        }
     }
     
     private void KeyPress(KeyboardKey key) {
@@ -213,17 +224,6 @@ public class GameRunning : IGameState {
                 PlayerShot newShot = new PlayerShot(player.GetPosition() + 
                     new Vec2F (player.GetExtend().X/2, 0), playerShotImage);
                 playerShots.AddEntity(newShot);
-                break;
-        }
-    }
-
-    public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
-        switch (action){
-            case KeyboardAction.KeyPress:
-                KeyPress(key);
-                break;
-            case KeyboardAction.KeyRelease:
-                KeyRelease(key);
                 break;
         }
     }
