@@ -37,17 +37,7 @@ public class StateMachine : IGameEventProcessor {
         if (gameEvent.EventType == GameEventType.GameStateEvent){
             switch (gameEvent.Message){
                 case "CHANGE_STATE":
-                    switch (gameEvent.StringArg1){
-                        case "GAME_RUNNING":
-                            SwitchState(GameStateType.GameRunning);
-                            break;
-                        case "GAME_PAUSED":
-                            SwitchState(GameStateType.GamePaused);
-                            break;
-                        case "MAIN_MENU":
-                            SwitchState(GameStateType.MainMenu);
-                            break;
-                    }
+                    SwitchState(StateTransformer.TransformStringToState(gameEvent.StringArg1));
                     break;
             }
         }
