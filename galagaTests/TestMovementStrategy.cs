@@ -10,7 +10,6 @@ using DIKUArcade.GUI;
 public class MovementStrategyTests{
     [SetUp] 
     public void Setup(){
-        Window.CreateOpenGLContext(); 
         enemy =
             new Enemy(
                 new DynamicShape(
@@ -28,7 +27,7 @@ public class MovementStrategyTests{
                     )
             );
     }
-    private IMovementStrategy movement;
+    private IMovementStrategy? movement;
     private Enemy enemy;
 
     [Test]
