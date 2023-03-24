@@ -17,7 +17,8 @@ public class ZigZagDown : IMovementStrategy{
     }
     public void MoveEnemy (Enemy enemy) {
         float y = enemy.Shape.Position.Y - speed;
-        float x = enemy.GetStartX() + amplitude * (float) Math.Sin((2.0d * Math.PI * ((double) enemy.GetStartY() - y)) / period);
+        float x = enemy.GetStartX() + amplitude * (float) Math.Sin(
+            (2.0d * Math.PI * ((double) enemy.GetStartY() - y)) / period);
         
         float Y = y - enemy.Shape.Position.Y;
         float X = x - enemy.Shape.Position.X;
