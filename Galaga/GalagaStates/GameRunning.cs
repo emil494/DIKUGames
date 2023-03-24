@@ -71,7 +71,6 @@ public class GameRunning : IGameState {
     }
 
     public void UpdateState() {
-        UpdateEnemies();
         player.Move();
         IterateShots();
         if (!health.GetGameOver()) {
@@ -88,7 +87,6 @@ public class GameRunning : IGameState {
             waveNum = wave.num;
             move = wave.GetMove();
         }
-        IterateHealth();
     }
 
     private void IterateHealth() {
