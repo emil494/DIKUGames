@@ -14,10 +14,10 @@ public class Level{
     public EntityContainer<Block> blocks;
     public List<string> map;
     public Dictionary<string, string> metaData;
-    public Dictionary<string, string> legend;
+    public Dictionary<char, string> legend;
 
     public Level(List<string> map_, Dictionary<string, string> metaData_,
-        Dictionary<string, string> legend_){
+        Dictionary<char, string> legend_){
         name = metaData_["Name"];
         time = int.Parse(metaData_["Time"]);
         map = map_;
@@ -36,7 +36,7 @@ public class Level{
                     blocks.AddEntity(
                         new Block (new StationaryShape(
                            new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
-                        ), new Image(Path.Combine("Assets", "Images", legend[c.ToString()])), false)
+                        ), new Image(Path.Combine("Assets", "Images", legend[c])), false)
                     );
                 }
                 i++;
