@@ -12,10 +12,10 @@ public class Level{
     private string name;
     private int time;
     private EntityContainer<Block> blocks;
-    private Dictionary<char, string> metaData;
+    private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
-    public Level(List<string> map_, Dictionary<char, string> metaData_,
+    public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
         name = metaData_["Name"];
         time = int.Parse(metaData_["Time"]);
