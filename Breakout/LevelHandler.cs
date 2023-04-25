@@ -5,15 +5,16 @@ namespace Breakout;
 
 public class LevelHandler{
     private FileReader reader;
-    private Level currentLevel;
+    public Level? currentLevel;
     private int lvlCount;
 
     public LevelHandler(){
         lvlCount = 1;
+        reader = new FileReader();
     }
 
     public void Initialize(){
-        if (cuttentLevel.IsEmpty()){
+        if (currentLevel is null || currentLevel.IsEmpty()){
             NewLevel();
         }
     }
