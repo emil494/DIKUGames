@@ -11,19 +11,18 @@ public class Level{
 
     private string name;
     private int time;
-    public EntityContainer<Block> blocks;
-    public List<string> map;
-    public Dictionary<string, string> metaData;
-    public Dictionary<string, string> legend;
+    private EntityContainer<Block> blocks;
+    private Dictionary<char, string> metaData;
+    private Dictionary<char, string> legend;
 
-    public Level(List<string> map_, Dictionary<string, string> metaData_,
-        Dictionary<string, string> legend_){
+    public Level(List<string> map_, Dictionary<char, string> metaData_,
+        Dictionary<char, string> legend_){
         name = metaData_["Name"];
         time = int.Parse(metaData_["Time"]);
-        map = map_;
         metaData = metaData_;
         legend = legend_;
         blocks = new EntityContainer<Block>();
+        CreateBlocks(map_);
     }
     
     private void CreateBlocks(List<string> map){
@@ -35,8 +34,10 @@ public class Level{
                 else{
                     blocks.AddEntity(
                         new Block (new StationaryShape(
-                           new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
-                        ), new Image(Path.Combine("Assets", "Images", legend[c.ToString()])), false)
+                                new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
+                            ), new Image(
+                                Path.Combine("Assets", "Images", legend[c])), 
+                            PowerUp(c.ToString()))
                     );
                 }
                 i++;
@@ -45,7 +46,19 @@ public class Level{
         }
     }
 
+    private bool PowerUp(string c){
+        if (metaData["PowerUp"].Contains(c)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public bool IsEmpty(){
-        return true;
+        if (blocks.CountEntities() == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
