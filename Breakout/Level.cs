@@ -1,4 +1,6 @@
 using DIKUArcade.Entities;
+using DIKUArcade.Math;
+using DIKUArcade.Graphics;
 using Breakout.Blocks;
 using System;
 using System.IO;
@@ -15,30 +17,35 @@ public class Level{
     public Dictionary<string, string> legend;
 
     public Level(List<string> map_, Dictionary<string, string> metaData_,
-    Dictionary<string, string> legend_){
+        Dictionary<string, string> legend_){
         name = metaData_["Name"];
-        time = metaData_["Time"];
-        map = mao_;
+        time = int.Parse(metaData_["Time"]);
+        map = map_;
         metaData = metaData_;
         legend = legend_;
+        blocks = new EntityContainer<Block>();
     }
     
     private void CreateBlocks(List<string> map){
         foreach (string line in map){
-            var i = 0;
+            var j = 0.0f;
             foreach (char c in line){
-                var j = 0;
-                if (c == "-"){}
+                var i = 0.0f;
+                if (c.ToString() == "-"){}
                 else{
-                    new Block (new StationaryShape(), Path.Combine("Assets"legend[c]));
+                    blocks.AddEntity(
+                        new Block (new StationaryShape(
+                           new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
+                        ), new Image(Path.Combine("Assets", "Images", legend[c.ToString()])), false)
+                    );
                 }
-                j++;
+                i++;
             }
-            i++;
+            j++;
         }
     }
 
     public bool IsEmpty(){
-
+        return true;
     }
 }
