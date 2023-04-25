@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Breakout;
+
+FileReader Reader = new FileReader{};
+Reader.Read("level1.txt");
+
+Reader.Read("level2.txt");
