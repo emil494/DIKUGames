@@ -7,12 +7,12 @@ namespace Breakout;
 public class FileReader {
     public List<string> map {get; private set;}
     public Dictionary<string, string> meta {get; private set;}
-    public Dictionary<string, string> legend {get; private set;}
+    public Dictionary<char, string> legend {get; private set;}
 
     public FileReader() {
         map = new List<string>{};
         meta = new Dictionary<string, string>();
-        legend = new Dictionary<string, string>();
+        legend = new Dictionary<char, string>();
     }
 
     public void Read (string name) {
@@ -35,7 +35,7 @@ public class FileReader {
         int metaStartIndex = Array.IndexOf(AllLines, "Meta:")+1;
         int metaEndIndex = Array.IndexOf(AllLines, "Meta/")-1;
         for (int i = metaStartIndex; i <= metaEndIndex; i++) {
-            string[] splitter = AllLines[i].Split(':');
+            string[] splitter = AllLines[i].Split(": ", StringSplitOptions.None);
             meta.Add(splitter[0], splitter[1]);
         }
 
@@ -44,7 +44,7 @@ public class FileReader {
         int legendEndIndex = Array.IndexOf(AllLines, "Legend/")-1;
         for (int i = legendStartIndex; i <= legendEndIndex; i++) {
             string[] splitter = AllLines[i].Split(") ", StringSplitOptions.None);
-            legend.Add(splitter[0], splitter[1]);
+            legend.Add((splitter[0].ToCharArray())[0], splitter[1]);
         }
     }
 }
