@@ -10,13 +10,14 @@ public class Level{
     private string name;
     private int time;
     public EntityContainer<Block> blocks;
-    public Dictionary map;
-    public Dictionary metaData;
-    public Dictionary legend;
+    public List<string> map;
+    public Dictionary<string, string> metaData;
+    public Dictionary<string, string> legend;
 
-    public Level(List<string> map_, Dictionary metaData_, Dictionary legend_){
-        name = metaData_[Name];
-        time = metaData_[Time];
+    public Level(List<string> map_, Dictionary<string, string> metaData_,
+    Dictionary<string, string> legend_){
+        name = metaData_["Name"];
+        time = metaData_["Time"];
         map = mao_;
         metaData = metaData_;
         legend = legend_;
@@ -24,12 +25,16 @@ public class Level{
     
     private void CreateBlocks(List<string> map){
         foreach (string line in map){
+            var i = 0;
             foreach (char c in line){
+                var j = 0;
                 if (c == "-"){}
                 else{
-                    
+                    new Block (new StationaryShape(), Path.Combine("Assets"legend[c]));
                 }
+                j++;
             }
+            i++;
         }
     }
 
