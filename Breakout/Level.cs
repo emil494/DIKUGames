@@ -11,16 +11,14 @@ public class Level{
 
     private string name;
     private int time;
-    public EntityContainer<Block> blocks;
-    public List<string> map;
-    public Dictionary<string, string> metaData;
-    public Dictionary<char, string> legend;
+    private EntityContainer<Block> blocks;
+    private Dictionary<string, string> metaData;
+    private Dictionary<char, string> legend;
 
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
         name = metaData_["Name"];
         time = int.Parse(metaData_["Time"]);
-        map = map_;
         metaData = metaData_;
         legend = legend_;
         blocks = new EntityContainer<Block>();
@@ -46,7 +44,19 @@ public class Level{
         }
     }
 
+    private bool PowerUp(string c){
+        if (metaData["PowerUp"].Contains(c)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public bool IsEmpty(){
-        return true;
+        if (blocks.CountEntities() == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
