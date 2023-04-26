@@ -9,7 +9,7 @@ public class LevelHandler{
     private int lvlCount;
 
     public LevelHandler(){
-        lvlCount = 1;
+        lvlCount = 0;
         reader = new FileReader();
     }
 
