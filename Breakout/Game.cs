@@ -11,11 +11,14 @@ namespace Breakout
     
     {
         private Player player;
+        private LevelHandler handler;
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
-                new DynamicShape(new Vec2F(0.1f, 0.5f), new Vec2F(0.1f, 0.4f)),
+                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f, 0.03f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
             // TODO: Set key event handler (inherited window field of DIKUGame class)
+            handler = new LevelHandler();
+            handler.Initialize();
         }
 
         //private void KeyHandler(KeyboardAction action, KeyboardKey key) {} // TODO: Outcomment
@@ -23,6 +26,8 @@ namespace Breakout
         public override void Render()
         {
             player.RenderEntity();
+            handler.RenderLevel();
+
         }
 
         public override void Update()

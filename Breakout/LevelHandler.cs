@@ -9,7 +9,7 @@ public class LevelHandler{
     private int lvlCount;
 
     public LevelHandler(){
-        lvlCount = 1;
+        lvlCount = 0;
         reader = new FileReader();
     }
 
@@ -23,5 +23,9 @@ public class LevelHandler{
         lvlCount += 1;
         reader.Read($"level{lvlCount.ToString()}.txt");
         currentLevel = new Level(reader.map, reader.meta, reader.legend);
+    }
+
+    public void RenderLevel(){
+        currentLevel.Render();
     }
 }

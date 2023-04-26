@@ -8,7 +8,6 @@ using System.IO;
 namespace Breakout;
 
 public class Level{
-
     private string name;
     private int time;
     private EntityContainer<Block> blocks;
@@ -26,28 +25,26 @@ public class Level{
     }
     
     private void CreateBlocks(List<string> map){
+        var j = 1.0f;
         foreach (string line in map){
-            var j = 0.0f;
+            var i = 0.0f;
             foreach (char c in line){
-                var i = 0.0f;
                 if (c.ToString() == "-"){}
                 else{
                     blocks.AddEntity(
                         new Block (new StationaryShape(
-                                new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
-                            ), new Image(
-                                Path.Combine("Assets", "Images", legend[c])), 
-                            PowerUp(c.ToString()))
+                            new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
+                        ), new Image(Path.Combine("Assets", "Images", legend[c])), PowerUp(c))
                     );
                 }
-                i++;
+                i+=1.0f/12.0f;
             }
-            j++;
+            j-=1.0f/25.0f;
         }
     }
 
-    private bool PowerUp(string c){
-        if (metaData["PowerUp"].Contains(c)){
+    private bool PowerUp(char c){
+        if (metaData["PowerUp"].Contains(c.ToString())){
             return true;
         } else {
             return false;
@@ -60,5 +57,9 @@ public class Level{
         } else {
             return false;
         }
+    }
+
+    public void Render(){
+        blocks.RenderEntities();
     }
 }
