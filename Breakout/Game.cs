@@ -13,7 +13,7 @@ namespace Breakout
         private Player player;
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
-                new DynamicShape(new Vec2F(0.1f, 0.5f), new Vec2F(0.1f, 0.1f)),
+                new DynamicShape(new Vec2F(0.1f, 0.5f), new Vec2F(0.1f, 0.4f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
             // TODO: Set key event handler (inherited window field of DIKUGame class)
         }
