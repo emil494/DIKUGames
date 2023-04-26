@@ -26,7 +26,7 @@ namespace Breakout
         public override void Render()
         {
             player.RenderEntity();
-            handler.currentLevel.blocks.RenderEntities();
+            handler.RenderLevel();
 
         }
 
