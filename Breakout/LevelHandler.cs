@@ -24,4 +24,8 @@ public class LevelHandler{
         reader.Read($"level{lvlCount.ToString()}.txt");
         currentLevel = new Level(reader.map, reader.meta, reader.legend);
     }
+
+    public void RenderLevel(){
+        currentLevel.Render();
+    }
 }
