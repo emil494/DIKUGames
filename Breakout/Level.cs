@@ -24,24 +24,25 @@ public class Level{
         metaData = metaData_;
         legend = legend_;
         blocks = new EntityContainer<Block>();
+        CreateBlocks(map_);
     }
     
     private void CreateBlocks(List<string> map){
+        var j = 1.0f;
         foreach (string line in map){
-            var j = 0.0f;
+            var i = 0.0f;
             foreach (char c in line){
-                var i = 0.0f;
                 if (c.ToString() == "-"){}
                 else{
                     blocks.AddEntity(
                         new Block (new StationaryShape(
-                           new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
+                            new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
                         ), new Image(Path.Combine("Assets", "Images", legend[c])), false)
                     );
                 }
-                i++;
+                i+=1.0f/12.0f;
             }
-            j++;
+            j-=1.0f/25.0f;
         }
     }
 
