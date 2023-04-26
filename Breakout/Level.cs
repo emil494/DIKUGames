@@ -11,7 +11,7 @@ public class Level{
 
     private string name;
     private int time;
-    private EntityContainer<Block> blocks;
+    public EntityContainer<Block> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
