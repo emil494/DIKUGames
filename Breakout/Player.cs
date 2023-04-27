@@ -49,7 +49,6 @@ public class Player : Entity, IGameEventProcessor {
                 switch (gameEvent.StringArg1){
                     case "RIGHT":
                         SetMoveRight(true);
-                        System.Console.WriteLine(2);
                         break;
                     case "LEFT":
                         SetMoveLeft(true);
