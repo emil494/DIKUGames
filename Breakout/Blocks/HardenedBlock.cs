@@ -4,6 +4,7 @@ using DIKUArcade.Graphics;
 namespace Breakout.Blocks;
 
 public class HardenedBlock : Entity, IBlock {
+    public int value {get;}
     public int hp {get; set;}
     public bool powerUp {get;}
 

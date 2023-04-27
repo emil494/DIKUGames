@@ -4,6 +4,7 @@ using DIKUArcade.Graphics;
 namespace Breakout.Blocks;
 
 public class Block : Entity, IBlock {
+    public int value {get;}
     public int hp {get; set;}
     public bool powerUp {get;}
     public Block(StationaryShape shape, IBaseImage image, bool power) : base(shape, image){
