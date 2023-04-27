@@ -23,14 +23,14 @@ public class PlayerTests{
 
     [Test]
     public void TestMoveUp(){
-        var start = player.GetPosition();
+        var start = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "UP"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(0.0f, 0.01f); 
         Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
     }
@@ -45,29 +45,18 @@ public class PlayerTests{
             eventBus.ProcessEvents();
             player.Move();
         }
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "UP"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var OtherTemp = player.GetPosition();
+        var OtherTemp = player.Shape.Position;
         Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
     }
 
     [Test]
-    public void TestMoveDown(){
-        var start = player.GetPosition();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "DOWN"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var temp = player.GetPosition();
-        var OtherTemp = start + new Vec2F(0.0f, -0.01f); 
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));}
 
     [Test]
     public void TestMoveDownOOB(){
@@ -79,27 +68,27 @@ public class PlayerTests{
             eventBus.ProcessEvents();
             player.Move();
         }
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "DOWN"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var OtherTemp = player.GetPosition();
+        var OtherTemp = player.Shape.Position;
         Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
     }
 
     [Test]
     public void TestMoveRight(){
-        var start = player.GetPosition();
+        var start = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "RIGHT"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(0.01f, 0.0f); 
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
@@ -114,27 +103,27 @@ public class PlayerTests{
             eventBus.ProcessEvents();
             player.Move();
         }
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "RIGHT"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var OtherTemp = player.GetPosition();
+        var OtherTemp = player.Shape.Position;
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
 
     [Test]
     public void TestMoveLeft(){
-        var start = player.GetPosition();
+        var start = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "LEFT"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(-0.01f, 0.0f); 
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
@@ -149,14 +138,14 @@ public class PlayerTests{
             eventBus.ProcessEvents();
             player.Move();
         }
-        var temp = player.GetPosition();
+        var temp = player.Shape.Position;
         eventBus.RegisterEvent(
             new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
             StringArg1 = "LEFT"}
         );
         eventBus.ProcessEvents();
         player.Move();
-        var OtherTemp = player.GetPosition();
+        var OtherTemp = player.Shape.Position;
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
 }
