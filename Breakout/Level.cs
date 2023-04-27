@@ -9,16 +9,12 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level{
-    private string name;
-    private int time;
     private EntityContainer<Block> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
-        name = metaData_["Name"];
-        time = int.Parse(metaData_["Time"]);
         metaData = metaData_;
         legend = legend_;
         blocks = new EntityContainer<Block>();
@@ -45,8 +41,12 @@ public class Level{
     }
 
     private bool PowerUp(char c){
-        if (metaData["PowerUp"].Contains(c.ToString())){
-            return true;
+        if (metaData.ContainsKey("PowerUp")) {
+            if (metaData["PowerUp"].Contains(c.ToString())){
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
