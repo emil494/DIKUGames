@@ -2,12 +2,14 @@ using Breakout;
 
 namespace BreakoutTests;
 
-public class Tests
+public class FileReaderTest
 {
     [SetUp]
     public void Setup() {
-        FileReader reader = new FileReader();
+        reader = new FileReader();
     }
+
+    FileReader reader;
 
     [Test]
     public void TestReturnTrue() {

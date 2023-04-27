@@ -1,6 +1,6 @@
 namespace BreakoutTests;
 
-public class Tests
+public class LevelLoadTest
 {
     [SetUp]
     public void Setup()
