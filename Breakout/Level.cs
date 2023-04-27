@@ -63,4 +63,8 @@ public class Level{
     public void Render(){
         blocks.RenderEntities();
     }
+
+    public EntityContainer<Block> GetBlocks() {
+        return blocks;
+    }
 }
