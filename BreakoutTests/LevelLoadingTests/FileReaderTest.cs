@@ -5,12 +5,12 @@ namespace BreakoutTests;
 public class FileReaderTest
 {
     [SetUp]
-    FileReader reader;
-    string lvl1Path;
     public void Setup() {
         reader = new FileReader();
         lvl1Path = Path.Combine("..", "..", "..", "Assets", "Levels", "level1.txt");
     }
+    FileReader reader;
+    string lvl1Path;
 
     [Test]
     public void TestReturnTrue() {
@@ -41,7 +41,7 @@ public class FileReaderTest
         reader.Read(lvl1Path);
         string estResult = "-aaaaaaaaaa-";
         string result = reader.map[2];
-        Assert.AreEqual(estResult, result);
+        Assert.That(estResult, Is.EqualTo(result));
     }
 
     [Test]
@@ -49,7 +49,7 @@ public class FileReaderTest
         reader.Read(lvl1Path);
         string estResult = "300";
         string result = reader.meta["Time"];
-        Assert.AreEqual(estResult, result);
+        Assert.That(estResult, Is.EqualTo(result));
     }
 
     [Test]
@@ -57,6 +57,6 @@ public class FileReaderTest
         reader.Read(lvl1Path);
         string estResult = "orange-block.png";
         string result = reader.legend['1'];
-        Assert.AreEqual(estResult, result);
+        Assert.That(estResult, Is.EqualTo(result));
     }
 }
