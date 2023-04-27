@@ -15,9 +15,3 @@ public class TestBlock {
     }
 
     private Block block;
-
-    [Test]
-    public void Test1() {
-        Assert.Pass();
-    }
-}
