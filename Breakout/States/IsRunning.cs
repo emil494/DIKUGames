@@ -28,13 +28,14 @@ public class IsRunning : IGameState {
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f, 0.03f)),
             new Image(Path.Combine("Assets", "Images", "Player.png")));
+
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
         handler.Initialize();
     }
 
     public void ResetState(){
-        
+        InitializeGameState();
     }
 
     public void UpdateState(){
@@ -75,7 +76,6 @@ public class IsRunning : IGameState {
                         StringArg1 = "LEFT"
                     }
                 );
-                System.Console.WriteLine(1);
                 break;
             case KeyboardKey.Right:
                 EventBus.GetBus().RegisterEvent(
@@ -92,7 +92,6 @@ public class IsRunning : IGameState {
     private void KeyRelease(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Left:
-                System.Console.WriteLine("release");
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.PlayerEvent, 
