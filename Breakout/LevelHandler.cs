@@ -5,7 +5,7 @@ namespace Breakout;
 
 public class LevelHandler{
     private FileReader reader;
-    public Level? currentLevel;
+    public Level currentLevel;
     private int lvlCount;
 
     public LevelHandler(){

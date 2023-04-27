@@ -6,20 +6,15 @@ using DIKUArcade.Events;
 namespace Breakout;
 
 public class Player : Entity, IGameEventProcessor {
-
     private float moveLeft = 0.0f;
-
     private float moveRight = 0.0f;
-
-    private float MOVEMENT_SPEED = 0.01f;
-
-    private DynamicShape Shape;
-
+    private DynamicShape shape;
+    private const float MOVEMENT_SPEED = 0.01f;
     
     //private DynamicShape shape;
     public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
         //this.image = image;
-        shape = shape.DynamicShape();
+        this.shape = Shape.AsDynamicShape();
     }
 
     private void SetMoveLeft(bool val){
@@ -47,20 +42,23 @@ public class Player : Entity, IGameEventProcessor {
     }
 
     public void Move() {
-        if (shape.Position.X + shape.Direction.X >= 0.0f && 
-        shape.Position.X + shape.Direction.X <= 1.0f-shape.Extent.X){
+        if (shape.Position.X + (Shape.AsDynamicShape()).Direction.X >= 0.0f && 
+        Shape.Position.X + (Shape.AsDynamicShape()).Direction.X <= 1.0f-Shape.Extent.X){
             shape.Move();
         }
     }
 
     public void ProcessEvent(GameEvent gameEvent) {
+        System.Console.WriteLine(2);
         switch (gameEvent.Message){
             case "MOVE":
+            System.Console.WriteLine(3);
                 switch (gameEvent.StringArg1){
                     case "RIGHT":
                         SetMoveRight(true);
                         break;
                     case "LEFT":
+                        System.Console.WriteLine(4);
                         SetMoveLeft(true);
                         break;
                 }
