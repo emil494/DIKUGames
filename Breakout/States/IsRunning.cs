@@ -30,7 +30,7 @@ public class IsRunning : IGameState {
             new Image(Path.Combine("Assets", "Images", "Player.png")));
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
-        handler.Initialize();
+        handler.Initialize("level1.txt");
     }
 
     public void ResetState(){}

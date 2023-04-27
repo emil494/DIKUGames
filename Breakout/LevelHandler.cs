@@ -13,16 +13,17 @@ public class LevelHandler{
         reader = new FileReader();
     }
 
-    public void Initialize(){
+    public void Initialize(string lvl){
         if (currentLevel is null || currentLevel.IsEmpty()){
-            NewLevel();
+            NewLevel(lvl);
         }
     }
 
-    private void NewLevel(){
-        lvlCount += 1;
-        reader.Read($"level{lvlCount.ToString()}.txt");
-        currentLevel = new Level(reader.map, reader.meta, reader.legend);
+    private void NewLevel(string lvl){
+        if (reader.Read(lvl)) {
+            lvlCount += 1;
+            currentLevel = new Level(reader.map, reader.meta, reader.legend);
+        }
     }
 
     public void RenderLevel(){
