@@ -31,7 +31,7 @@ public class IsRunning : IGameState {
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
-        handler.Initialize("level1.txt");
+        handler.Initialize(Path.Combine("Assets", "Levels", "level1.txt"));
     }
 
     public void ResetState(){
