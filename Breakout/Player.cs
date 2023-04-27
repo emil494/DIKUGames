@@ -49,20 +49,20 @@ public class Player : Entity, IGameEventProcessor {
     }
 
     public void ProcessEvent(GameEvent gameEvent) {
-        System.Console.WriteLine(2);
         switch (gameEvent.Message){
             case "MOVE":
             System.Console.WriteLine(3);
                 switch (gameEvent.StringArg1){
                     case "RIGHT":
                         SetMoveRight(true);
+                        System.Console.WriteLine(2);
                         break;
                     case "LEFT":
                         System.Console.WriteLine(4);
                         SetMoveLeft(true);
                         break;
                 }
-                break;
+                 break;
             case "STOP_MOVE":
                 switch (gameEvent.StringArg1){
                     case "RIGHT":

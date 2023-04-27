@@ -35,61 +35,8 @@ public class PlayerTests{
         Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
     }
 
-    [Test]
-    public void TestMoveUpOOB(){
-        for (var i = 0; i <= 79; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "UP"}
-            );
-            eventBus.ProcessEvents();
-            player.Move();
-        }
-        var temp = player.GetPosition();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "UP"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var OtherTemp = player.GetPosition();
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
 
-    [Test]
-    public void TestMoveDown(){
-        var start = player.GetPosition();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "DOWN"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var temp = player.GetPosition();
-        var OtherTemp = start + new Vec2F(0.0f, -0.01f); 
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));}
-
-    [Test]
-    public void TestMoveDownOOB(){
-        for (var i = 0; i <= 9; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "DOWN"}
-            );
-            eventBus.ProcessEvents();
-            player.Move();
-        }
-        var temp = player.GetPosition();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "DOWN"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var OtherTemp = player.GetPosition();
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
-
+    
     [Test]
     public void TestMoveRight(){
         var start = player.GetPosition();

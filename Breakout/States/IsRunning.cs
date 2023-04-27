@@ -33,7 +33,9 @@ public class IsRunning : IGameState {
         handler.Initialize();
     }
 
-    public void ResetState(){}
+    public void ResetState(){
+        
+    }
 
     public void UpdateState(){
         player.Move();
