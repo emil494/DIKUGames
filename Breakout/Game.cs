@@ -15,16 +15,13 @@ namespace Breakout
     {
         private StateHandler stateHandler;
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            stateHandler = new StateHandler();
             EventBus.GetBus().InitializeEventBus(new List<GameEventType> 
                 { GameEventType.InputEvent, GameEventType.WindowEvent, 
                 GameEventType.PlayerEvent, GameEventType.GameStateEvent});
             EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
+            stateHandler = new StateHandler();
             window.SetKeyEventHandler(HandleKeyEvent);
-            // TODO: Set key event handler (inherited window field of DIKUGame class)
         }
-
-        //private void KeyHandler(KeyboardAction action, KeyboardKey key) {} // TODO: Outcomment
 
         public override void Render() {
             stateHandler.ActiveState.RenderState();
