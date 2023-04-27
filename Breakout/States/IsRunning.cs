@@ -6,6 +6,8 @@ using DIKUArcade.State;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
+using System.IO;
+using Breakout;
 
 namespace Breakout.States;
 
@@ -26,9 +28,9 @@ public class IsRunning : IGameState {
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f, 0.03f)),
             new Image(Path.Combine("Assets", "Images", "Player.png")));
+        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
         handler.Initialize();
-        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
     }
 
     public void ResetState(){}
@@ -43,7 +45,7 @@ public class IsRunning : IGameState {
     }
     
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
-             switch (action){
+        switch (action){
             case KeyboardAction.KeyPress:
                 KeyPress(key);
                 break;
@@ -52,8 +54,17 @@ public class IsRunning : IGameState {
                 break;
         }
     }
+
     private void KeyPress(KeyboardKey key) {
         switch (key){
+            case KeyboardKey.Escape:
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.WindowEvent, 
+                        Message = "CLOSE_GAME"
+                    }
+                );
+                break;
             case KeyboardKey.Left:
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
@@ -62,6 +73,7 @@ public class IsRunning : IGameState {
                         StringArg1 = "LEFT"
                     }
                 );
+                System.Console.WriteLine(1);
                 break;
             case KeyboardKey.Right:
                 EventBus.GetBus().RegisterEvent(
@@ -78,6 +90,7 @@ public class IsRunning : IGameState {
     private void KeyRelease(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Left:
+                System.Console.WriteLine("release");
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.PlayerEvent, 
