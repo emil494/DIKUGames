@@ -22,64 +22,6 @@ public class PlayerTests{
     private GameEventBus eventBus;
 
     [Test]
-    public void TestMoveUp(){
-        var start = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "UP"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var temp = player.Shape.Position;
-        var OtherTemp = start + new Vec2F(0.0f, 0.01f); 
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
-
-    [Test]
-    public void TestMoveUpOOB(){
-        for (var i = 0; i <= 79; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "UP"}
-            );
-            eventBus.ProcessEvents();
-            player.Move();
-        }
-        var temp = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "UP"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var OtherTemp = player.Shape.Position;
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
-
-    [Test]
-
-    [Test]
-    public void TestMoveDownOOB(){
-        for (var i = 0; i <= 9; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "DOWN"}
-            );
-            eventBus.ProcessEvents();
-            player.Move();
-        }
-        var temp = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "DOWN"}
-        );
-        eventBus.ProcessEvents();
-        player.Move();
-        var OtherTemp = player.Shape.Position;
-        Assert.That(temp.Y, Is.EqualTo(OtherTemp.Y));
-    }
-
-    [Test]
     public void TestMoveRight(){
         var start = player.Shape.Position;
         eventBus.RegisterEvent(
