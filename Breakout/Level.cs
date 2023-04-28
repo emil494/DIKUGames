@@ -40,7 +40,8 @@ public class Level{
         }
     }
 
-    private bool PowerUp(char c){
+    //Only public for testing purposes, ideally private
+    public bool PowerUp(char c){
         if (metaData.ContainsKey("PowerUp")) {
             if (metaData["PowerUp"].Contains(c.ToString())){
                 return true;
