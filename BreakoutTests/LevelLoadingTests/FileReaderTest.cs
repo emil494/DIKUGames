@@ -16,3 +16,4 @@ public class FileReaderTest
         bool result = reader.Read("level1.txt");
         Assert.True(result);
     }
+}
