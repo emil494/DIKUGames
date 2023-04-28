@@ -15,9 +15,6 @@ namespace Breakout
     {
         private StateHandler stateHandler;
         public Game(WindowArgs windowArgs) : base(windowArgs) {
-            EventBus.GetBus().InitializeEventBus(new List<GameEventType> 
-                { GameEventType.InputEvent, GameEventType.WindowEvent, 
-                GameEventType.PlayerEvent, GameEventType.GameStateEvent});
             EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
             stateHandler = new StateHandler();
             window.SetKeyEventHandler(HandleKeyEvent);
