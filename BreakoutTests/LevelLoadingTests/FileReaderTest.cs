@@ -1,15 +1,18 @@
+using Breakout;
+
 namespace BreakoutTests;
 
-public class Tests
+public class FileReaderTest
 {
     [SetUp]
-    public void Setup()
-    {
+    public void Setup() {
+        reader = new FileReader();
     }
 
+    FileReader reader;
+
     [Test]
-    public void Test1()
-    {
-        Assert.Pass();
+    public void TestReturnTrue() {
+        bool result = reader.Read("level1.txt");
+        Assert.True(result);
     }
-}
