@@ -27,6 +27,7 @@ public class Level{
             var i = 0.0f;
             foreach (char c in line){
                 if (c.ToString() == "-"){}
+                // To do: Add different kinds of blocks according to the file
                 else{
                     blocks.AddEntity(
                         new Block (new StationaryShape(
