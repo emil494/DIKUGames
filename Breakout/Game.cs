@@ -8,29 +8,28 @@ using DIKUArcade.Graphics;
 using Breakout.States;
 using System.Collections.Generic;
 
-namespace Breakout
-{
-    public class Game : DIKUGame, IGameEventProcessor
-    
-    {
-        private StateHandler stateHandler;
-        public Game(WindowArgs windowArgs) : base(windowArgs) {
-            EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
-            stateHandler = new StateHandler();
-            window.SetKeyEventHandler(HandleKeyEvent);
-        }
+namespace Breakout;
 
-        public override void Render() {
-            stateHandler.ActiveState.RenderState();
-        }
+public class Game : DIKUGame, IGameEventProcessor {
+    private StateHandler stateHandler;
+    public Game(WindowArgs windowArgs) : base(windowArgs) {
+        stateHandler = new StateHandler();
+        EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
+        EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
+        window.SetKeyEventHandler(HandleKeyEvent);
+    }
 
-        public override void Update() {
-            stateHandler.ActiveState.UpdateState();
-            EventBus.GetBus().ProcessEventsSequentially();
+    public override void Render() {
+        stateHandler.ActiveState.RenderState();
+    }
 
-        }
+    public override void Update() {
+        stateHandler.ActiveState.UpdateState();
+        EventBus.GetBus().ProcessEventsSequentially();
 
-        public void ProcessEvent(GameEvent gameEvent) {
+    }
+
+    public void ProcessEvent(GameEvent gameEvent) {
         if (gameEvent.EventType == GameEventType.WindowEvent){
             switch (gameEvent.Message){
                 case "CLOSE_GAME":
@@ -40,10 +39,9 @@ namespace Breakout
         }
     }
 
-        private void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+    private void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
         if (stateHandler.ActiveState != null){
             stateHandler.ActiveState.HandleKeyEvent(action, key);
         }
-    }
     }
 }
