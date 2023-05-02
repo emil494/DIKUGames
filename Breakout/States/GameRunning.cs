@@ -14,7 +14,8 @@ namespace Breakout.States;
 public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
-    private LevelHandler handler;
+    private LevelHandler lvlHandler;
+    private CollisionHandler colHandler;
     private Ball ball;
 
     public static GameRunning GetInstance() {
@@ -31,8 +32,11 @@ public class GameRunning : IGameState {
             new Image(Path.Combine("Assets", "Images", "player.png")));
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
-        handler = new LevelHandler();
-        handler.NextLevel();
+
+        lvlHandler = new LevelHandler();
+        lvlHandler.NextLevel();
+
+        colHandler = new CollisionHandler();
 
         ball = new Ball(
             new DynamicShape(new Vec2F(0.44f, 0.17f), new Vec2F(0.06f, 0.06f)),
@@ -44,14 +48,15 @@ public class GameRunning : IGameState {
     }
 
     public void UpdateState(){
-        handler.UpdateLevel();
+        lvlHandler.UpdateLevel();
         player.Move();
         ball.MoveBall();
+        colHandler.BlockCollision(LevelHandler.GetLevelBlocks(), ball);
     }
     
     public void RenderState(){
         player.RenderEntity();
-        handler.RenderLevel();
+        lvlHandler.RenderLevel();
         ball.RenderEntity();
     }
     

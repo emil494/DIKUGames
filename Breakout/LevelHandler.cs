@@ -17,6 +17,7 @@ public class LevelHandler {
         reader = new FileReader();
     }
 
+    //Make non static
     public static EntityContainer<Block> GetLevelBlocks(){
         return currentLevel.GetBlocks();
     }
