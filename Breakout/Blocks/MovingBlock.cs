@@ -1,3 +1,4 @@
+using DIKUArcade.Physics;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using System.Collections.Generic;
@@ -33,21 +34,18 @@ public class MovingBlock : Entity, IBlock {
 
         //Adds false to above list if any collition between the moving and any other block
         //True otherwise
-        Level.GetBlocks().Iterate(block => {
-            if (block.Shape.Position.X <= Shape.Extent.X + Shape.Position.X + 
-            (Shape.AsDynamicShape()).Direction.X || 
-            block.Shape.Position.X + block.Shape.Extent.X >= Shape.Extent.X + Shape.Position.X + 
-            (Shape.AsDynamicShape()).Direction.X) {
-                list.Add(false);
-            } else {
+        foreach (Entity block in LevelHandler.GetLevelBlocks()){
+            if ((CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape)).Collision) {
                 list.Add(true);
+            } else {
+                list.Add(false);
             }
-        });
+        };
 
         //Checks for out of bounds and collition with other blocks
-        if (Shape.Extent.X + Shape.Position.X + (Shape.AsDynamicShape()).Direction.X >= 1.0f ||
-        Shape.Extent.X + Shape.Position.X + (Shape.AsDynamicShape()).Direction.X <= 0.0f ||
-        list.TrueForAll(Bool => Bool == true)) {
+        if (list.Contains(true) || 
+        Shape.Extent.X + Shape.Position.X + (Shape.AsDynamicShape()).Direction.X >= 1.0f ||
+        Shape.Position.X + (Shape.AsDynamicShape()).Direction.X <= 0.0f) {
             (Shape.AsDynamicShape()).Direction *= -1.0f;
         } else {
             (Shape.AsDynamicShape()).Move();

@@ -1,3 +1,4 @@
+using DIKUArcade.Entities;
 using Breakout.Blocks;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,17 @@ namespace Breakout;
 public class LevelHandler {
     private List<string> loadOrder;
     private FileReader reader;
-    public Level currentLevel;
+    private static Level currentLevel;
     private int lvlCount;
 
     public LevelHandler() {
         loadOrder = new List<string> {"level1.txt", "level2.txt"};
         lvlCount = 0;
         reader = new FileReader();
+    }
+
+    public static EntityContainer<Entity> GetLevelBlocks(){
+        return currentLevel.GetBlocks();
     }
 
     public void NextLevel() {

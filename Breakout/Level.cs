@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level {
-    private static EntityContainer<Entity> blocks = null;
+    private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
@@ -21,8 +21,7 @@ public class Level {
         CreateBlocks(map_);
     }
 
-    //Static to allow other blocks to check each other
-    public static EntityContainer<Entity> GetBlocks() {
+    public EntityContainer<Entity> GetBlocks() {
         return blocks;
     }
 
