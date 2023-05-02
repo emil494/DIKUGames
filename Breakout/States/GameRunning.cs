@@ -31,7 +31,7 @@ public class GameRunning : IGameState {
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
-        handler.Initialize("level1.txt");
+        handler.NextLevel();
     }
 
     public void ResetState(){
@@ -39,6 +39,7 @@ public class GameRunning : IGameState {
     }
 
     public void UpdateState(){
+        handler.UpdateLevel();
         player.Move();
     }
     

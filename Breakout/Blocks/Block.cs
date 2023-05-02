@@ -9,7 +9,7 @@ public class Block : Entity, IBlock {
     public bool powerUp {get;}
     public Block(StationaryShape shape, IBaseImage image, bool power) : base(shape, image){
         powerUp = power;
-        hp = 2;
+        hp = 1;
     }
 
     public void LoseHealth(){
@@ -26,4 +26,6 @@ public class Block : Entity, IBlock {
         }
         DeleteEntity();
     }
+
+    public void UpdateBlock(){}
 }

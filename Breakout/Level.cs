@@ -8,27 +8,78 @@ using System.Collections.Generic;
 
 namespace Breakout;
 
-public class Level{
-    private EntityContainer<Block> blocks;
+public class Level {
+    private static EntityContainer<Entity> blocks = null;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
     public Level(List<string> map_, Dictionary<string, string> metaData_,
-        Dictionary<char, string> legend_){
+        Dictionary<char, string> legend_) {
         metaData = metaData_;
         legend = legend_;
-        blocks = new EntityContainer<Block>();
+        blocks = new EntityContainer<Entity>();
         CreateBlocks(map_);
     }
-    
-    private void CreateBlocks(List<string> map){
+
+    //Static to allow other blocks to check each other
+    public static EntityContainer<Entity> GetBlocks() {
+        return blocks;
+    }
+
+    private void CreateBlocks(List<string> map) {
         var j = 1.0f;
-        foreach (string line in map){
+        foreach (string line in map) {
             var i = 0.0f;
-            foreach (char c in line){
-                if (c.ToString() == "-"){}
-                // To do: Add different kinds of blocks according to the file
-                else{
+            foreach (char c in line) {
+
+                //If empty space, do nothing
+                if (c.ToString() == "-") {}
+
+                //Adds Hardened blocks if marked as
+                else if (metaData.ContainsKey("Hardened") && 
+                metaData["Hardened"].Contains(c.ToString())) {
+                    blocks.AddEntity(
+                        new HardenedBlock (
+                            new StationaryShape(
+                                new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)), 
+                            new Image(
+                                Path.Combine("Assets", "Images", legend[c])), 
+                            PowerUp(c),
+                            //Needs filename for damaged picture
+                            legend[c]
+                        )
+                    );
+
+                //Adds Unbreakable blocks if marked as
+                } else if (metaData.ContainsKey("Unbreakable") && 
+                metaData["Unbreakable"].Contains(c.ToString())) {
+                    blocks.AddEntity(
+                        new UnbreakableBlock(
+                            new StationaryShape(
+                                new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)), 
+                            new Image(
+                                Path.Combine("Assets", "Images", legend[c])), 
+                            PowerUp(c)
+                        )
+                    );
+                    
+                //Adds Unbreakable blocks if marked as
+                } else if (metaData.ContainsKey("Moving") && 
+                metaData["Moving"].Contains(c.ToString())) {
+                    blocks.AddEntity(
+                        new MovingBlock(
+                            new DynamicShape(
+                                new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f), 
+                                new Vec2F(0.01f, 0.0f)), 
+                            new Image(
+                                Path.Combine("Assets", "Images", legend[c])), 
+                            PowerUp(c)
+                        )
+                    );
+                }
+
+                //If character is not marked, make a basic Block
+                else {
                     blocks.AddEntity(
                         new Block (new StationaryShape(
                             new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
@@ -41,7 +92,8 @@ public class Level{
         }
     }
 
-    private bool PowerUp(char c){
+    //Checks if character contains a powerup
+    private bool PowerUp(char c) {
         if (metaData.ContainsKey("PowerUp")) {
             if (metaData["PowerUp"].Contains(c.ToString())){
                 return true;
@@ -53,15 +105,38 @@ public class Level{
         }
     }
 
+    //Checks if board is without breakable blocks
     public bool IsEmpty(){
-        if (blocks.CountEntities() == 0){
+        List<bool> list = new List<bool> {};
+        blocks.Iterate( block =>{
+            if (typeof (UnbreakableBlock) != block.GetType()) {
+                list.Add(false);
+            } else {
+                list.Add(true);
+            }
+        });
+        if (blocks.CountEntities() == 0 || list.TrueForAll(Bool => Bool == true)){
             return true;
         } else {
             return false;
         }
     }
 
+    //Deletes all blocks
+    public void DeleteBlocks(){
+        blocks.Iterate( block =>{
+            block.DeleteEntity();
+        });
+    }
+
     public void Render(){
         blocks.RenderEntities();
+    }
+
+    //Updates all blocks
+    public void Update(){
+        foreach (IBlock block in blocks){
+            block.UpdateBlock();
+        }
     }
 }
