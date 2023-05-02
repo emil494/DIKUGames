@@ -4,19 +4,15 @@ using System.IO;
 
 namespace Breakout.Blocks;
 
-public class HardenedBlock : Entity, IBlock {
+public class HardenedBlock : Block {
     private IBaseImage damaged;
-    public int value {get;}
-    public int hp {get; set;}
-    public bool powerUp {get;}
 
-    public HardenedBlock(StationaryShape shape, IBaseImage image, bool power, string file) : base(shape, image){
-        powerUp = power;
+    public HardenedBlock(DynamicShape shape, IBaseImage image, bool power, string file) : base(shape, image, power){
         hp = 2;
         damaged = new Image(Path.Combine("Assets", "Images", $"{file}-damaged.png"));
     }
 
-    public void LoseHealth(){
+    public override void LoseHealth(){
         if (hp - 1 <= 0){
             DeleteBlock();
         } else if(hp - 1 == 1){
@@ -25,13 +21,4 @@ public class HardenedBlock : Entity, IBlock {
             hp -= 1;
         }
     }
-
-    public void DeleteBlock(){
-        if (powerUp){
-            //To do: Create powerUp through EventBus
-        }
-        DeleteEntity();
-    }
-
-    public void UpdateBlock(){}
 }
