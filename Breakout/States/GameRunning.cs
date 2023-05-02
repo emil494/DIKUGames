@@ -11,18 +11,17 @@ using Breakout;
 
 namespace Breakout.States;
 
-public class IsRunning : IGameState {
-    private static IsRunning instance = null;
+public class GameRunning : IGameState {
+    private static GameRunning instance = null;
     private Player player;
     private LevelHandler handler;
-    private Ball ball;
 
-    public static IsRunning GetInstance() {
-        if (IsRunning.instance == null) {
-            IsRunning.instance = new IsRunning();
-            IsRunning.instance.InitializeGameState();
+    public static GameRunning GetInstance() {
+        if (GameRunning.instance == null) {
+            GameRunning.instance = new GameRunning();
+            GameRunning.instance.InitializeGameState();
         }
-        return IsRunning.instance;
+        return GameRunning.instance;
     }
 
     private void InitializeGameState(){
@@ -32,12 +31,7 @@ public class IsRunning : IGameState {
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
-        handler.Initialize(Path.Combine("Assets", "Levels", "level1.txt"));
-
-        ball = new Ball(
-            new DynamicShape(new Vec2F(0.5f, 0.12f), new Vec2F(0.1f, 0.1f)),
-            new Image(Path.Combine("Assets", "Images", "ball.png")));
-        
+        handler.NextLevel();
     }
 
     public void ResetState(){
@@ -45,6 +39,7 @@ public class IsRunning : IGameState {
     }
 
     public void UpdateState(){
+        handler.UpdateLevel();
         player.Move();
     }
     
@@ -69,8 +64,9 @@ public class IsRunning : IGameState {
             case KeyboardKey.Escape:
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
-                        EventType = GameEventType.WindowEvent, 
-                        Message = "CLOSE_GAME"
+                        EventType = GameEventType.GameStateEvent, 
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_PAUSED"
                     }
                 );
                 break;
