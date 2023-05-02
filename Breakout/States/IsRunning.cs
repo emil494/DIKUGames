@@ -15,6 +15,7 @@ public class IsRunning : IGameState {
     private static IsRunning instance = null;
     private Player player;
     private LevelHandler handler;
+    private Ball ball;
 
     public static IsRunning GetInstance() {
         if (IsRunning.instance == null) {
@@ -32,6 +33,11 @@ public class IsRunning : IGameState {
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
         handler.Initialize(Path.Combine("Assets", "Levels", "level1.txt"));
+
+        ball = new Ball(
+            new DynamicShape(new Vec2F(0.5f, 0.12f), new Vec2F(0.1f, 0.1f)),
+            new Image(Path.Combine("Assets", "Images", "ball.png")));
+        
     }
 
     public void ResetState(){

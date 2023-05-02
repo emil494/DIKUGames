@@ -54,7 +54,7 @@ public class Player : Entity, IGameEventProcessor {
                         SetMoveLeft(true);
                         break;
                 }
-                 break;
+                break;
             case "STOP_MOVE":
                 switch (gameEvent.StringArg1){
                     case "RIGHT":
