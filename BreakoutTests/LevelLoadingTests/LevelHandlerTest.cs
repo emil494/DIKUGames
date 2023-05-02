@@ -20,16 +20,16 @@ public class HandlerTest
     [Test]
     public void TestInitialize() {
         handler.Initialize(lvl1Path);
-        bool res = handler.currentLevel != null;
+        bool res = handler.GetLevel() != null;
         Assert.True(res);
     }
     
     [Test]
     public void TestInitialize2() {
         handler.Initialize(lvl1Path);
-        Level lvl1 = handler.currentLevel;
+        Level lvl1 = handler.GetLevel();
         handler.Initialize(lvl2Path);
-        bool res = handler.currentLevel == lvl1;
+        bool res = handler.GetLevel() == lvl1;
         Assert.True(res);
     }
 }

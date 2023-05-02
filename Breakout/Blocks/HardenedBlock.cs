@@ -18,8 +18,10 @@ public class HardenedBlock : Entity, IBlock {
 
     public void LoseHealth(){
         if (hp - 1 <= 0){
+            hp -= 1;
             DeleteBlock();
         } else if(hp - 1 == 1){
+            hp -= 1;
             this.Image = damaged;
         } else {
             hp -= 1;

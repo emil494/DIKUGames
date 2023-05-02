@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using Breakout.Blocks;
 using System;
+using System.IO;
 using System.Collections.Generic;
 namespace Breakout;
 
@@ -33,7 +34,7 @@ public class LevelHandler {
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
         }
-        if (reader.Read(lvl)) {
+        if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
             lvlCount += 1;
             currentLevel = new Level(reader.map, reader.meta, reader.legend);
         }
@@ -46,5 +47,18 @@ public class LevelHandler {
     public void UpdateLevel() {
         NextLevel();
         currentLevel.Update();
+    }
+
+    //For testing purposes
+    public void Initialize(string path){
+        if (currentLevel is null || currentLevel.IsEmpty()) {
+            reader.Read(path);
+            currentLevel = new Level(reader.map, reader.meta, reader.legend);
+        }
+    }
+
+    //For testing purposes
+    public Level GetLevel(){
+        return currentLevel;
     }
 }
