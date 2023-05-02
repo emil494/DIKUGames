@@ -10,7 +10,7 @@ public class HardenedBlock : Block {
     public HardenedBlock(DynamicShape shape, IBaseImage image, bool power, string file) : base(shape, image, power){
         hp = 2;
         var split = file.Split(".");
-        damaged = new Image(Path.Combine("Assets", "Images", $"{split[0]}-damaged.png"));
+        damaged = new Image(Path.Combine("Assets", "Images", $"{split[0]}-damaged.{split[1]}"));
     }
 
     public override void LoseHealth(){

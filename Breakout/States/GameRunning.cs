@@ -26,7 +26,7 @@ public class GameRunning : IGameState {
 
     private void InitializeGameState(){
         player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f, 0.03f)),
+            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.20f, 0.02f)),
             new Image(Path.Combine("Assets", "Images", "player.png")));
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
