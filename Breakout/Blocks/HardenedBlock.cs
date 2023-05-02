@@ -13,7 +13,8 @@ public class HardenedBlock : Entity, IBlock {
     public HardenedBlock(StationaryShape shape, IBaseImage image, bool power, string file) : base(shape, image){
         powerUp = power;
         hp = 2;
-        damaged = new Image(Path.Combine("Assets", "Images", $"{file}-damaged.png"));
+        var split = file.Split(".");
+        damaged = new Image(Path.Combine("Assets", "Images", $"{split[0]}-damaged.png"));
     }
 
     public void LoseHealth(){
