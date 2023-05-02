@@ -7,4 +7,5 @@ interface IBlock{
     public bool powerUp {get;}
     public void LoseHealth();
     public void DeleteBlock();
+    public void UpdateBlock();
 }
