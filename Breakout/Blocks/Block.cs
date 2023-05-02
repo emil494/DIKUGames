@@ -14,6 +14,7 @@ public class Block : Entity {
 
     public virtual void LoseHealth(){
         if (hp - 1 <= 0){
+            hp -= 1;
             DeleteBlock();
         } else{
             hp -= 1;
