@@ -131,4 +131,10 @@ public class Level {
     public void Render(){
         blocks.RenderEntities();
     }
+
+    public void Update(){
+        foreach (IBlock block in blocks){
+            block.UpdateBlock();
+        }
+    }
 }
