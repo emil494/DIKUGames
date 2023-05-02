@@ -39,7 +39,7 @@ public class Level {
                 metaData["Hardened"].Contains(c.ToString())) {
                     blocks.AddEntity(
                         new HardenedBlock (
-                            new StationaryShape(
+                            new DynamicShape(
                                 new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)), 
                             new Image(
                                 Path.Combine("Assets", "Images", legend[c])), 
@@ -54,7 +54,7 @@ public class Level {
                 metaData["Unbreakable"].Contains(c.ToString())) {
                     blocks.AddEntity(
                         new UnbreakableBlock(
-                            new StationaryShape(
+                            new DynamicShape(
                                 new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)), 
                             new Image(
                                 Path.Combine("Assets", "Images", legend[c])), 
@@ -80,7 +80,7 @@ public class Level {
                 //If character is not marked, make a basic Block
                 else {
                     blocks.AddEntity(
-                        new Block (new StationaryShape(
+                        new Block (new DynamicShape(
                             new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)
                         ), new Image(Path.Combine("Assets", "Images", legend[c])), PowerUp(c))
                     );
@@ -133,7 +133,7 @@ public class Level {
     }
 
     public void Update(){
-        foreach (IBlock block in blocks){
+        foreach (Block block in blocks){
             block.UpdateBlock();
         }
     }
