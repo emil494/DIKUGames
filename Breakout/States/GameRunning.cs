@@ -15,6 +15,7 @@ public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
     private LevelHandler handler;
+    private Ball ball;
 
     public static GameRunning GetInstance() {
         if (GameRunning.instance == null) {
@@ -32,6 +33,10 @@ public class GameRunning : IGameState {
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
         handler = new LevelHandler();
         handler.NextLevel();
+
+        ball = new Ball(
+            new DynamicShape(new Vec2F(0.44f, 0.17f), new Vec2F(0.06f, 0.06f)),
+            new Image(Path.Combine("Assets", "Images", "ball.png")));
     }
 
     public void ResetState(){
@@ -41,11 +46,13 @@ public class GameRunning : IGameState {
     public void UpdateState(){
         handler.UpdateLevel();
         player.Move();
+        ball.MoveBall();
     }
     
     public void RenderState(){
         player.RenderEntity();
         handler.RenderLevel();
+        ball.RenderEntity();
     }
     
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
