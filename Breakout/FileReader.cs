@@ -15,14 +15,14 @@ public class FileReader {
         legend = new Dictionary<char, string>();
     }
 
-    public bool Read (string name) {
+    public bool Read (string path) {
         //Empty excisting data in fields, to prepare for new data
         map.Clear();
         meta.Clear();
         legend.Clear();
 
         //Convert level ASCII txt file in to a string array
-        string[] AllLines = File.ReadAllLines(Path.Combine("Assets", "Levels", name));
+        string[] AllLines = File.ReadAllLines(path);
 
         //Convert the map into a list of strings for each line in map, and add it to the map field
         int mapStartIndex = Array.IndexOf(AllLines, "Map:")+1;
