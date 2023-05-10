@@ -14,7 +14,9 @@ namespace Breakout.States;
 public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
-    private LevelHandler handler;
+    private LevelHandler lvlHandler;
+    private CollisionHandler colHandler;
+    private Ball ball;
 
     public static GameRunning GetInstance() {
         if (GameRunning.instance == null) {
@@ -26,12 +28,19 @@ public class GameRunning : IGameState {
 
     private void InitializeGameState(){
         player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.20f, 0.02f)),
+            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
             new Image(Path.Combine("Assets", "Images", "player.png")));
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
-        handler = new LevelHandler();
-        handler.NextLevel();
+
+        lvlHandler = new LevelHandler();
+        lvlHandler.NextLevel();
+
+        colHandler = new CollisionHandler();
+
+        ball = new Ball(
+            new DynamicShape(new Vec2F(0.44f, 0.17f), new Vec2F(0.06f, 0.06f)),
+            new Image(Path.Combine("Assets", "Images", "ball.png")));
     }
 
     public void ResetState(){
@@ -39,13 +48,17 @@ public class GameRunning : IGameState {
     }
 
     public void UpdateState(){
-        handler.UpdateLevel();
+        lvlHandler.UpdateLevel();
         player.Move();
+        ball.MoveBall();
+        colHandler.BlockCollision(LevelHandler.GetLevelBlocks(), ball);
+        colHandler.PlayerCollision(player, ball);
     }
     
     public void RenderState(){
         player.RenderEntity();
-        handler.RenderLevel();
+        lvlHandler.RenderLevel();
+        ball.RenderEntity();
     }
     
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
