@@ -134,7 +134,7 @@ public class Level {
 
     public void Update(){
         foreach (Block block in blocks){
-            block.UpdateBlock();
+            block.UpdateBlock(blocks);
         }
     }
 }

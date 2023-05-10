@@ -8,12 +8,12 @@ namespace Breakout.Blocks;
 public class MovingBlock : Block {
     public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image, power){}
 
-    public override void UpdateBlock(){
+    public override void UpdateBlock(EntityContainer<Block> container){
         List<bool> list = new List<bool> {};
 
-        //Adds false to above list if any collition between the moving and any other block
-        //True otherwise
-        foreach (Entity block in LevelHandler.GetLevelBlocks()){
+        //Adds true to above list if any collition between the moving and any other block
+        //false otherwise
+        foreach (Block block in container){
             if ((CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape)).Collision) {
                 list.Add(true);
             } else {
