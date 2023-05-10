@@ -28,5 +28,5 @@ public class Block : Entity {
         DeleteEntity();
     }
 
-    public virtual void UpdateBlock(){}
+    public virtual void UpdateBlock(EntityContainer<Block> blocks){}
 }
