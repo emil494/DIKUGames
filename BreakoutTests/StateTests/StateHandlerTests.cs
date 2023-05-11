@@ -14,7 +14,7 @@ public class StateHandlerTests {
     private GameEventBus eventBus;
 
     [SetUp]
-    public void InitiateStateMachine() {
+    public void Setup() {
         Window.CreateOpenGLContext();
         stateHandler = new StateHandler();
         eventBus = new GameEventBus();
