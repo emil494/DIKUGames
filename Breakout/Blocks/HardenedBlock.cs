@@ -9,6 +9,7 @@ public class HardenedBlock : Block {
 
     public HardenedBlock(DynamicShape shape, IBaseImage image, bool power, string file) : base(shape, image, power){
         hp = 2;
+        value = 2;
         var split = file.Split(".");
         damaged = new Image(Path.Combine("Assets", "Images", $"{split[0]}-damaged.{split[1]}"));
     }
