@@ -34,7 +34,7 @@ public class GameRunning : IGameState {
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
         lvlHandler = new LevelHandler();
-        lvlHandler.NextLevel();
+        lvlHandler.NewGame();
 
         colHandler = new CollisionHandler();
 
@@ -51,7 +51,7 @@ public class GameRunning : IGameState {
         lvlHandler.UpdateLevel();
         player.Move();
         ball.MoveBall();
-        colHandler.BlockCollision(LevelHandler.GetLevelBlocks(), ball);
+        colHandler.BlockCollision(lvlHandler.GetLevelBlocks(), ball);
         colHandler.PlayerCollision(player, ball);
     }
     
