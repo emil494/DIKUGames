@@ -10,7 +10,8 @@ public static class EventBus {
             EventBus.eventBus = new GameEventBus();
             EventBus.eventBus.InitializeEventBus(new List<GameEventType> 
                 { GameEventType.InputEvent, GameEventType.WindowEvent, 
-                GameEventType.PlayerEvent, GameEventType.GameStateEvent});
+                GameEventType.PlayerEvent, GameEventType.GameStateEvent, 
+                GameEventType.StatusEvent});
         }
         return EventBus.eventBus;
     }
