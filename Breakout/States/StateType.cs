@@ -9,6 +9,11 @@ public enum StateType {
 }
 
 public class StateTransformer {
+    /// <summary>
+    /// Transfroms a string into a StateType
+    /// </summary>
+    /// <param name="state"> string to be turned into a StateType </param>
+    /// <returns> The converted string as StateType </returns> 
     public static StateType TransformStringToState(string state) {
         switch (state) {
             case "GAME_RUNNING":

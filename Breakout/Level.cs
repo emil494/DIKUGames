@@ -21,10 +21,18 @@ public class Level {
         CreateBlocks(map_);
     }
 
+    /// <summary>
+    /// A getter for the blocks in the level
+    /// </summary>
+    /// <returns> The blocks in the level </returns>
     public EntityContainer<Block> GetBlocks() {
         return blocks;
     }
 
+    /// <summary>
+    /// Creates the blocks for the level based on the data read through the FileReader
+    /// </summary>
+    /// <param name="map"> List of strings representing the layout of blocks </param>
     private void CreateBlocks(List<string> map) {
         var j = 1.0f;
         foreach (string line in map) {
@@ -91,7 +99,12 @@ public class Level {
         }
     }
 
-    //Public for testing purposes, ideally private
+    // Public for testing purposes, ideally private
+    /// <summary>
+    /// Checks if the given character is marked as having a powerUp
+    /// </summary>
+    /// <param name="c"> A character representing a block </param>
+    /// <returns> A bool, true if it contains a powerUp, else false </returns>
     public bool PowerUp(char c){
         if (metaData.ContainsKey("PowerUp")) {
             if (metaData["PowerUp"].Contains(c.ToString())){
@@ -104,7 +117,10 @@ public class Level {
         }
     }
 
-    //Checks if board is without breakable blocks
+    /// <summary>
+    /// Checks if the board is without breakable blocks
+    /// </summary>
+    /// <returns> A bool, true if the board is without breakable blocks, else false </returns>
     public bool IsEmpty(){
         List<bool> list = new List<bool> {};
         blocks.Iterate( block =>{
@@ -121,17 +137,25 @@ public class Level {
         }
     }
 
-    //Deletes all blocks
+    /// <summary>
+    /// Deletes all blocks on the board
+    /// </summary>
     public void DeleteBlocks(){
         blocks.Iterate( block =>{
             block.DeleteEntity();
         });
     }
 
+    /// <summary>
+    /// Renders all blocks
+    /// </summary>
     public void Render(){
         blocks.RenderEntities();
     }
 
+    /// <summary>
+    /// Updates all blocks on the board
+    /// </summary>
     public void Update(){
         foreach (Block block in blocks){
             block.UpdateBlock(blocks);
