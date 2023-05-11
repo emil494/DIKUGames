@@ -8,12 +8,18 @@ public class Block : Entity {
     public int value {get;}
     public int hp {get; set;}
     public bool powerUp {get;}
+
     public Block(DynamicShape shape, IBaseImage image, bool power) : base(shape, image){
         powerUp = power; 
         value = 1;
         hp = 1;
     }
 
+    // Methods are virtual to allow costumizability in subclasses
+
+    /// <summary>
+    /// Block loses one health. Calls DeleteBlock() if hp = 0 to delete block
+    /// </summary>
     public virtual void LoseHealth(){
         if (hp - 1 <= 0){
             hp -= 1;
@@ -23,6 +29,9 @@ public class Block : Entity {
         }
     }
 
+    /// <summary>
+    /// Deletes block and creates a StatusEvent to comunicate its points to the Point class. 
+    /// </summary>
     public virtual void DeleteBlock(){
         if (powerUp){
             //To do: Create powerUp through EventBus
@@ -37,5 +46,10 @@ public class Block : Entity {
                 );
     }
 
+    /// <summary>
+    /// For updating a block in relation to other blocks in a EntityContainer. 
+    /// Used for subclasses with special abilities 
+    /// </summary>
+    /// <param name="blocks"> An EntityContainer of blocks </param> 
     public virtual void UpdateBlock(EntityContainer<Block> blocks){}
 }

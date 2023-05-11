@@ -19,6 +19,10 @@ public class GameRunning : IGameState {
     private Ball ball;
     private Points points;
 
+    /// <summary>
+    /// Returns instance of itself and creates itself if null
+    /// </summary>
+    /// <returns> Itself </returns>
     public static GameRunning GetInstance() {
         if (GameRunning.instance == null) {
             GameRunning.instance = new GameRunning();
@@ -27,6 +31,9 @@ public class GameRunning : IGameState {
         return GameRunning.instance;
     }
 
+    /// <summary>
+    /// Initializes the state
+    /// </summary>
     private void InitializeGameState(){
         player = new Player(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
@@ -47,10 +54,16 @@ public class GameRunning : IGameState {
             new Image(Path.Combine("Assets", "Images", "ball.png")));
     }
 
+    /// <summary>
+    /// Resets the state
+    /// </summary>
     public void ResetState(){
         InitializeGameState();
     }
 
+    /// <summary>
+    /// Updates selected objects in the state
+    /// </summary>
     public void UpdateState(){
         lvlHandler.UpdateLevel();
         player.Move();
@@ -60,6 +73,9 @@ public class GameRunning : IGameState {
 
     }
     
+    /// <summary>
+    /// Renders all objects in the state
+    /// </summary>
     public void RenderState(){
         player.RenderEntity();
         lvlHandler.RenderLevel();
@@ -67,6 +83,9 @@ public class GameRunning : IGameState {
         points.RenderScore();
     }
     
+    /// <summary>
+    /// Handles key inputs
+    /// </summary>
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         switch (action){
             case KeyboardAction.KeyPress:

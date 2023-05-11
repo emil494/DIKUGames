@@ -15,7 +15,11 @@ public class GamePaused : IGameState {
     private Text[] menuButtons;
     private int activeMenuButton;
     private int maxMenuButtons;
-
+    
+    /// <summary>
+    /// Returns instance of itself and creates itself if null
+    /// </summary>
+    /// <returns> Itself </returns>
     public static GamePaused GetInstance() {
         if (GamePaused.instance == null) {
             GamePaused.instance = new GamePaused();
@@ -24,6 +28,9 @@ public class GamePaused : IGameState {
         return GamePaused.instance;
     }
 
+    /// <summary>
+    /// Initializes the state
+    /// </summary>
     private void InitializeGameState(){
         menuButtons = new Text[] {
             new Text ("Continue", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)), 
@@ -35,13 +42,21 @@ public class GamePaused : IGameState {
         maxMenuButtons = 1;
     }
 
+    /// <summary>
+    /// Resets the state
+    /// </summary>
     public void ResetState(){
         InitializeGameState();
     }
 
-    public void UpdateState(){
-    }
+    /// <summary>
+    /// Updates selected objects in the state
+    /// </summary>
+    public void UpdateState(){}
     
+    /// <summary>
+    /// Renders all objects in the state
+    /// </summary>
     public void RenderState(){
         backGroundImage.RenderState();
         foreach (Text button in menuButtons){
@@ -49,6 +64,9 @@ public class GamePaused : IGameState {
         }
     }
 
+    /// <summary>
+    /// Handles key inputs
+    /// </summary>
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         switch(action){
             case KeyboardAction.KeyPress:
