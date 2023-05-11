@@ -8,18 +8,22 @@ namespace Breakout;
 public class LevelHandler {
     private List<string> loadOrder;
     private FileReader reader;
-    private static Level currentLevel;
+    private Level currentLevel;
     private int lvlCount;
 
     public LevelHandler() {
-        loadOrder = new List<string> {"MovingTest.txt", "level1.txt", "level2.txt"};
+        loadOrder = new List<string> {"level1.txt", "level2.txt"};
         lvlCount = 0;
         reader = new FileReader();
     }
 
-    //Make non static
-    public static EntityContainer<Block> GetLevelBlocks(){
+    public EntityContainer<Block> GetLevelBlocks(){
         return currentLevel.GetBlocks();
+    }
+
+    public void NewGame(){
+        lvlCount = 0;
+        NewLevel(loadOrder[lvlCount]);
     }
 
     public void NextLevel() {

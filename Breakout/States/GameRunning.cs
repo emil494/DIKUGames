@@ -17,6 +17,7 @@ public class GameRunning : IGameState {
     private LevelHandler lvlHandler;
     private CollisionHandler colHandler;
     private Ball ball;
+    private Points points;
 
     public static GameRunning GetInstance() {
         if (GameRunning.instance == null) {
@@ -33,13 +34,16 @@ public class GameRunning : IGameState {
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
+        points = new Points();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, points);
+
         lvlHandler = new LevelHandler();
-        lvlHandler.NextLevel();
+        lvlHandler.NewGame();
 
         colHandler = new CollisionHandler();
 
         ball = new Ball(
-            new DynamicShape(new Vec2F(0.44f, 0.17f), new Vec2F(0.06f, 0.06f)),
+            new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.05f, 0.05f)),
             new Image(Path.Combine("Assets", "Images", "ball.png")));
     }
 
@@ -51,14 +55,16 @@ public class GameRunning : IGameState {
         lvlHandler.UpdateLevel();
         player.Move();
         ball.MoveBall();
-        colHandler.BlockCollision(LevelHandler.GetLevelBlocks(), ball);
+        colHandler.BlockCollision(lvlHandler.GetLevelBlocks(), ball);
         colHandler.PlayerCollision(player, ball);
+
     }
     
     public void RenderState(){
         player.RenderEntity();
         lvlHandler.RenderLevel();
         ball.RenderEntity();
+        points.RenderScore();
     }
     
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){

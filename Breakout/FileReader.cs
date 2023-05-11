@@ -22,6 +22,10 @@ public class FileReader {
         legend.Clear();
 
         //Convert level ASCII txt file in to a string array
+        if (!File.Exists(path)){
+            System.Console.WriteLine("DirectoryNotFoundException: Could not find file");
+            return false;
+        }
         string[] AllLines = File.ReadAllLines(path);
 
         //Convert the map into a list of strings for each line in map, and add it to the map field

@@ -29,8 +29,11 @@ public class Ball : Entity {
         if (Shape.Position.Y + Shape.Extent.Y > 1.0f) {
             UpdateDirection((Shape.AsDynamicShape()).Direction.X, -(Shape.AsDynamicShape()).Direction.Y);
         }
-        if (Shape.Position.X < 0.0f || Shape.Position.X + Shape.Extent.X > 1.0f) {
-            UpdateDirection(-(Shape.AsDynamicShape()).Direction.X, (Shape.AsDynamicShape()).Direction.Y);
+        if (Shape.Position.X < 0.0f) {
+            UpdateDirection(System.Math.Abs((Shape.AsDynamicShape()).Direction.X), (Shape.AsDynamicShape()).Direction.Y);
+        }
+        if (Shape.Position.X + Shape.Extent.X > 1.0f) {
+            UpdateDirection(-System.Math.Abs((Shape.AsDynamicShape()).Direction.X), (Shape.AsDynamicShape()).Direction.Y);
         }
         if (Shape.Position.Y <= 0.0f) {
             DeleteEntity();
