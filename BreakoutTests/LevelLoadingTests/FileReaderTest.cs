@@ -17,6 +17,9 @@ public class FileReaderTest
         bool result = reader.Read(lvl1Path);
         Assert.True(result);
     }
+<<<<<<< HEAD
+}
+=======
 
     [Test]
     public void TestReturnFalseMap() {
@@ -60,3 +63,4 @@ public class FileReaderTest
         Assert.That(estResult, Is.EqualTo(result));
     }
 }
+>>>>>>> master
