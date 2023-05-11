@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level {
-    private EntityContainer<Entity> blocks;
+    private EntityContainer<Block> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
@@ -17,11 +17,11 @@ public class Level {
         Dictionary<char, string> legend_) {
         metaData = metaData_;
         legend = legend_;
-        blocks = new EntityContainer<Entity>();
+        blocks = new EntityContainer<Block>();
         CreateBlocks(map_);
     }
 
-    public EntityContainer<Entity> GetBlocks() {
+    public EntityContainer<Block> GetBlocks() {
         return blocks;
     }
 
@@ -134,7 +134,7 @@ public class Level {
 
     public void Update(){
         foreach (Block block in blocks){
-            block.UpdateBlock();
+            block.UpdateBlock(blocks);
         }
     }
 }
