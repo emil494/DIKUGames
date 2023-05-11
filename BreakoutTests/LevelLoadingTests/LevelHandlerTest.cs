@@ -13,7 +13,6 @@ public class HandlerTest
         lvl2Path = Path.Combine("..", "..", "..", "Assets", "Levels", "level2.txt");
     }
     LevelHandler handler;
-    FileReader reader;
     string lvl1Path;
     string lvl2Path;
 
