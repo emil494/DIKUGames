@@ -18,7 +18,7 @@ public class LevelTest
     }
     FileReader reader;
     Level lvl2;
-    EntityContainer<Entity> blocks;
+    EntityContainer<Block> blocks;
 
     [Test]
     public void TestBlockNum() {
