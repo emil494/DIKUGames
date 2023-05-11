@@ -5,7 +5,7 @@ using DIKUArcade.Events;
 namespace Breakout.Blocks;
 
 public class Block : Entity {
-    public int value {get;}
+    public int value {get; set;}
     public int hp {get; set;}
     public bool powerUp {get;}
     public Block(DynamicShape shape, IBaseImage image, bool power) : base(shape, image){

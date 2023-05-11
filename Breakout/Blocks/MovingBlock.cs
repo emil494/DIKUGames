@@ -6,7 +6,9 @@ using System.Collections.Generic;
 namespace Breakout.Blocks;
 
 public class MovingBlock : Block {
-    public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image, power){}
+    public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image, power){
+        value = 3;
+    }
 
     public override void UpdateBlock(EntityContainer<Block> container){
         List<bool> list = new List<bool> {};
