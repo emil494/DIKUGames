@@ -31,7 +31,7 @@ public class PlayerTests{
         eventBus.ProcessEvents();
         player.Move();
         var temp = player.Shape.Position;
-        var OtherTemp = start + new Vec2F(0.02f, 0.0f); 
+        var OtherTemp = start + new Vec2F(0.03f, 0.0f); 
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
 
@@ -66,7 +66,7 @@ public class PlayerTests{
         eventBus.ProcessEvents();
         player.Move();
         var temp = player.Shape.Position;
-        var OtherTemp = start + new Vec2F(-0.02f, 0.0f); 
+        var OtherTemp = start + new Vec2F(-0.03f, 0.0f); 
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
     }
 
