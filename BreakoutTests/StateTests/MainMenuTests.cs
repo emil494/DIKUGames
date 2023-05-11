@@ -11,7 +11,7 @@ using Breakout;
 namespace BreakoutTests;
 
 [TestFixture]
-public class GamePausedTests {
+public class MainMenuTests {
     private StateHandler stateHandler;
 
     [SetUp]
@@ -24,24 +24,16 @@ public class GamePausedTests {
             new GameEvent {
                 EventType = GameEventType.GameStateEvent, 
                 Message = "CHANGE_STATE",
-                StringArg1 = "GAME_PAUSED"
+                StringArg1 = "MAIN_MENU"
             }
         );
         EventBus.GetBus().ProcessEventsSequentially();
     }
 
     [Test]
-    public void TestContinue() {
+    public void TestNewGame() {
         stateHandler.ActiveState.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Enter);
         EventBus.GetBus().ProcessEventsSequentially();
         Assert.That(stateHandler.ActiveState, Is.InstanceOf<GameRunning>());
-    }
-
-    [Test]
-    public void TestToMainMenu() {
-        stateHandler.ActiveState.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
-        stateHandler.ActiveState.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Enter);
-        EventBus.GetBus().ProcessEventsSequentially();
-        Assert.That(stateHandler.ActiveState, Is.InstanceOf<MainMenu>());
     }
 }
