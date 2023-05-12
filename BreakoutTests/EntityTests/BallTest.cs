@@ -34,7 +34,7 @@ public class BallTest{
     private EntityContainer<Block> container;
     private CollisionHandler colHandler;
 
-    [Test]
+    [Test] //R.3
     public void TestMoveSpeed() {
         Vec2F pos1 = ball.Shape.Position;
         ball.MoveBall();
@@ -58,6 +58,50 @@ public class BallTest{
         Assert.That((ball.Shape.AsDynamicShape()).Direction.Y, Is.EqualTo(exRes.Y));
     }
 
+    [Test] //R.1
+    public void TestBallDeleteCondition() {
+        List<bool> list = new List<bool>{};
+        player.DeleteEntity();
+        block.DeleteBlock();
+        Vec2F startPos = new Vec2F(0.5f, 0.5f);
+        //Upper bound
+        ball.UpdateDirection(0.0f,0.5f);
+        ball.MoveBall();
+        if (ball.Shape.AsDynamicShape().Direction.Y < 0) {
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        //Right bound
+        ball.Shape.SetPosition(startPos);
+        ball.UpdateDirection(0.46f,0.0f);
+        ball.MoveBall();
+        if (ball.Shape.AsDynamicShape().Direction.X < 0) {
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        //Left bound
+        ball.Shape.SetPosition(startPos);
+        ball.UpdateDirection(-0.51f,0.0f);
+        ball.MoveBall();
+        if (ball.Shape.AsDynamicShape().Direction.X > 0) {
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        //Lower bound
+        ball.Shape.SetPosition(startPos);
+        ball.UpdateDirection(0.0f,-0.5f);
+        ball.MoveBall();
+        if (ball.IsDeleted()) {
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        Assert.True(list.TrueForAll(ele => {return ele;}));
+    }
+
     [Test]
     public void TestBlockCollison() {
         ball.UpdateDirection(0.01f,0.0f);
@@ -68,11 +112,41 @@ public class BallTest{
         Assert.That(ball.Shape.AsDynamicShape().Direction.X, Is.EqualTo(-dir));
     }
 
+    [Test] //R.2
+    public void TestBlockIsHit() {
+        ball.UpdateDirection(0.01f,0.0f);
+        float dir = ball.Shape.AsDynamicShape().Direction.X;
+        container.AddEntity(block);
+        ball.MoveBall();
+        colHandler.BlockCollision(container, ball);
+        Assert.IsTrue(block.IsDeleted());
+    }
+
+    [Test] //R.4
+    public void TestWontStickToSameTrajectory() {
+        ball.UpdateDirection(0.0f,-0.01f);
+        ball.MoveBall();
+        colHandler.PlayerCollision(player, ball);
+        Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X,0.0f);
+    }
+
     [Test]
     public void TestPlayerCollison() {
         ball.UpdateDirection(0.0f,-0.01f);
         ball.MoveBall();
         colHandler.PlayerCollision(player, ball);
         Assert.IsTrue(ball.Shape.AsDynamicShape().Direction.Y > 0.0f);
+    }
+
+    [Test] //R.5
+    public void TestLaunchingDirection() {
+        bool res = true;
+        if (ball.Shape.AsDynamicShape().Direction.Y < 0.0f) {
+            res = false;
+        }
+        if (ball.Shape.AsDynamicShape().Direction.Y < ball.Shape.AsDynamicShape().Direction.X) {
+            res = false;
+        }
+        Assert.IsTrue(res);
     }
 }
