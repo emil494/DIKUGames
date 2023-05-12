@@ -17,17 +17,27 @@ public class LevelHandler {
         reader = new FileReader();
     }
 
+    /// <summary>
+    /// A getter for the blocks in the current level
+    /// </summary>
+    /// <returns> The blocks in the current level </returns>
     public EntityContainer<Block> GetLevelBlocks(){
         return currentLevel.GetBlocks();
     }
 
+    /// <summary>
+    /// Resets the levelhandler for a newgame
+    /// </summary>
     public void NewGame(){
         lvlCount = 0;
         NewLevel(loadOrder[lvlCount]);
     }
 
-    public void NextLevel() {
-        if (currentLevel is null || currentLevel.IsEmpty()) {
+    /// <summary>
+    /// Checks if the current level is empty of all breakable blocks and creates a new level if so
+    /// </summary>
+    private void NextLevel() {
+        if (currentLevel.IsEmpty()) {
             NewLevel(loadOrder[lvlCount]);
             if ((lvlCount + 1 > loadOrder.Count - 1)!) {
                 lvlCount++;
@@ -35,6 +45,10 @@ public class LevelHandler {
         }
     }
 
+    /// <summary>
+    /// Creates the next level in the levelOrder
+    /// </summary>
+    /// <param name="lvl"> Name of the level file </param>
     private void NewLevel(string lvl) {
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
@@ -45,16 +59,26 @@ public class LevelHandler {
         }
     }
 
+    /// <summary>
+    /// Renders the current level
+    /// </summary>
     public void RenderLevel() {
         currentLevel.Render();
     }
 
+    /// <summary>
+    /// Updates the current level and checks if ready for the next level
+    /// </summary>
     public void UpdateLevel() {
         NextLevel();
         currentLevel.Update();
     }
 
     //For testing purposes
+    /// <summary>
+    /// By-passes other functions to immediatly create a level
+    /// </summary>
+    /// <param name="path"> Entire path for a txt file containing the level </param>
     public void Initialize(string path){
         if (currentLevel is null || currentLevel.IsEmpty()) {
             reader.Read(path);
@@ -63,6 +87,10 @@ public class LevelHandler {
     }
 
     //For testing purposes
+    /// <summary>
+    /// A getter for the current level
+    /// </summary>
+    /// <returns> The current level </returns>
     public Level GetLevel(){
         return currentLevel;
     }

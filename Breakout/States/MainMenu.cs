@@ -16,6 +16,10 @@ public class MainMenu : IGameState {
     private int activeMenuButton;
     private int maxMenuButtons;
 
+    /// <summary>
+    /// Returns instance of itself and creates itself if null
+    /// </summary>
+    /// <returns> Itself </returns>
     public static MainMenu GetInstance() {
         if (MainMenu.instance == null) {
             MainMenu.instance = new MainMenu();
@@ -24,6 +28,9 @@ public class MainMenu : IGameState {
         return MainMenu.instance;
     }
 
+    /// <summary>
+    /// Initializes the state
+    /// </summary>
     private void InitializeGameState(){
         menuButtons = new Text[] {
             new Text ("New Game", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)), 
@@ -37,20 +44,31 @@ public class MainMenu : IGameState {
         maxMenuButtons = 1;
     }
 
-    public void ResetState(){
+    /// <summary>
+    /// Resets the state
+    /// </summary>
+    public void ResetState() {
         InitializeGameState();
     }
 
-    public void UpdateState(){
-    }
+    /// <summary>
+    /// Updates selected objects in the state
+    /// </summary>
+    public void UpdateState() {}
     
-    public void RenderState(){
+    /// <summary>
+    /// Renders all objects in the state
+    /// </summary>
+    public void RenderState() {
         backGroundImage.RenderEntity();
         foreach (Text button in menuButtons){
             button.RenderText();
         }
     }
 
+    /// <summary>
+    /// Handles key inputs
+    /// </summary>
     public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
         switch(action){
             case KeyboardAction.KeyPress:

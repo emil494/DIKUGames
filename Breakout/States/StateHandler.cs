@@ -14,6 +14,10 @@ public class StateHandler : IGameEventProcessor {
         ActiveState = MainMenu.GetInstance();
     }
 
+    /// <summary>
+    /// Switches the game state based on the type given
+    /// </summary>
+    /// <param name="state"> StateType to be switched to </param> 
     private void SwitchState(StateType state) {
         switch (state){
             case StateType.GameRunning:
@@ -34,6 +38,10 @@ public class StateHandler : IGameEventProcessor {
 
     }
 
+    /// <summary>
+    /// Processes GameStateEvents
+    /// </summary>
+    /// <param name="gameEvent"> GameStateEvent to be processed </param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message) {
             case "CHANGE_STATE":

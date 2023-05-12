@@ -10,10 +10,13 @@ public class MovingBlock : Block {
         value = 3;
     }
 
+    /// <summary>
+    /// Updates the blocks movement in relation to blocks in the given EntityContainer
+    /// </summary>
     public override void UpdateBlock(EntityContainer<Block> container){
         List<bool> list = new List<bool> {};
 
-        //Adds true to above list if any collition between the moving and any other block
+        //Adds true to above list if any collition between the moving block and any other block
         //false otherwise
         foreach (Block block in container){
             if ((CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape)).Collision) {
