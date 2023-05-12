@@ -18,6 +18,10 @@ public class Points : IGameEventProcessor {
         dscore.SetColor(System.Drawing.Color.Coral); //Coloring the visuals
     }
     
+    /// <summary>
+    /// Parameter of the message/command, e.g. sound: sound filename or identifier 
+    /// </summary>
+    /// <param name="gameEvent">The game event being processed.</param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "POINT_GAIN":
@@ -27,11 +31,16 @@ public class Points : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Renders the score
+    /// </summary>
     public void RenderScore() {
         dscore.RenderText(); //Rendering the text 
         
     }
-
+    /// <summary>
+    /// Making it possible to get the score for testing purposes
+    /// </summary>
     public int GetScore(){ //This functions is only made for testing purposes
         return score;
     }
