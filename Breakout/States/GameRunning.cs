@@ -50,7 +50,7 @@ public class GameRunning : IGameState {
         colHandler = new CollisionHandler();
 
         ball = new Ball(
-            new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.05f, 0.05f)),
+            new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.04f, 0.04f)),
             new Image(Path.Combine("Assets", "Images", "ball.png")));
     }
 
