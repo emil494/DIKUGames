@@ -14,8 +14,8 @@ public class Ball : Entity {
 
     public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
         rand = new Random();
-        float yDir0 = (((float)rand.Next((int)((MOVEMENT_SPEED-0.005f)*1000.0f)))/1000.0f)+0.005f;
-        float xDir0 = System.MathF.Sqrt(System.MathF.Pow(MOVEMENT_SPEED, 2.0f) - System.MathF.Pow(yDir0, 2.0f));
+        float xDir0 = (((float)rand.Next((int)((MOVEMENT_SPEED*0.49f)*1000.0f)))/1000.0f);
+        float yDir0 = System.MathF.Sqrt(System.MathF.Pow(MOVEMENT_SPEED, 2.0f) - System.MathF.Pow(xDir0, 2.0f));
         UpdateDirection(xDir0, yDir0);
     }
     
