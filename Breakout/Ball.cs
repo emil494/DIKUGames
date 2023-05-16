@@ -69,7 +69,7 @@ public class Ball : Entity {
             if (block is IBlock IB) {
                 CollisionData colData = CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape);
                 if (colData.Collision) {
-                    block.LoseHealth();
+                    IB.LoseHealth();
                     if (colData.CollisionDir == CollisionDirection.CollisionDirUp || colData.CollisionDir == CollisionDirection.CollisionDirDown) {
                         UpdateDirection((Shape.AsDynamicShape()).Direction.X, -(Shape.AsDynamicShape()).Direction.Y);
                     } else if (colData.CollisionDir == CollisionDirection.CollisionDirLeft || colData.CollisionDir == CollisionDirection.CollisionDirRight) {
