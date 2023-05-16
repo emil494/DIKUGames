@@ -4,7 +4,7 @@ using DIKUArcade.Events;
 
 namespace Breakout.Blocks;
 
-public class Block : Entity {
+public class Block : Entity, IBlock {
     public int value {get; set;}
     public int hp {get; set;}
     public bool powerUp {get;}
@@ -20,7 +20,7 @@ public class Block : Entity {
     /// <summary>
     /// Block loses one health. Calls DeleteBlock() if hp = 0 to delete block
     /// </summary>
-    public virtual void LoseHealth(){
+    public void LoseHealth(){
         if (hp - 1 <= 0){
             hp -= 1;
             DeleteBlock();
@@ -32,7 +32,7 @@ public class Block : Entity {
     /// <summary>
     /// Deletes block and creates a StatusEvent to comunicate its points to the Point class. 
     /// </summary>
-    public virtual void DeleteBlock(){
+    public void DeleteBlock(){
         if (powerUp){
             //To do: Create powerUp through EventBus
         }
@@ -51,5 +51,5 @@ public class Block : Entity {
     /// Used for subclasses with special abilities 
     /// </summary>
     /// <param name="blocks"> An EntityContainer of blocks </param> 
-    public virtual void UpdateBlock(EntityContainer<Block> blocks){}
+    public void UpdateBlock(EntityContainer<Entity> blocks){}
 }

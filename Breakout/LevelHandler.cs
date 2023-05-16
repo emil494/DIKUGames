@@ -21,7 +21,7 @@ public class LevelHandler {
     /// A getter for the blocks in the current level
     /// </summary>
     /// <returns> The blocks in the current level </returns>
-    public EntityContainer<Block> GetLevelBlocks(){
+    public EntityContainer<Entity> GetLevelBlocks(){
         return currentLevel.GetBlocks();
     }
 

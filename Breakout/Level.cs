@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level {
-    private EntityContainer<Block> blocks;
+    private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
 
@@ -17,7 +17,7 @@ public class Level {
         Dictionary<char, string> legend_) {
         metaData = metaData_;
         legend = legend_;
-        blocks = new EntityContainer<Block>();
+        blocks = new EntityContainer<Entity>();
         CreateBlocks(map_);
     }
 
@@ -25,7 +25,7 @@ public class Level {
     /// A getter for the blocks in the level
     /// </summary>
     /// <returns> The blocks in the level </returns>
-    public EntityContainer<Block> GetBlocks() {
+    public EntityContainer<Entity> GetBlocks() {
         return blocks;
     }
 

@@ -1,25 +1,56 @@
 using DIKUArcade.Physics;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Events;
 using System.Collections.Generic;
 
 namespace Breakout.Blocks;
 
-public class MovingBlock : Block {
-    public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image, power){
+public class MovingBlock : Entity, IBlock {
+    public int value {get; set;}
+    public int hp {get; set;}
+    public bool powerUp {get;}
+
+    public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image){
         value = 3;
+    }
+
+    public void LoseHealth(){
+        if (hp - 1 <= 0){
+            hp -= 1;
+            DeleteBlock();
+        } else{
+            hp -= 1;
+        }
+    }
+
+    /// <summary>
+    /// Deletes block and creates a StatusEvent to comunicate its points to the Point class. 
+    /// </summary>
+    public void DeleteBlock(){
+        if (powerUp){
+            //To do: Create powerUp through EventBus
+        }
+        DeleteEntity();
+        EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.StatusEvent, 
+                        Message = "POINT_GAIN",
+                        StringArg1 = value.ToString()
+                    }
+                );
     }
 
     /// <summary>
     /// Updates the blocks movement in relation to blocks in the given EntityContainer
     /// </summary>
-    public override void UpdateBlock(EntityContainer<Block> container){
+    public void UpdateBlock(EntityContainer<Entity> container){
         List<bool> list = new List<bool> {};
 
         //Adds true to above list if any collition between the moving block and any other block
         //false otherwise
-        foreach (Block block in container){
-            if ((CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape)).Collision) {
+        foreach (Entity block in container){
+            if (block is IBlock IB && (CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape)).Collision) {
                 list.Add(true);
             } else {
                 list.Add(false);

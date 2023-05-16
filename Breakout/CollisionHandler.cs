@@ -12,18 +12,20 @@ public class CollisionHandler {
 
     public CollisionHandler() {}
 
-    public void BlockCollision (EntityContainer<Block> blocks, Ball ball) {
+    public void BlockCollision (EntityContainer<Entity> blocks, Ball ball) {
         blocks.Iterate(block => {
+            if (block is IBlock IB){
                 CollisionData colData = CollisionDetection.Aabb(ball.Shape.AsDynamicShape(), block.Shape);
                 if (colData.Collision) {
-                    block.LoseHealth();
+                    IB.LoseHealth();
                     if (colData.CollisionDir == CollisionDirection.CollisionDirUp || colData.CollisionDir == CollisionDirection.CollisionDirDown) {
                         ball.UpdateDirection((ball.Shape.AsDynamicShape()).Direction.X, -(ball.Shape.AsDynamicShape()).Direction.Y);
                     } else if (colData.CollisionDir == CollisionDirection.CollisionDirLeft || colData.CollisionDir == CollisionDirection.CollisionDirRight) {
                         ball.UpdateDirection(-(ball.Shape.AsDynamicShape()).Direction.X, (ball.Shape.AsDynamicShape()).Direction.Y);
                     }
                 }
-            });
+            }
+        });
     }
 
     public void PlayerCollision(Player player, Ball ball) {
