@@ -15,7 +15,6 @@ public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
     private LevelHandler lvlHandler;
-    private CollisionHandler colHandler;
     private Ball ball;
     private Points points;
 
@@ -47,8 +46,6 @@ public class GameRunning : IGameState {
         lvlHandler = new LevelHandler();
         lvlHandler.NewGame();
 
-        colHandler = new CollisionHandler();
-
         ball = new Ball(
             new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.04f, 0.04f)),
             new Image(Path.Combine("Assets", "Images", "ball.png")));
@@ -68,8 +65,8 @@ public class GameRunning : IGameState {
         lvlHandler.UpdateLevel();
         player.Move();
         ball.MoveBall();
-        colHandler.BlockCollision(lvlHandler.GetLevelBlocks(), ball);
-        colHandler.PlayerCollision(player, ball);
+        ball.BlockCollision(lvlHandler.GetLevelBlocks());
+        ball.PlayerCollision(player);
 
     }
     
