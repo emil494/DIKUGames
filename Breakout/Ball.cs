@@ -39,4 +39,44 @@ public class Ball : Entity {
             DeleteEntity();
         }
     }
+
+    public void PlayerCollision(Player player) {
+        CollisionData colData = CollisionDetection.Aabb(Shape.AsDynamicShape(), player.Shape);
+        if (colData.Collision) {
+            float xDir = (Shape.AsDynamicShape()).Direction.X;
+            float yDir = (Shape.AsDynamicShape()).Direction.Y;
+
+            //Update X-direction, according to where on the player the collision occured:
+            float colX = player.Shape.Position.X + player.Shape.Extent.X/2.0f - Shape.Position.X + Shape.Extent.X/2.0f;
+            float newXDir = xDir - colX/10.0f;
+
+            //Make sure new X-direction dosent surpass the movement speed:
+            if (newXDir >= MOVEMENT_SPEED) {
+                newXDir = MOVEMENT_SPEED * 0.95f;
+            }
+            if (newXDir <= -MOVEMENT_SPEED) {
+                newXDir = -MOVEMENT_SPEED * 0.95f;
+            }
+
+            //Make a Y-direction, so the ball has the correct movementspeed, and update ball direction:
+            float newYDir = System.MathF.Sqrt(System.MathF.Pow(MOVEMENT_SPEED, 2.0f) - System.MathF.Pow(System.Math.Abs(newXDir), 2.0f));
+            UpdateDirection(newXDir, newYDir);
+        }
+    }
+
+    public void BlockCollision (EntityContainer<Entity> blocks) {
+        blocks.Iterate(block => {
+            if (block is IBlock IB) {
+                CollisionData colData = CollisionDetection.Aabb(Shape.AsDynamicShape(), block.Shape);
+                if (colData.Collision) {
+                    block.LoseHealth();
+                    if (colData.CollisionDir == CollisionDirection.CollisionDirUp || colData.CollisionDir == CollisionDirection.CollisionDirDown) {
+                        UpdateDirection((Shape.AsDynamicShape()).Direction.X, -(Shape.AsDynamicShape()).Direction.Y);
+                    } else if (colData.CollisionDir == CollisionDirection.CollisionDirLeft || colData.CollisionDir == CollisionDirection.CollisionDirRight) {
+                        UpdateDirection(-(Shape.AsDynamicShape()).Direction.X, (Shape.AsDynamicShape()).Direction.Y);
+                    }
+                }
+            }
+        });
+    }
 }
