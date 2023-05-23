@@ -12,15 +12,13 @@ public class Health {
     private List<Entity> hearts;
     public Health(){
         hp = 3;
-
         hearts = new List<Entity>{};
         hearts.Add(
             new Entity(
                 new StationaryShape(
                     new Vec2F(0.9f, 0.0f), new Vec2F(0.1f, 0.1f)),
                 new Image(
-                    Path.Combine("Assets", "Images", "heart_filled.png")
-                )     
+                    Path.Combine("Assets", "Images", "heart_filled.png"))     
             )
         );
         hearts.Add(
@@ -28,8 +26,7 @@ public class Health {
                 new StationaryShape(
                     new Vec2F(0.8f, 0.0f), new Vec2F(0.1f, 0.1f)),
                 new Image(
-                    Path.Combine("Assets", "Images", "heart_filled.png")
-                )     
+                    Path.Combine("Assets", "Images", "heart_filled.png"))     
             )
         );
         hearts.Add(
@@ -37,8 +34,7 @@ public class Health {
                 new StationaryShape(
                     new Vec2F(0.7f, 0.0f), new Vec2F(0.1f, 0.1f)),
                 new Image(
-                    Path.Combine("Assets", "Images", "heart_filled.png")
-                )     
+                    Path.Combine("Assets", "Images", "heart_filled.png"))     
             )
         );
     }
