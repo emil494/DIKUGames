@@ -157,8 +157,10 @@ public class Level {
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
-        foreach (Block block in blocks){
-            block.UpdateBlock(blocks);
-        }
+        blocks.Iterate( block =>{
+            if (block is IBlock IB){
+                IB.UpdateBlock(blocks);
+            }
+        });
     }
 }
