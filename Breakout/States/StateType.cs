@@ -5,7 +5,8 @@ namespace Breakout.States;
 public enum StateType {
     GameRunning,
     GamePaused,
-    MainMenu
+    MainMenu,
+    GameOver
 }
 
 public class StateTransformer {
@@ -22,6 +23,8 @@ public class StateTransformer {
                 return StateType.GamePaused;
             case "MAIN_MENU":
                 return StateType.MainMenu;
+            case "GAME_OVER":
+                return StateType.GameOver;
             default:
                 throw new ArgumentException("Invalid argument");
         }

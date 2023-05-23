@@ -1,8 +1,11 @@
 using DIKUArcade.Entities;
+using DIKUArcade.Events;
 using Breakout.Blocks;
+using Breakout;
 using System;
 using System.IO;
 using System.Collections.Generic;
+
 namespace Breakout;
 
 public class LevelHandler {
@@ -38,6 +41,15 @@ public class LevelHandler {
     /// </summary>
     private void NextLevel() {
         if (currentLevel.IsEmpty()) {
+            if (lvlCount > loadOrder.Count){
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.GameStateEvent,
+                        Message = "CHANGE_STATE",
+                        StringArg1 = "GAME_WIN"
+                    }
+                );
+            }
             NewLevel(loadOrder[lvlCount]);
             if ((lvlCount + 1 > loadOrder.Count - 1)!) {
                 lvlCount++;

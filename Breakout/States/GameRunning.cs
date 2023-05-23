@@ -17,6 +17,7 @@ public class GameRunning : IGameState {
     private LevelHandler lvlHandler;
     private Ball ball;
     private Points points;
+    private Health health;
 
     /// <summary>
     /// Returns instance of itself and creates itself if null
@@ -49,6 +50,8 @@ public class GameRunning : IGameState {
         ball = new Ball(
             new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.04f, 0.04f)),
             new Image(Path.Combine("Assets", "Images", "ball.png")));
+
+        health = new Health();
     }
 
     /// <summary>
@@ -78,6 +81,7 @@ public class GameRunning : IGameState {
         lvlHandler.RenderLevel();
         ball.RenderEntity();
         points.RenderScore();
+        health.RenderHearts();
     }
     
     /// <summary>

@@ -9,9 +9,10 @@ using DIKUArcade.Events;
 
 namespace Breakout.States;
 
-public class MainMenu : IGameState {
-    private static MainMenu instance = null;
+public class GameOver : IGameState {
+    private static GameOver instance = null;
     private Entity backGroundImage;
+    private Text text;
     private Text[] menuButtons;
     private int activeMenuButton;
     private int maxMenuButtons;
@@ -20,26 +21,28 @@ public class MainMenu : IGameState {
     /// Returns instance of itself and creates itself if null
     /// </summary>
     /// <returns> Itself </returns>
-    public static MainMenu GetInstance() {
-        if (MainMenu.instance == null) {
-            MainMenu.instance = new MainMenu();
+    public static GameOver GetInstance() {
+        if (GameOver.instance == null) {
+            GameOver.instance = new GameOver();
         }
-        MainMenu.instance.InitializeGameState();
-        return MainMenu.instance;
+        GameOver.instance.InitializeGameState();
+        return GameOver.instance;
     }
 
     /// <summary>
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
+        text = new Text ("Game Over", new Vec2F(0.15f, 0.1f), new Vec2F(0.8f, 0.8f));
+        text.SetColor(System.Drawing.Color.Gray);
         menuButtons = new Text[] {
-            new Text ("New Game", new Vec2F(0.3f, 0.1f), new Vec2F(0.5f, 0.5f)), 
-            new Text ("Quit", new Vec2F(0.3f, 0.0f), new Vec2F(0.5f, 0.5f))};
+            new Text ("Main Menu", new Vec2F(0.3f, 0.06f), new Vec2F(0.5f, 0.5f)), 
+            new Text ("Quit", new Vec2F(0.3f, -0.04f), new Vec2F(0.5f, 0.5f))};
         menuButtons[0].SetColor(System.Drawing.Color.Red);
         menuButtons[1].SetColor(System.Drawing.Color.Coral);
         backGroundImage = new Entity(
             new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(1.0f,1.0f)),
-            new Image(Path.Combine("Assets", "Images", "shipit_titlescreen.png")));
+            new Image(Path.Combine("Assets", "Images", "SpaceBackground.png")));
         activeMenuButton = 0;
         maxMenuButtons = 1;
     }
@@ -61,6 +64,7 @@ public class MainMenu : IGameState {
     /// </summary>
     public void RenderState() {
         backGroundImage.RenderEntity();
+        text.RenderText();
         foreach (Text button in menuButtons){
             button.RenderText();
         }
@@ -110,7 +114,7 @@ public class MainMenu : IGameState {
                                 new GameEvent{
                                     EventType = GameEventType.GameStateEvent,
                                     Message = "CHANGE_STATE",
-                                    StringArg1 = "GAME_RUNNING"
+                                    StringArg1 = "MAIN_MENU"
                                 }
                             );
                         }
