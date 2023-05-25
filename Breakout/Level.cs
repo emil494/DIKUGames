@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level {
-    private StaticTimer timer;
+    private double startTime;
     private Text timeDisplay;
     private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
@@ -19,11 +19,9 @@ public class Level {
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_) {
         
-        timer = new StaticTimer();
-        timeDisplay = new Text($"Time: {StaticTimer.GetElapsedSeconds()}", 
+        startTime = StaticTimer.GetElapsedSeconds();
+        timeDisplay = new Text($"Time: ", 
             new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
-        StaticTimer.RestartTimer();
-        StaticTimer.ResumeTimer();
         timeDisplay.SetColor(System.Drawing.Color.Coral);
         metaData = metaData_;
         legend = legend_;
@@ -168,7 +166,7 @@ public class Level {
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
-        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"])){
+        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + startTime){
             StaticTimer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
@@ -184,6 +182,6 @@ public class Level {
             }
         });
         timeDisplay.SetText(
-            $"Time: {Int32.Parse(metaData["Time"]) - StaticTimer.GetElapsedSeconds()}");
+            $"Time: {(Double.Parse(metaData["Time"]) + startTime) - StaticTimer.GetElapsedSeconds()}");
     }
 }

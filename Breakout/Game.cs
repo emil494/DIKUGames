@@ -5,14 +5,17 @@ using DIKUArcade.Entities;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
+using DIKUArcade.Timers;
 using Breakout.States;
 using System.Collections.Generic;
 
 namespace Breakout;
 
 public class Game : DIKUGame, IGameEventProcessor {
+    private StaticTimer timer;
     private StateHandler stateHandler;
     public Game(WindowArgs windowArgs) : base(windowArgs) {
+        timer = new StaticTimer();
         stateHandler = new StateHandler();
         EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
         EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);
