@@ -2,6 +2,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using System.IO;
 
 namespace Breakout;
 
@@ -10,7 +11,9 @@ public class Player : Entity, IGameEventProcessor {
     private float moveRight = 0.0f;
     private const float MOVEMENT_SPEED = 0.03f;
     
-    public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {}
+    public Player() : base(
+            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
+            new Image(Path.Combine("Assets", "Images", "player.png"))) {}
 
     private void SetMoveLeft(bool val){
         if (val){
