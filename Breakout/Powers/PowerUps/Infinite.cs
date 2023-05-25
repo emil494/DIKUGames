@@ -8,10 +8,10 @@ using System.IO;
 
 namespace Breakout.Powers;
 
-public class Split : Entity, IPowerUp {
-    public Split (Vec2F pos) : base (
+public class Infinite : Entity, IPowerUp {
+    public Infinite (Vec2F pos) : base (
         new DynamicShape(pos, new Vec2F(0.04f, 0.04f), new Vec2F(0.0f, -0.005f)), 
-        new Image(Path.Combine("Assets", "Images", "SplitPowerUp.png"))) {
+        new Image(Path.Combine("Assets", "Images", "InfinitePowerUp.png"))) {
         }
     
     public void Move(){
@@ -25,7 +25,7 @@ public class Split : Entity, IPowerUp {
             new GameEvent {
                 EventType = GameEventType.StatusEvent,
                 Message = "APPLY_POWERUP",
-                StringArg1 = "SPLIT"
+                StringArg1 = "INFINITE"
             }
         );
         DeleteEntity();

@@ -22,24 +22,20 @@ public class BallHandler : IGameEventProcessor {
     }
     
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
-        bool empty = true;
-        foreach (Ball ball in balls) {
-            if (!ball.IsDeleted()) {
+            balls.Iterate(ball => {
                 ball.MoveBall();
                 ball.BlockCollision(blocks);
                 ball.PlayerCollision(player);
-                empty = false;
+            });
+            if (balls.CountEntities() <= 0) {
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.StatusEvent,
+                        Message = "LOSE_HEALTH"
+                    }
+                );
+                InitializeGame();
             }
-        }
-        if (empty) {
-            EventBus.GetBus().RegisterEvent(
-                new GameEvent {
-                    EventType = GameEventType.StatusEvent,
-                    Message = "LOSE_HEALTH"
-                }
-            );
-            InitializeGame();
-        }
     }
 
     public void RenderBalls() {
@@ -49,7 +45,6 @@ public class BallHandler : IGameEventProcessor {
             }
         }
     }
-    
 
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
