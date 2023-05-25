@@ -15,7 +15,7 @@ public class LevelHandler {
     private int lvlCount;
 
     public LevelHandler() {
-        loadOrder = new List<string> {"level1.txt", "level2.txt"};
+        loadOrder = new List<string> {"level1.txt", "level2.txt","level3.txt"};
         lvlCount = 0;
         reader = new FileReader();
     }
@@ -41,18 +41,19 @@ public class LevelHandler {
     /// </summary>
     private void NextLevel() {
         if (currentLevel.IsEmpty()) {
-            if (lvlCount > loadOrder.Count){
+            if (lvlCount >= loadOrder.Count){
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.GameStateEvent,
                         Message = "CHANGE_STATE",
-                        StringArg1 = "GAME_WIN"
+                        StringArg1 = "GAME_WON"
                     }
                 );
-            }
+            } else {
             NewLevel(loadOrder[lvlCount]);
             if ((lvlCount + 1 > loadOrder.Count - 1)!) {
                 lvlCount++;
+            }
             }
         }
     }

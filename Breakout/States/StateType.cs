@@ -6,7 +6,8 @@ public enum StateType {
     GameRunning,
     GamePaused,
     MainMenu,
-    GameOver
+    GameOver,
+    GameWon
 }
 
 public class StateTransformer {
@@ -25,6 +26,8 @@ public class StateTransformer {
                 return StateType.MainMenu;
             case "GAME_OVER":
                 return StateType.GameOver;
+            case "GAME_WON":
+                return StateType.GameWon;
             default:
                 throw new ArgumentException("Invalid argument");
         }
