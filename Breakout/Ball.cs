@@ -40,7 +40,7 @@ public class Ball : Entity {
         if (Shape.Position.X + Shape.Extent.X > 1.0f) {
             UpdateDirectionX(-System.Math.Abs((Shape.AsDynamicShape()).Direction.X));
         }
-        if (Shape.Position.Y <= 0.0f) {
+        if (Shape.Position.Y + Shape.Extent.Y <= 0.0f) {
             DeleteEntity();
         }
     }
