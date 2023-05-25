@@ -9,12 +9,14 @@ using DIKUArcade.Graphics;
 using System.IO;
 using Breakout;
 using System;
+using Breakout.Powers;
 
 namespace Breakout.States;
 
 public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
+    private EffectGenerator effectGenerator;
     private LevelHandler lvlHandler;
     private Points points;
     private BallHandler ballHandler;
@@ -44,7 +46,9 @@ public class GameRunning : IGameState {
 
         lvlHandler = new LevelHandler();
         lvlHandler.NewGame();
-
+        effectGenerator = new EffectGenerator();
+        EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
+        
         ballHandler = new BallHandler();
         ballHandler.InitializeGame();
 
@@ -65,6 +69,7 @@ public class GameRunning : IGameState {
     public void UpdateState(){
         lvlHandler.UpdateLevel();
         player.Move();
+        effectGenerator.UpdateEffects();
         ballHandler.UpdateBalls(lvlHandler.GetLevelBlocks(), player);
     }
     
@@ -74,6 +79,7 @@ public class GameRunning : IGameState {
     public void RenderState(){
         player.RenderEntity();
         lvlHandler.RenderLevel();
+        effectGenerator.RenderEffects();
         points.RenderScore();
         ballHandler.RenderBalls();
         health.RenderHearts();
@@ -146,5 +152,8 @@ public class GameRunning : IGameState {
                 );
                 break;
         }
+    }
+    public int GetFinalScore(){ //This functions helps GameWon display the final points
+        return points.GetScore();
     }
 }

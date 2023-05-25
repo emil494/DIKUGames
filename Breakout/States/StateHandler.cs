@@ -35,6 +35,9 @@ public class StateHandler : IGameEventProcessor {
             case StateType.GameOver:
                 ActiveState = GameOver.GetInstance();
                 break;
+            case StateType.GameWon:
+                ActiveState = GameWon.GetInstance();
+                break;
             default:
                 throw new ArgumentException("Invalid argument");
         }
