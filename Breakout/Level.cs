@@ -22,6 +22,7 @@ public class Level {
         timer = new StaticTimer();
         timeDisplay = new Text($"Time: {StaticTimer.GetElapsedSeconds()}", 
             new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
+        StaticTimer.RestartTimer();
         StaticTimer.ResumeTimer();
         timeDisplay.SetColor(System.Drawing.Color.Coral);
         metaData = metaData_;
@@ -168,7 +169,6 @@ public class Level {
     /// </summary>
     public void Update(){
         if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"])){
-            StaticTimer.RestartTimer();
             StaticTimer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
