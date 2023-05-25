@@ -1,5 +1,6 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
 using Breakout.Blocks;
 using System;
 using System.IO;
@@ -21,10 +22,23 @@ public class BallHandler{
     }
     
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
+        bool empty = true;
         foreach (Ball ball in balls) {
-            ball.MoveBall();
-            ball.BlockCollision(blocks);
-            ball.PlayerCollision(player);
+            if (!ball.IsDeleted()) {
+                ball.MoveBall();
+                ball.BlockCollision(blocks);
+                ball.PlayerCollision(player);
+                empty = false;
+            }
+        }
+        if (empty) {
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.StatusEvent,
+                    Message = "LOSE_HEALTH"
+                }
+            );
+            InitializeGame();
         }
     }
 

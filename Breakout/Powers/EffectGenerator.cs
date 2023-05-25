@@ -11,7 +11,7 @@ public class EffectGenerator : IGameEventProcessor {
     private EntityContainer<Entity> effects;
     public Random number; 
 
-    public EffectGenerator (){
+    public EffectGenerator () {
         hazards = new List<IHazard>{};
         powerUps = new List<IPowerUp>{};
         effects = new EntityContainer<Entity>();
@@ -42,7 +42,7 @@ public class EffectGenerator : IGameEventProcessor {
         if (gameEvent.EventType == GameEventType.InputEvent){
             switch (gameEvent.Message){
                 case "ADD_POWERUP":
-                    CreatePowerUp(number.Next(3));
+                    CreatePowerUp(number.Next(powerUps.Count));
                     break;
                 case "ADD_HAZARD":
                     CreateHazard(number.Next(5));

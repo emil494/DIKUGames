@@ -9,6 +9,7 @@ using DIKUArcade.Graphics;
 using System.IO;
 using Breakout;
 using Breakout.Powers;
+using System;
 
 namespace Breakout.States;
 
@@ -38,7 +39,6 @@ public class GameRunning : IGameState {
     /// </summary>
     private void InitializeGameState(){
         player = new Player();
-
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
         points = new Points();
@@ -54,6 +54,7 @@ public class GameRunning : IGameState {
         ballHandler.InitializeGame();
 
         health = new Health();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
     }
 
     /// <summary>
