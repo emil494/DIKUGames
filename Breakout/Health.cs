@@ -10,9 +10,11 @@ namespace Breakout;
 
 public class Health : IGameEventProcessor{
     private int hp;
+    private bool gameOver;
     private List<Entity> hearts;
     public Health(){
         hp = 3;
+        gameOver = false;
         hearts = new List<Entity>{};
         hearts.Add(
             new Entity(
@@ -41,7 +43,7 @@ public class Health : IGameEventProcessor{
     }
 
     public void LoseHealth(){
-        if (hp - 1 <= 0){
+        if (hp - 1 <= 0 && !gameOver){
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
                     EventType = GameEventType.GameStateEvent,
@@ -49,6 +51,7 @@ public class Health : IGameEventProcessor{
                     StringArg1 = "GAME_OVER"
                 }
             );
+            gameOver = true;
         }
         else {
             hp -= 1;

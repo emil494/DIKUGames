@@ -3,11 +3,7 @@ using DIKUArcade.Entities;
 
 namespace Breakout.Powers;
 
-public class Split : Entity {
-
-    public Split () : base(){
-        
-    }
+public class Split{
 
     public void Move(){}
 
