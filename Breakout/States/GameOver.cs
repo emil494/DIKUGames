@@ -6,6 +6,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using DIKUArcade.GUI;
 
 namespace Breakout.States;
 
