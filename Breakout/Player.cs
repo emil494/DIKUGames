@@ -6,11 +6,16 @@ using DIKUArcade.Events;
 namespace Breakout;
 
 public class Player : Entity, IGameEventProcessor {
-    private float moveLeft = 0.0f;
-    private float moveRight = 0.0f;
+    private float moveLeft;
+    private float moveRight;
     private const float MOVEMENT_SPEED = 0.03f;
-    
-    public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {}
+    private int lives;
+    public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
+        lives = 3;
+        moveRight =  0.0f;
+        moveLeft  = 0.0f;
+    }
+
 
     private void SetMoveLeft(bool val){
         if (val){
@@ -65,6 +70,13 @@ public class Player : Entity, IGameEventProcessor {
                         break;
                 }
                 break;
+            case "LOSELIFE": // Should tell the player to lose a life
+                lives -= 1;
+                break;
         }
+    }
+
+    public int GetLives(){ //This functions is only made for testing purposes
+        return lives;
     }
 }
