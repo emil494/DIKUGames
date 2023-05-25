@@ -152,4 +152,7 @@ public class GameRunning : IGameState {
                 break;
         }
     }
+    public int GetFinalScore(){ //This functions helps GameWon display the final points
+        return points.GetScore();
+    }
 }
