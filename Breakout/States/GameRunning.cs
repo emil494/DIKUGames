@@ -51,6 +51,7 @@ public class GameRunning : IGameState {
         
         ballHandler = new BallHandler();
         ballHandler.InitializeGame();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, ballHandler);
 
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
@@ -69,7 +70,7 @@ public class GameRunning : IGameState {
     public void UpdateState(){
         lvlHandler.UpdateLevel();
         player.Move();
-        effectGenerator.UpdateEffects();
+        effectGenerator.UpdateEffects(player);
         ballHandler.UpdateBalls(lvlHandler.GetLevelBlocks(), player);
     }
     
