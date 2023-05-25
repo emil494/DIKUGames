@@ -8,8 +8,8 @@ using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using System.IO;
 using Breakout;
-using Breakout.Powers;
 using System;
+using Breakout.Powers;
 
 namespace Breakout.States;
 
@@ -46,12 +46,12 @@ public class GameRunning : IGameState {
 
         lvlHandler = new LevelHandler();
         lvlHandler.NewGame();
-
         effectGenerator = new EffectGenerator();
         EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
         
         ballHandler = new BallHandler();
         ballHandler.InitializeGame();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, ballHandler);
 
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
@@ -70,7 +70,7 @@ public class GameRunning : IGameState {
     public void UpdateState(){
         lvlHandler.UpdateLevel();
         player.Move();
-        effectGenerator.UpdateEffects();
+        effectGenerator.UpdateEffects(player);
         ballHandler.UpdateBalls(lvlHandler.GetLevelBlocks(), player);
     }
     

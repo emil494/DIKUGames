@@ -15,7 +15,7 @@ public class Ball : Entity {
 
     public Ball (Vec2F pos) : base(new DynamicShape(pos, new Vec2F(0.04f, 0.04f)), new Image(Path.Combine("Assets", "Images", "ball.png"))) {
         rand = new Random();
-        float xDir0 = (((float)rand.Next((int)((MOVEMENT_SPEED*0.49f)*1000.0f)))/1000.0f);
+        float xDir0 = (System.MathF.Pow(-1f, rand.Next(2)+1))*(((float)rand.Next((int)((MOVEMENT_SPEED*0.49f)*1000.0f)))/1000.0f);
         float yDir0 = System.MathF.Sqrt(System.MathF.Pow(MOVEMENT_SPEED, 2.0f) - System.MathF.Pow(xDir0, 2.0f));
         UpdateDirectionX(xDir0);
         UpdateDirectionY(yDir0);
@@ -52,7 +52,7 @@ public class Ball : Entity {
             float yDir = (Shape.AsDynamicShape()).Direction.Y;
 
             //Update X-direction, according to where on the player the collision occured:
-            float colX = player.Shape.Position.X + player.Shape.Extent.X/2.0f - Shape.Position.X + Shape.Extent.X/2.0f;
+            float colX = (player.Shape.Position.X + (player.Shape.Extent.X/2.0f)) - (Shape.Position.X + (Shape.Extent.X/2.0f));
             float newXDir = xDir - colX/20.0f;
 
             //Make sure new X-direction dosent surpass the movement speed:

@@ -70,7 +70,7 @@ public class Level {
                         )
                     );
                     
-                //Adds Unbreakable blocks if marked as
+                //Adds Moving blocks if marked as
                 } else if (metaData.ContainsKey("Moving") && 
                 metaData["Moving"].Contains(c.ToString())) {
                     blocks.AddEntity(

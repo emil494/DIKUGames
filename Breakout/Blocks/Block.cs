@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Events;
+using System;
 
 namespace Breakout.Blocks;
 
@@ -38,12 +39,22 @@ public class Block : Entity, IBlock {
         }
         DeleteEntity();
         EventBus.GetBus().RegisterEvent(
-                    new GameEvent {
-                        EventType = GameEventType.StatusEvent, 
-                        Message = "POINT_GAIN",
-                        StringArg1 = value.ToString()
-                    }
-                );
+            new GameEvent {
+                EventType = GameEventType.StatusEvent, 
+                Message = "POINT_GAIN",
+                StringArg1 = value.ToString()
+            }
+        );
+        if (powerUp) {
+            EventBus.GetBus().RegisterEvent(
+            new GameEvent {
+                EventType = GameEventType.InputEvent, 
+                Message = "ADD_POWERUP",
+                StringArg1 = Shape.Position.X.ToString(),
+                StringArg2 = Shape.Position.Y.ToString()
+            }
+        );
+        }
     }
 
     /// <summary>

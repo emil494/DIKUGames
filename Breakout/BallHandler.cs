@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections.Generic;
 namespace Breakout;
 
-public class BallHandler{
+public class BallHandler : IGameEventProcessor {
     private EntityContainer<Ball> balls;
     public BallHandler(){
         balls = new EntityContainer<Ball>();
@@ -18,7 +18,7 @@ public class BallHandler{
     }
 
     public void InitializeGame() {
-        balls.AddEntity(new Ball(new Vec2F(0.45f, 0.16f)));
+        AddBall(new Vec2F(0.45f, 0.16f));
     }
     
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
@@ -44,7 +44,33 @@ public class BallHandler{
 
     public void RenderBalls() {
         foreach (Ball ball in balls) {
-            ball.RenderEntity();
+            if (!ball.IsDeleted()) {
+                ball.RenderEntity();
+            }
+        }
+    }
+    
+
+    public void ProcessEvent(GameEvent gameEvent) {
+        switch (gameEvent.Message){
+            case "APPLY_POWERUP":
+                switch (gameEvent.StringArg1){
+                    case "SPLIT":
+                        EntityContainer<Ball> newBalls = new EntityContainer<Ball>();
+                        foreach (Ball ball in balls) {
+                            if (!ball.IsDeleted()) {
+                                float x = ball.Shape.Position.X;
+                                float y = ball.Shape.Position.Y;
+                                ball.DeleteEntity();
+                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+                            }
+                        }
+                        balls = newBalls;
+                        break;
+                }
+                break;
         }
     }
 }
