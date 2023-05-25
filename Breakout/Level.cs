@@ -10,7 +10,8 @@ using System.Collections.Generic;
 
 namespace Breakout;
 
-public class Level {
+public class Level : IGameEventProcessor{
+    private double addTime;
     private double startTime;
     private Text timeDisplay;
     private EntityContainer<Entity> blocks;
@@ -20,6 +21,7 @@ public class Level {
         Dictionary<char, string> legend_) {
         
         startTime = StaticTimer.GetElapsedSeconds();
+        addTime = 0;
         timeDisplay = new Text($"Time: ", 
             new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
         timeDisplay.SetColor(System.Drawing.Color.Coral);
@@ -166,7 +168,7 @@ public class Level {
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
-        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + startTime){
+        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + startTime + addTime){
             StaticTimer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
@@ -182,6 +184,18 @@ public class Level {
             }
         });
         timeDisplay.SetText(
-            $"Time: {(Double.Parse(metaData["Time"]) + startTime) - StaticTimer.GetElapsedSeconds()}");
+            $"Time: {(Double.Parse(metaData["Time"]) + startTime + addTime) - StaticTimer.GetElapsedSeconds()}");
+    }
+
+    public void ProcessEvent(GameEvent gameEvent) {
+        switch (gameEvent.Message){
+            case "APPLY_POWERUP":
+                switch (gameEvent.StringArg1){
+                    case "ADD_TIME":
+                        addTime += 30.0;
+                        break;
+                }
+                break;
+        }
     }
 }

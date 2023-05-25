@@ -69,6 +69,7 @@ public class LevelHandler {
         if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
             lvlCount += 1;
             currentLevel = new Level(reader.map, reader.meta, reader.legend);
+            EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
         }
     }
 

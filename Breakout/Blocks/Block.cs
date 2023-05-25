@@ -34,9 +34,6 @@ public class Block : Entity, IBlock {
     /// Deletes block and creates a StatusEvent to comunicate its points to the Point class. 
     /// </summary>
     public void DeleteBlock(){
-        if (powerUp){
-            //To do: Create powerUp through EventBus
-        }
         DeleteEntity();
         EventBus.GetBus().RegisterEvent(
             new GameEvent {
