@@ -8,12 +8,14 @@ using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using System.IO;
 using Breakout;
+using Breakout.Powers;
 
 namespace Breakout.States;
 
 public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;
+    private EffectGenerator effectGenerator;
     private LevelHandler lvlHandler;
     private Ball ball;
     private Points points;
@@ -47,6 +49,9 @@ public class GameRunning : IGameState {
         lvlHandler = new LevelHandler();
         lvlHandler.NewGame();
 
+        effectGenerator = new EffectGenerator();
+        EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
+
         ball = new Ball(
             new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.04f, 0.04f)),
             new Image(Path.Combine("Assets", "Images", "ball.png")));
@@ -70,6 +75,7 @@ public class GameRunning : IGameState {
         ball.MoveBall();
         ball.BlockCollision(lvlHandler.GetLevelBlocks());
         ball.PlayerCollision(player);
+        effectGenerator.UpdateEffects();
 
     }
     
@@ -80,6 +86,7 @@ public class GameRunning : IGameState {
         player.RenderEntity();
         lvlHandler.RenderLevel();
         ball.RenderEntity();
+        effectGenerator.RenderEffects();
         points.RenderScore();
         health.RenderHearts();
     }
