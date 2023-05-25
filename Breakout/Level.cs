@@ -1,6 +1,8 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
+using DIKUArcade.Timers;
+using DIKUArcade.Events;
 using Breakout.Blocks;
 using System;
 using System.IO;
@@ -9,12 +11,20 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Level {
+    private StaticTimer timer;
+    private Text timeDisplay;
     private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
-
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_) {
+        
+        timer = new StaticTimer();
+        timeDisplay = new Text($"Time: {StaticTimer.GetElapsedSeconds()}", 
+            new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
+        StaticTimer.RestartTimer();
+        StaticTimer.ResumeTimer();
+        timeDisplay.SetColor(System.Drawing.Color.Coral);
         metaData = metaData_;
         legend = legend_;
         blocks = new EntityContainer<Entity>();
@@ -151,16 +161,29 @@ public class Level {
     /// </summary>
     public void Render(){
         blocks.RenderEntities();
+        timeDisplay.RenderText();
     }
 
     /// <summary>
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
+        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"])){
+            StaticTimer.PauseTimer();
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.GameStateEvent,
+                    Message = "CHANGE_STATE",
+                    StringArg1 = "GAME_OVER"
+                }
+            );
+        }
         blocks.Iterate( block =>{
             if (block is IBlock IB){
                 IB.UpdateBlock(blocks);
             }
         });
+        timeDisplay.SetText(
+            $"Time: {Int32.Parse(metaData["Time"]) - StaticTimer.GetElapsedSeconds()}");
     }
 }
