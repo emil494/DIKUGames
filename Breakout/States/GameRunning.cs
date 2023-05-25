@@ -17,8 +17,8 @@ public class GameRunning : IGameState {
     private Player player;
     private EffectGenerator effectGenerator;
     private LevelHandler lvlHandler;
-    private Ball ball;
     private Points points;
+    private BallHandler ballHandler;
     private Health health;
 
     /// <summary>
@@ -37,9 +37,7 @@ public class GameRunning : IGameState {
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
-        player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
-            new Image(Path.Combine("Assets", "Images", "player.png")));
+        player = new Player();
 
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
@@ -51,10 +49,9 @@ public class GameRunning : IGameState {
 
         effectGenerator = new EffectGenerator();
         EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
-
-        ball = new Ball(
-            new DynamicShape(new Vec2F(0.45f, 0.16f), new Vec2F(0.04f, 0.04f)),
-            new Image(Path.Combine("Assets", "Images", "ball.png")));
+        
+        ballHandler = new BallHandler();
+        ballHandler.InitializeGame();
 
         health = new Health();
     }
@@ -72,11 +69,8 @@ public class GameRunning : IGameState {
     public void UpdateState(){
         lvlHandler.UpdateLevel();
         player.Move();
-        ball.MoveBall();
-        ball.BlockCollision(lvlHandler.GetLevelBlocks());
-        ball.PlayerCollision(player);
         effectGenerator.UpdateEffects();
-
+        ballHandler.UpdateBalls(lvlHandler.GetLevelBlocks(), player);
     }
     
     /// <summary>
@@ -85,9 +79,9 @@ public class GameRunning : IGameState {
     public void RenderState(){
         player.RenderEntity();
         lvlHandler.RenderLevel();
-        ball.RenderEntity();
         effectGenerator.RenderEffects();
         points.RenderScore();
+        ballHandler.RenderBalls();
         health.RenderHearts();
     }
     
