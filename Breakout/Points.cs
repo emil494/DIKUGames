@@ -14,7 +14,7 @@ public class Points : IGameEventProcessor {
         score = 0;
 
         // Creating the visuals 
-        dscore = new Text (score.ToString(), new Vec2F(0.0f,-0.3f), new Vec2F(0.3f,0.4f)); 
+        dscore = new Text ($"Points: {score.ToString()}", new Vec2F(0.0f,-0.25f), new Vec2F(0.3f,0.3f)); 
         dscore.SetColor(System.Drawing.Color.Coral); //Coloring the visuals
     }
     
@@ -26,7 +26,7 @@ public class Points : IGameEventProcessor {
         switch (gameEvent.Message){
             case "POINT_GAIN":
                 score += Int32.Parse(gameEvent.StringArg1); //Changing the score 
-                dscore.SetText(score.ToString()); //Updating the newly changed score
+                dscore.SetText($"Points: {score.ToString()}"); //Updating the newly changed score
                 break;
         }
     }
