@@ -74,6 +74,12 @@ public class LevelHandler {
             lvlCount += 1;
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
+        EventBus.GetBus().RegisterEvent(
+            new GameEvent{
+                EventType = GameEventType.StatusEvent,
+                Message = "RESET_CONTAINER"
+            }
+        );
     }
 
     /// <summary>

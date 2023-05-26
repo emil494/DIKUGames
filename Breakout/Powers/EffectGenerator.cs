@@ -14,7 +14,7 @@ public class EffectGenerator : IGameEventProcessor {
 
     public EffectGenerator (){
         hazards = new List<String>();
-        powerUps = new List<String>(){"Split", "ExtraLife", "More_time", "Infinite", "Split"};
+        powerUps = new List<String>(){"Split", "ExtraLife", "More_time", "Split", "Split"};
         effects = new EntityContainer<Entity>();
         number = new Random();
     }
@@ -54,7 +54,7 @@ public class EffectGenerator : IGameEventProcessor {
     }
 
     public void Reset(){
-        effects = new EntityContainer<Entity>{};
+        effects.ClearContainer();
     }
 
     public void ProcessEvent(GameEvent gameEvent) {
@@ -66,6 +66,9 @@ public class EffectGenerator : IGameEventProcessor {
                 break;
             case "ADD_HAZARD":
                 CreateHazard(number.Next(5));
+                break;
+            case "RESET_CONTAINER":
+                Reset();
                 break;
         }
     }
