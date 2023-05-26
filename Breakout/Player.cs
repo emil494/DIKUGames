@@ -68,6 +68,15 @@ public class Player : Entity, IGameEventProcessor {
                         break;
                 }
                 break;
+            case "FIND_POS_PLAYER":
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.StatusEvent,
+                        Message = "APPLY_POWERUP",
+                        StringArg1 = "INFINITE",
+                        ObjectArg1 = this
+                    });
+                break;
         }
     }
 }

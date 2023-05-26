@@ -3,6 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.Physics;
+using DIKUArcade.Timers;
 using System;
 using System.IO;
 
@@ -21,13 +22,13 @@ public class Infinite : Entity, IPowerUp {
         }
     }
     private void Apply(){
-        EventBus.GetBus().RegisterEvent(
-            new GameEvent {
-                EventType = GameEventType.StatusEvent,
-                Message = "APPLY_POWERUP",
-                StringArg1 = "INFINITE"
-            }
-        );
+        for (int i = 1; i <= 5; i++) {
+            EventBus.GetBus().RegisterTimedEvent(
+                (new GameEvent {
+                    EventType = GameEventType.PlayerEvent,
+                    Message = "FIND_POS_PLAYER",
+                }), TimePeriod.NewSeconds(i));
+        }
         DeleteEntity();
     }
     public void PlayerCollision(Player player){

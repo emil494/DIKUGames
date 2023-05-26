@@ -38,11 +38,6 @@ public class GameRunning : IGameState {
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
-        EventBus.GetBus().RegisterEvent(
-            new GameEvent {
-                EventType = GameEventType.StatusEvent,
-                Message = "NEWGAME"});
-
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
