@@ -26,6 +26,7 @@ public class EffectGenerator : IGameEventProcessor {
                 break;
             case "More_time":
                 effects.AddEntity(new MoreTime(pos));
+                break;
             case "Infinite":
                 effects.AddEntity(new Infinite(pos));
                 break;
