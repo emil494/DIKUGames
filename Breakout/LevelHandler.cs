@@ -41,6 +41,7 @@ public class LevelHandler {
     /// Checks if the current level is empty of all breakable blocks and creates a new level if so
     /// </summary>
     private void NextLevel() {
+        System.Console.WriteLine(loadOrder.Count);
         if (currentLevel.IsEmpty()) {
             if (lvlCount > loadOrder.Count - 1){
                 EventBus.GetBus().RegisterEvent(
