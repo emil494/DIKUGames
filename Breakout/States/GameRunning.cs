@@ -76,10 +76,10 @@ public class GameRunning : IGameState {
     /// Updates selected objects in the state
     /// </summary>
     public void UpdateState(){
-        lvlHandler.UpdateLevel();
         player.Move();
         effectGenerator.UpdateEffects(player);
         ballHandler.UpdateBalls(lvlHandler.GetLevelBlocks(), player);
+        lvlHandler.UpdateLevel();
     }
     
     /// <summary>

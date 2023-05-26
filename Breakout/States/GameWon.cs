@@ -18,7 +18,7 @@ public class GameWon : IGameState {
     private int activeMenuButton;
     private int maxMenuButtons;
     
-    private string FinalScore = GameRunning.GetInstance().GetFinalScore().ToString();
+    private string FinalScore;
 
     /// <summary>
     /// Returns instance of itself and creates itself if null
@@ -36,12 +36,13 @@ public class GameWon : IGameState {
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
+        FinalScore = (GameRunning.GetInstance().GetFinalScore()).ToString();
         text = new Text ("You win!", new Vec2F(0.15f, 0.1f), new Vec2F(0.8f, 0.8f));
         text.SetColor(System.Drawing.Color.Yellow);
         menuButtons = new Text[] {
             new Text ("Main Menu", new Vec2F(0.3f, 0.06f), new Vec2F(0.5f, 0.5f)), 
             new Text ("Quit", new Vec2F(0.3f, -0.04f), new Vec2F(0.5f, 0.5f)),
-            new Text ("Final Score " + FinalScore , new Vec2F(0.15f, 0.26f), new Vec2F(0.5f, 0.5f))};
+            new Text ($"Score: {FinalScore}" , new Vec2F(0.15f, 0.26f), new Vec2F(0.5f, 0.5f))};
         menuButtons[0].SetColor(System.Drawing.Color.Red);
         menuButtons[1].SetColor(System.Drawing.Color.Coral);
         menuButtons[2].SetColor(System.Drawing.Color.Blue);

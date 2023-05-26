@@ -5,6 +5,7 @@ using Breakout;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Breakout;
 
@@ -15,7 +16,7 @@ public class LevelHandler {
     private int lvlCount;
 
     public LevelHandler() {
-        loadOrder = new List<string> {"powerUpTest.txt", "level2.txt","level3.txt"};
+        loadOrder = new List<string> {"powerUpTest.txt", "level2.txt", "level3.txt"};
         lvlCount = 0;
         reader = new FileReader();
     }
@@ -40,8 +41,9 @@ public class LevelHandler {
     /// Checks if the current level is empty of all breakable blocks and creates a new level if so
     /// </summary>
     private void NextLevel() {
+        System.Console.WriteLine(loadOrder.Count);
         if (currentLevel.IsEmpty()) {
-            if (lvlCount >= loadOrder.Count){
+            if (lvlCount > loadOrder.Count - 1){
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.GameStateEvent,
@@ -51,9 +53,7 @@ public class LevelHandler {
                 );
             } else {
                 NewLevel(loadOrder[lvlCount]);
-                if ((lvlCount + 1 > loadOrder.Count - 1)!) {
-                    lvlCount++;
-                }
+                lvlCount++;
             }
         }
     }
@@ -63,6 +63,18 @@ public class LevelHandler {
     /// </summary>
     /// <param name="lvl"> Name of the level file </param>
     private void NewLevel(string lvl) {
+        EventBus.GetBus().RegisterEvent(
+            new GameEvent{
+                EventType = GameEventType.StatusEvent,
+                Message = "RESET_BALLS"
+            }
+        );
+        EventBus.GetBus().RegisterEvent(
+            new GameEvent{
+                EventType = GameEventType.InputEvent,
+                Message = "RESET_EFFECTS"
+            }
+        );
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
         } else {
@@ -74,12 +86,6 @@ public class LevelHandler {
             lvlCount += 1;
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
-        EventBus.GetBus().RegisterEvent(
-            new GameEvent{
-                EventType = GameEventType.StatusEvent,
-                Message = "RESET_CONTAINER"
-            }
-        );
     }
 
     /// <summary>

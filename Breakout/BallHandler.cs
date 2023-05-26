@@ -95,7 +95,7 @@ public class BallHandler : IGameEventProcessor {
                         break;
                 }
                 break;
-            case "RESET_CONTAINER":
+            case "RESET_BALLS":
                 Reset();
                 break;
         }

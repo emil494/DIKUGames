@@ -67,7 +67,7 @@ public class EffectGenerator : IGameEventProcessor {
             case "ADD_HAZARD":
                 CreateHazard(number.Next(5));
                 break;
-            case "RESET_CONTAINER":
+            case "RESET_EFFECTS":
                 Reset();
                 break;
         }
