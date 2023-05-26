@@ -78,7 +78,7 @@ public class EffectGenerator : IGameEventProcessor {
             case "ADD_HAZARD":
                 float Hx = Convert.ToSingle(gameEvent.StringArg1);
                 float Hy = Convert.ToSingle(gameEvent.StringArg2);
-                CreateHazard(number.Next(10), new Vec2F(Hx, Hy));
+                CreateHazard(number.Next(12), new Vec2F(Hx, Hy));
                 break;
             case "RESET_EFFECTS":
                 Reset();
