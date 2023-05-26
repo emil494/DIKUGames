@@ -53,7 +53,7 @@ public class Ball : Entity {
 
             //Update X-direction, according to where on the player the collision occured:
             float colX = (player.Shape.Position.X + (player.Shape.Extent.X/2.0f)) - (Shape.Position.X + (Shape.Extent.X/2.0f));
-            float newXDir = xDir - colX/15.0f;
+            float newXDir = xDir - colX/10.0f;
 
             //Make sure new X-direction dosent surpass the movement speed:
             if (newXDir >= MOVEMENT_SPEED/2) {

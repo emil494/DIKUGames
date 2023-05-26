@@ -12,12 +12,16 @@ public class Player : Entity, IGameEventProcessor {
     private float moveRight = 0.0f;
     private const float MOVEMENT_SPEED = 0.03f;
     private bool IsBig;
+    private bool IsSmall;
     private int bigCounter;
+    private int smallCounter;
     public Player() : base(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
             new Image(Path.Combine("Assets", "Images", "player.png"))) {
                 IsBig = false;
+                IsSmall = false;
                 bigCounter = 0;
+                smallCounter = 0;
             }
 
     private void SetMoveLeft(bool val){
@@ -102,14 +106,33 @@ public class Player : Entity, IGameEventProcessor {
                                         Shape.ScaleXFromCenter(0.5f);
                                         IsBig = false;
                                     }
-                                    
-                                    
                                 }    
                                 break; 
-                        } 
+                        }
                         break;
-                }
-            break;   
+                    case "SLIM":
+                        switch (gameEvent.StringArg2){
+                            case "START":
+                                if (!IsSmall){
+                                    smallCounter += 1;
+                                        Shape.ScaleXFromCenter(0.5f);
+                                        IsSmall = true;
+                                }      
+                                break;
+                            case "STOP":
+                                if (IsSmall){
+                                    smallCounter -=1;
+                                    if (smallCounter <= 0){
+                                        Shape.ScaleXFromCenter(2.0f);
+                                        IsSmall = false;
+                                    }
+                                }
+                                break;     
+                        
+                        }
+                        break;
+                } 
+                break;  
             case "FIND_POS_PLAYER":
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
