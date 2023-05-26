@@ -38,6 +38,11 @@ public class GameRunning : IGameState {
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
+        EventBus.GetBus().RegisterEvent(
+            new GameEvent {
+                EventType = GameEventType.StatusEvent,
+                Message = "NEWGAME"});
+
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
@@ -50,8 +55,9 @@ public class GameRunning : IGameState {
         EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
         
         ballHandler = new BallHandler();
-        ballHandler.InitializeGame();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, ballHandler);
+        ballHandler.InitializeGame();
+        
 
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);

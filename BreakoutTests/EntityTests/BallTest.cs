@@ -25,14 +25,11 @@ public class BallTest{
             new Image(Path.Combine("Assets", "Images", "blue-block.png")), false);
 
         container = new EntityContainer<Block>();
-
-        colHandler = new CollisionHandler();
     }
     private Player player;
     private Ball ball;
     private Block block;
     private EntityContainer<Block> container;
-    private CollisionHandler colHandler;
 
     [Test] //R.3
     public void TestMoveSpeed() {
@@ -108,7 +105,7 @@ public class BallTest{
         float dir = ball.Shape.AsDynamicShape().Direction.X;
         container.AddEntity(block);
         ball.MoveBall();
-        colHandler.BlockCollision(container, ball);
+        ball.BlockCollision(container);
         Assert.That(ball.Shape.AsDynamicShape().Direction.X, Is.EqualTo(-dir));
     }
 
@@ -118,7 +115,7 @@ public class BallTest{
         float dir = ball.Shape.AsDynamicShape().Direction.X;
         container.AddEntity(block);
         ball.MoveBall();
-        colHandler.BlockCollision(container, ball);
+        ball.BlockCollision(container);
         Assert.IsTrue(block.IsDeleted());
     }
 
@@ -126,7 +123,7 @@ public class BallTest{
     public void TestWontStickToSameTrajectory() {
         ball.UpdateDirection(0.0f,-0.01f);
         ball.MoveBall();
-        colHandler.PlayerCollision(player, ball);
+        ball.PlayerCollision(player);
         Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X,0.0f);
     }
 
@@ -134,7 +131,7 @@ public class BallTest{
     public void TestPlayerCollison() {
         ball.UpdateDirection(0.0f,-0.01f);
         ball.MoveBall();
-        colHandler.PlayerCollision(player, ball);
+        ball.PlayerCollision(player);
         Assert.IsTrue(ball.Shape.AsDynamicShape().Direction.Y > 0.0f);
     }
 
