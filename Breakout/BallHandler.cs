@@ -47,31 +47,10 @@ public class BallHandler : IGameEventProcessor {
         }
     }
 
-    public void Infinite() {
-    double startTime = StaticTimer.GetElapsedMilliseconds();
-    double lastExecutionTime = startTime;
-    double interval = 200.0; // 0.2 seconds in milliseconds
-    double currentTime = startTime;
-
-    while (startTime + 5000.0 > currentTime) {
-        currentTime = StaticTimer.GetElapsedMilliseconds(); // Update current time at each iteration
-
-        // Check if the time difference since the last execution is greater than or equal to the desired interval
-        if (currentTime - lastExecutionTime >= interval) {
-            InitializeGame();
-            lastExecutionTime = currentTime; // Update the last execution time
-        }
-
-        System.Threading.Thread.Sleep(200); // Introduce a 200ms delay between iterations
-    }
-        
-    }
-
     public void Reset(){
         balls.ClearContainer();
         InitializeGame();
     }
-
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "APPLY_POWERUP":
@@ -91,12 +70,13 @@ public class BallHandler : IGameEventProcessor {
                         balls = newBalls;
                         break;
                     case "INFINITE":
-                        //Infinite();
+                        if (gameEvent.ObjectArg1 is Player player) {
+                            float x = player.Shape.Position.X + (player.Shape.Extent.X/2.0f);
+                            float y = player.Shape.Position.Y;
+                            AddBall(new Vec2F(x,y));
+                        }
                         break;
                 }
-                break;
-            case "RESET_BALLS":
-                Reset();
                 break;
         }
     }
