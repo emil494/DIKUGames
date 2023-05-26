@@ -3,17 +3,22 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 using System.IO;
-
+using DIKUArcade.Timers;
+using System;
 namespace Breakout;
 
 public class Player : Entity, IGameEventProcessor {
     private float moveLeft = 0.0f;
     private float moveRight = 0.0f;
     private const float MOVEMENT_SPEED = 0.03f;
-    
+    private bool IsBig;
+    private int bigCounter;
     public Player() : base(
             new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.2f, 0.03f)),
-            new Image(Path.Combine("Assets", "Images", "player.png"))) {}
+            new Image(Path.Combine("Assets", "Images", "player.png"))) {
+                IsBig = false;
+                bigCounter = 0;
+            }
 
     private void SetMoveLeft(bool val){
         if (val){
@@ -68,6 +73,39 @@ public class Player : Entity, IGameEventProcessor {
                         break;
                 }
                 break;
-        }
+            case "APPLY_POWERUP":
+                switch (gameEvent.StringArg1){
+                    case "WIDE":
+                        switch (gameEvent.StringArg2){
+                            case "START":
+                                bigCounter += 1;
+                                if (!IsBig){
+                                    if (Shape.Position.X <= 0.1f) {
+                                        Shape.Position.X += 0.1f; 
+                                        } 
+                                    if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
+                                        Shape.Position.X -= 0.1f;
+                                    }
+                                    Shape.ScaleXFromCenter(2f);
+                                    IsBig = true;
+                                 
+                                }      
+                                break;
+                            case "STOP":
+                                if (IsBig){
+                                    bigCounter -=1;
+                                    if (bigCounter <= 0){
+                                        Shape.ScaleXFromCenter(0.5f);
+                                        IsBig = false;
+                                    }
+                                    
+                                    
+                                }    
+                                break; 
+                        } 
+                        break;
+                }
+            break;   
+            }
     }
 }
