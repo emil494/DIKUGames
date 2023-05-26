@@ -62,10 +62,17 @@ public class Health : IGameEventProcessor{
             case "APPLY_POWERUP":
                 switch (gameEvent.StringArg1){
                     case "EXTRALIFE":
-                    if (hp <= 4) {
-                        hp +=1;
-                    }
-                    break;
+                        if (hp <= 4) {
+                            hp +=1;
+                        }
+                        break;
+                }
+                break;
+            case "APPLY_HAZARD":
+                switch (gameEvent.StringArg1) {
+                    case "LOSELIFE":
+                        LoseHealth();
+                        break;
                 }
                 break;
         }

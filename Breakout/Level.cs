@@ -207,6 +207,13 @@ public class Level : IGameEventProcessor{
                         break;
                 }
                 break;
+            case "APPLY_HAZARD":
+                switch (gameEvent.StringArg1) {
+                    case "REDUCE_TIME":
+                        addTime -= 30;
+                        break;
+                }
+                break;
         }
     }
 }

@@ -44,13 +44,22 @@ public class Block : Entity, IBlock {
         );
         if (powerUp) {
             EventBus.GetBus().RegisterEvent(
-            new GameEvent {
-                EventType = GameEventType.InputEvent, 
-                Message = "ADD_POWERUP",
-                StringArg1 = Shape.Position.X.ToString(),
-                StringArg2 = Shape.Position.Y.ToString()
-            }
-        );
+                new GameEvent {
+                    EventType = GameEventType.InputEvent, 
+                    Message = "ADD_POWERUP",
+                    StringArg1 = Shape.Position.X.ToString(),
+                    StringArg2 = Shape.Position.Y.ToString()
+                }
+            );
+        } else {
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.InputEvent, 
+                    Message = "ADD_HAZARD",
+                    StringArg1 = Shape.Position.X.ToString(),
+                    StringArg2 = Shape.Position.Y.ToString()
+                }
+            );
         }
     }
 

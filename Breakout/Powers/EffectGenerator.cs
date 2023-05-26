@@ -7,30 +7,26 @@ using System.Collections.Generic;
 namespace Breakout.Powers;
 
 public class EffectGenerator : IGameEventProcessor {
-    private List<String> hazards;
-    private List<String> powerUps;
     private EntityContainer<Entity> effects;
     public Random number;
 
     public EffectGenerator (){
-        hazards = new List<String>();
-        powerUps = new List<String>(){"Split", "Split", "Split", "Split", "Split"};
         effects = new EntityContainer<Entity>();
         number = new Random();
     }
 
     private void CreatePowerUp(int num, Vec2F pos){
-        switch(powerUps[num]) {
-            case "Split":
+        switch(num) {
+            case 0:
                 effects.AddEntity(new Split(pos));
                 break;
-            case "More_time":
+            case 1:
                 effects.AddEntity(new MoreTime(pos));
                 break;
-            case "Infinite":
+            case 2:
                 effects.AddEntity(new Infinite(pos));
                 break;
-            case "ExtraLife":
+            case 3:
                 effects.AddEntity(new ExtraLife(pos));
                 break;
             case "Wide":
@@ -39,8 +35,17 @@ public class EffectGenerator : IGameEventProcessor {
         }
     }
 
-    private void CreateHazard(int num){
-
+    private void CreateHazard(int num, Vec2F pos){
+        if (num == 1){
+            switch(number.Next(2)) {
+                case 0:
+                    effects.AddEntity(new LoseLife(pos));
+                    break;
+                case 1:
+                    effects.AddEntity(new ReduceTime(pos));
+                    break;
+            }
+        }
     }
 
     public void RenderEffects(){
@@ -63,12 +68,14 @@ public class EffectGenerator : IGameEventProcessor {
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "ADD_POWERUP":
-                float x = Convert.ToSingle(gameEvent.StringArg1);
-                float y = Convert.ToSingle(gameEvent.StringArg2);
-                CreatePowerUp(number.Next(5), new Vec2F(x, y));
+                float Px = Convert.ToSingle(gameEvent.StringArg1);
+                float Py = Convert.ToSingle(gameEvent.StringArg2);
+                CreatePowerUp(number.Next(4), new Vec2F(Px, Py));
                 break;
             case "ADD_HAZARD":
-                CreateHazard(number.Next(5));
+                float Hx = Convert.ToSingle(gameEvent.StringArg1);
+                float Hy = Convert.ToSingle(gameEvent.StringArg2);
+                CreateHazard(number.Next(10), new Vec2F(Hx, Hy));
                 break;
             case "RESET_EFFECTS":
                 Reset();

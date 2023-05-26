@@ -41,9 +41,6 @@ public class HardenedBlock : Entity, IBlock {
     }
 
     public void DeleteBlock(){
-        if (powerUp){
-            //To do: Create powerUp through EventBus
-        }
         DeleteEntity();
         EventBus.GetBus().RegisterEvent(
                     new GameEvent {
