@@ -10,11 +10,11 @@ public class EffectGenerator : IGameEventProcessor {
     private List<String> hazards;
     private List<String> powerUps;
     private EntityContainer<Entity> effects;
-    public Random number; 
+    public Random number;
 
     public EffectGenerator (){
         hazards = new List<String>();
-        powerUps = new List<String>(){"Split", "Split", "Split", "Split", "Split"};
+        powerUps = new List<String>(){"Split", "ExtraLife", "Infinite", "Infinite", "Split"};
         effects = new EntityContainer<Entity>();
         number = new Random();
     }
@@ -23,6 +23,12 @@ public class EffectGenerator : IGameEventProcessor {
         switch(powerUps[num]) {
             case "Split":
                 effects.AddEntity(new Split(pos));
+                break;
+            case "Infinite":
+                effects.AddEntity(new Infinite(pos));
+                break;
+            case "ExtraLife":
+                effects.AddEntity(new ExtraLife(pos));
                 break;
         }
     }

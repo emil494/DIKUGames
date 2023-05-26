@@ -12,34 +12,23 @@ public class Health : IGameEventProcessor{
     private int hp;
     private bool gameOver;
     private List<Entity> hearts;
+    private List<Entity> emptyHearts;
+
     public Health(){
         hp = 3;
         gameOver = false;
         hearts = new List<Entity>{};
-        hearts.Add(
+        emptyHearts = new List<Entity>{};
+        for (int i = 1; i <= 5; i++) {
+            hearts.Add(
             new Entity(
                 new StationaryShape(
-                    new Vec2F(0.95f, 0.0f), new Vec2F(0.05f, 0.05f)),
+                    new Vec2F(1.0f-(((float)(i*5))*0.01f), 0.0f), new Vec2F(0.05f, 0.05f)),
                 new Image(
                     Path.Combine("Assets", "Images", "heart_filled.png"))     
             )
         );
-        hearts.Add(
-            new Entity(
-                new StationaryShape(
-                    new Vec2F(0.9f, 0.0f), new Vec2F(0.05f, 0.05f)),
-                new Image(
-                    Path.Combine("Assets", "Images", "heart_filled.png"))     
-            )
-        );
-        hearts.Add(
-            new Entity(
-                new StationaryShape(
-                    new Vec2F(0.85f, 0.0f), new Vec2F(0.05f, 0.05f)),
-                new Image(
-                    Path.Combine("Assets", "Images", "heart_filled.png"))     
-            )
-        );
+        }
     }
 
     public void LoseHealth(){
@@ -68,6 +57,15 @@ public class Health : IGameEventProcessor{
         switch (gameEvent.Message){
             case "LOSE_HEALTH":
                 LoseHealth();
+                break;
+            case "APPLY_POWERUP":
+                switch (gameEvent.StringArg1){
+                    case "EXTRALIFE":
+                    if (hp <= 4) {
+                        hp +=1;
+                    }
+                    break;
+                }
                 break;
         }
     }
