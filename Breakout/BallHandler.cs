@@ -18,8 +18,16 @@ public class BallHandler : IGameEventProcessor {
         balls.AddEntity(new Ball(pos));
     }
 
-    public void InitializeGame() {
+    private void InitializeGame() {
         AddBall(new Vec2F(0.45f, 0.16f));
+    }
+
+    private void AddBallAtPlayer() {
+        EventBus.GetBus().RegisterEvent(
+            new GameEvent {
+                EventType = GameEventType.PlayerEvent,
+                Message = "FIND_POS_PLAYER",
+            });
     }
     
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
@@ -35,7 +43,7 @@ public class BallHandler : IGameEventProcessor {
                         Message = "LOSE_HEALTH"
                     }
                 );
-                InitializeGame();
+                AddBallAtPlayer();
             }
     }
 

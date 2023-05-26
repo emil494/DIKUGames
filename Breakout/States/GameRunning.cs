@@ -53,7 +53,6 @@ public class GameRunning : IGameState {
         
         ballHandler = new BallHandler();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, ballHandler);
-        ballHandler.InitializeGame();
         
 
         health = new Health();

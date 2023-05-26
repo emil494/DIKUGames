@@ -119,6 +119,7 @@ public class Player : Entity, IGameEventProcessor {
                         ObjectArg1 = this
                     });
                 break;
+                
         }
     }
 }
