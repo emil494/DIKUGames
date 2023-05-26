@@ -50,10 +50,10 @@ public class LevelHandler {
                     }
                 );
             } else {
-            NewLevel(loadOrder[lvlCount]);
-            if ((lvlCount + 1 > loadOrder.Count - 1)!) {
-                lvlCount++;
-            }
+                NewLevel(loadOrder[lvlCount]);
+                if ((lvlCount + 1 > loadOrder.Count - 1)!) {
+                    lvlCount++;
+                }
             }
         }
     }
@@ -65,11 +65,14 @@ public class LevelHandler {
     private void NewLevel(string lvl) {
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
+        } else {
+            reader.Read(Path.Combine("Assets", "Levels", lvl));
+            currentLevel = new Level(reader.map, reader.meta, reader.legend);
+            EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
         }
         if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
             lvlCount += 1;
-            currentLevel = new Level(reader.map, reader.meta, reader.legend);
-            EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
+            currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
     }
 

@@ -34,7 +34,6 @@ public class Split : Entity, IPowerUp {
         if (!IsDeleted()) {
             if (CollisionDetection.Aabb(Shape.AsDynamicShape(), player.Shape).Collision) {
                 Apply();
-                DeleteEntity();
             }
         }
     }

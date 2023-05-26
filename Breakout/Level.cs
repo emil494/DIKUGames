@@ -187,6 +187,17 @@ public class Level : IGameEventProcessor{
             $"Time: {(Double.Parse(metaData["Time"]) + startTime + addTime) - StaticTimer.GetElapsedSeconds()}");
     }
 
+    public void Reset(List<string> map_, Dictionary<string, string> metaData_,
+        Dictionary<char, string> legend_){
+        
+        startTime = StaticTimer.GetElapsedSeconds();
+        addTime = 0.0;
+        blocks.ClearContainer();
+        CreateBlocks(map_);
+        metaData = metaData_;
+        legend = legend_;
+    }
+
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "APPLY_POWERUP":

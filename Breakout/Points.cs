@@ -44,5 +44,9 @@ public class Points : IGameEventProcessor {
     public int GetScore(){ //This functions is only made for testing purposes
         return score;
     }
+
+    public void Reset(){
+        score = 0;
+    }
 }
 

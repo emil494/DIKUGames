@@ -46,6 +46,11 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    public void Reset(){
+        Shape.Position.X = 0.45f;
+        Shape.Position.Y = 0.1f;
+    }
+
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "MOVE":

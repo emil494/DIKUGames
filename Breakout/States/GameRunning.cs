@@ -6,6 +6,7 @@ using DIKUArcade.State;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
+using DIKUArcade.Timers;
 using System.IO;
 using Breakout;
 using System;
@@ -38,11 +39,6 @@ public class GameRunning : IGameState {
     /// Initializes the state
     /// </summary>
     private void InitializeGameState(){
-        EventBus.GetBus().RegisterEvent(
-            new GameEvent {
-                EventType = GameEventType.StatusEvent,
-                Message = "NEWGAME"});
-
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
@@ -67,7 +63,13 @@ public class GameRunning : IGameState {
     /// Resets the state
     /// </summary>
     public void ResetState(){
-        InitializeGameState();
+        StaticTimer.RestartTimer();
+        player.Reset();
+        effectGenerator.Reset();
+        points.Reset();
+        health.Reset();
+        ballHandler.Reset();
+        lvlHandler.NewGame();
     }
 
     /// <summary>

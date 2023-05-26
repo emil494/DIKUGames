@@ -53,6 +53,10 @@ public class EffectGenerator : IGameEventProcessor {
         });
     }
 
+    public void Reset(){
+        effects = new EntityContainer<Entity>{};
+    }
+
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "ADD_POWERUP":
@@ -63,11 +67,6 @@ public class EffectGenerator : IGameEventProcessor {
             case "ADD_HAZARD":
                 CreateHazard(number.Next(5));
                 break;
-            /*default:
-                System.Console.WriteLine(
-                    @$"Unknown message - EffectGenerator: 
-                    {gameEvent.Message} is not a valid argument");
-                break;*/
         }
     }
 }
