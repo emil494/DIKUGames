@@ -29,7 +29,7 @@ public class EffectGenerator : IGameEventProcessor {
             case 3:
                 effects.AddEntity(new ExtraLife(pos));
                 break;
-            case "Wide":
+            case 4:
                 effects.AddEntity(new Wide(pos));
                 break;
         }
@@ -70,7 +70,7 @@ public class EffectGenerator : IGameEventProcessor {
             case "ADD_POWERUP":
                 float Px = Convert.ToSingle(gameEvent.StringArg1);
                 float Py = Convert.ToSingle(gameEvent.StringArg2);
-                CreatePowerUp(number.Next(4), new Vec2F(Px, Py));
+                CreatePowerUp(number.Next(5), new Vec2F(Px, Py));
                 break;
             case "ADD_HAZARD":
                 float Hx = Convert.ToSingle(gameEvent.StringArg1);
