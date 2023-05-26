@@ -37,12 +37,15 @@ public class EffectGenerator : IGameEventProcessor {
 
     private void CreateHazard(int num, Vec2F pos){
         if (num == 1){
-            switch(number.Next(2)) {
+            switch(number.Next(3)) {
                 case 0:
                     effects.AddEntity(new LoseLife(pos));
                     break;
                 case 1:
                     effects.AddEntity(new ReduceTime(pos));
+                    break;
+                case 2:
+                    effects.AddEntity(new Shrink(pos));
                     break;
             }
         }
