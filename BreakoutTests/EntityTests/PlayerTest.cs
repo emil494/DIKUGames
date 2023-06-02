@@ -3,30 +3,29 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
-using Breakout;
 using DIKUArcade.GUI;
+using DIKUArcade.Input;
+using Breakout;
+using Breakout.States;
 
 public class PlayerTests{
+    private Player player;
+    private GameRunning gameRunning;
+
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
+        GameRunning.GetInstance().ResetState();
+        EventBus.ResetBus();
         player = new Player();
-        eventBus = new GameEventBus();
-        eventBus.InitializeEventBus(new List<GameEventType> 
-            {GameEventType.PlayerEvent});
-        eventBus.Subscribe(GameEventType.PlayerEvent, player);
+        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
     }
-    private Player player;
-    private GameEventBus eventBus;
 
     [Test]
     public void TestMoveRight(){
         var start = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "RIGHT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Right);
+        EventBus.GetBus().ProcessEvents();
         player.Move();
         var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(0.03f, 0.0f); 
@@ -35,16 +34,11 @@ public class PlayerTests{
 
     [Test]
     public void TestStopMoveRight(){
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "RIGHT"}
-        );
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Right);
+        EventBus.GetBus().ProcessEvents();
         var start = player.GetMoveRight();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-            StringArg1 = "RIGHT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Right);
+        EventBus.GetBus().ProcessEvents();
         var temp = player.GetMoveRight();
         Assert.That(start - start, Is.EqualTo(temp));
     }
@@ -52,19 +46,13 @@ public class PlayerTests{
     [Test]
     public void TestMoveRightOOB(){
         for (var i = 0; i <= 44; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "RIGHT"}
-            );
-            eventBus.ProcessEvents();
+            GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Right);
+            EventBus.GetBus().ProcessEvents();
             player.Move();
         }
         var temp = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "RIGHT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Right);
+        EventBus.GetBus().ProcessEvents();
         player.Move();
         var OtherTemp = player.Shape.Position;
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
@@ -73,11 +61,8 @@ public class PlayerTests{
     [Test]
     public void TestMoveLeft(){
         var start = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "LEFT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Left);
+        EventBus.GetBus().ProcessEvents();
         player.Move();
         var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(-0.03f, 0.0f); 
@@ -86,16 +71,11 @@ public class PlayerTests{
 
     [Test]
     public void TestStopMoveLeft(){
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "LEFT"}
-        );
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Left);
+        EventBus.GetBus().ProcessEvents();
         var start = player.GetMoveLeft();
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
-            StringArg1 = "LEFT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Left);
+        EventBus.GetBus().ProcessEvents();
         var temp = player.GetMoveLeft();
         Assert.That(start - start, Is.EqualTo(temp));
     }
@@ -103,19 +83,13 @@ public class PlayerTests{
     [Test]
     public void TestMoveLeftOOB(){
         for (var i = 0; i <= 44; i++){
-            eventBus.RegisterEvent(
-                new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-                StringArg1 = "LEFT"}
-            );
-            eventBus.ProcessEvents();
+            GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Left);
+            EventBus.GetBus().ProcessEvents();
             player.Move();
         }
         var temp = player.Shape.Position;
-        eventBus.RegisterEvent(
-            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
-            StringArg1 = "LEFT"}
-        );
-        eventBus.ProcessEvents();
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Left);
+        EventBus.GetBus().ProcessEvents();
         player.Move();
         var OtherTemp = player.Shape.Position;
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
