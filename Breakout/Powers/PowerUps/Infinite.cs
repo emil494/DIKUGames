@@ -31,6 +31,10 @@ public class Infinite : Entity, IPowerUp {
         }
         DeleteEntity();
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="player"></param>
     public void PlayerCollision(Player player){
         if (!IsDeleted()) {
             if (CollisionDetection.Aabb(Shape.AsDynamicShape(), player.Shape).Collision) {

@@ -8,6 +8,10 @@ using System.IO;
 using System.Collections.Generic;
 namespace Breakout;
 
+/// <summary>
+/// Keeps track of all balls currently on screen, 
+/// and is responsiple for updating, rendering and spawning of balls
+/// </summary>
 public class BallHandler : IGameEventProcessor {
     private EntityContainer<Ball> balls;
     private bool noBalls;
@@ -16,6 +20,10 @@ public class BallHandler : IGameEventProcessor {
         noBalls = false;
     }
 
+    /// <summary>
+    /// Adds a new ball at a specified location
+    /// </summary>
+    /// <param name="pos">A position vector of where the ball should be spawned</param>
     private void AddBall(Vec2F pos){
         balls.AddEntity(new Ball(pos));
         if (noBalls) {
@@ -23,10 +31,19 @@ public class BallHandler : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Initializes the game, by spawning a ball in the middle of the screen
+    /// </summary>
     public void InitializeGame() {
         AddBall(new Vec2F(0.45f, 0.16f));
     }
     
+    /// <summary>
+    /// Itterates through all balls on screen, moving them and checking for collision.
+    /// Also sends a message to lose health if no balls are left
+    /// </summary>
+    /// <param name="blocks">All blocks on screen, for collision detection</param>
+    /// <param name="player">The player, for collision detection</param>
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
             balls.Iterate(ball => {
                 ball.MoveBall();
@@ -44,6 +61,9 @@ public class BallHandler : IGameEventProcessor {
             }
     }
 
+    /// <summary>
+    /// Renders all balls
+    /// </summary>
     public void RenderBalls() {
         foreach (Ball ball in balls) {
             if (!ball.IsDeleted()) {
@@ -52,6 +72,9 @@ public class BallHandler : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Resets the entitycontainer, containing all the balls
+    /// </summary>
     public void Reset(){
         balls.ClearContainer();
         InitializeGame();

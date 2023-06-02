@@ -9,6 +9,10 @@ using Breakout.Blocks;
 
 namespace Breakout;
 
+/// <summary>
+/// An entity with a dynamic shape, 
+/// the class contains method for moving along the screen and coliding with blocks and player
+/// </summary>
 public class Ball : Entity {
     public const float MOVEMENT_SPEED = 0.02f;
     private Random rand;
@@ -21,14 +25,26 @@ public class Ball : Entity {
         UpdateDirectionY(yDir0);
     }
     
+    /// <summary>
+    /// Updates the X within the direction vector of the Ball's shape
+    /// </summary>
+    /// <param name="xDir">The new float to replace the direction vector's X value</param>
     public void UpdateDirectionX(float xDir) {
         (Shape.AsDynamicShape()).ChangeDirection(new Vec2F(xDir, (Shape.AsDynamicShape()).Direction.Y));
     }
 
+    /// <summary>
+    /// Updates the Y within the direction vector of the Ball's shape
+    /// </summary>
+    /// <param name="yDir">The new float to replace the direction vector's Y value</param>
     public void UpdateDirectionY(float yDir) {
         (Shape.AsDynamicShape()).ChangeDirection(new Vec2F((Shape.AsDynamicShape()).Direction.X, yDir));
     }
     
+    /// <summary>
+    /// Moves the ball using the DynsamicShape.Move method, 
+    /// and collides with the boarders of the screen
+    /// </summary>
     public void MoveBall() {
         (Shape.AsDynamicShape()).Move();
         if (Shape.Position.Y + Shape.Extent.Y > 1.0f) {
@@ -45,6 +61,10 @@ public class Ball : Entity {
         }
     }
 
+    /// <summary>
+    /// Checks for collision with the player, and updates the ball's direction if a collision occurs
+    /// </summary>
+    /// <param name="player">The player object to check for collision with</param>
     public void PlayerCollision(Player player) {
         CollisionData colData = CollisionDetection.Aabb(Shape.AsDynamicShape(), player.Shape);
         if (colData.Collision) {
@@ -70,6 +90,10 @@ public class Ball : Entity {
         }
     }
 
+    /// <summary>
+    /// Checks for collision with the blocks, and updates the ball's direction if a collision occurs
+    /// </summary>
+    /// <param name="blocks">An entity container with the blocks</param>
     public void BlockCollision (EntityContainer<Entity> blocks) {
         blocks.Iterate(block => {
             if (block is IBlock IB) {
