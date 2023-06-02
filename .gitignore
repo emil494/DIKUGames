@@ -4,3 +4,4 @@
 .ionide/
 **/TestResults/
 **/Report/
+.fake
