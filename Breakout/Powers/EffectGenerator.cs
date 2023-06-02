@@ -85,4 +85,8 @@ public class EffectGenerator : IGameEventProcessor {
                 break;
         }
     }
+
+    public EntityContainer<Entity> GetEffects(){
+        return effects;
+    }
 }

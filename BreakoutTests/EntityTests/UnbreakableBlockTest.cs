@@ -6,6 +6,8 @@ using Breakout.Blocks;
 namespace BreakoutTests;
 
 public class TestUnbreakableBlock {
+    private UnbreakableBlock block;
+
     [SetUp]
     public void Setup(){
         block = new UnbreakableBlock (
@@ -13,8 +15,6 @@ public class TestUnbreakableBlock {
                 new Vec2F(0.0f, 0.0f), new Vec2F(1/12.0f, 1/25.0f)), 
             new Image(Path.Combine("Assets", "Images", "blue-block.png")));
     }
-
-    private UnbreakableBlock block;
 
     [Test]
     public void TestDeleteBlock() {
