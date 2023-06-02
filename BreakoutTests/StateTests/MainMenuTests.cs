@@ -20,10 +20,8 @@ public class MainMenuTests {
         Window.CreateOpenGLContext();
         MainMenu.GetInstance().ResetState();
         EventBus.ResetBus();
-        if (stateHandler is null){
-            stateHandler = new StateHandler();
-            EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
-        }
+        stateHandler = new StateHandler();
+        EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
         EventBus.GetBus().RegisterEvent(
             new GameEvent {
                 EventType = GameEventType.GameStateEvent, 
