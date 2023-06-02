@@ -9,7 +9,7 @@ using DIKUArcade.Timers;
 
 namespace Breakout.Powers;
 
-public class Shrink : Entity, IPowerUp {
+public class Shrink : Entity, IHazard {
     public Shrink (Vec2F pos) : base (
         new DynamicShape(pos, new Vec2F(0.04f, 0.04f), new Vec2F(0.0f, -0.005f)), 
         new Image(Path.Combine("Assets", "Images", "SlimJim.png"))) {

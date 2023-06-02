@@ -10,9 +10,7 @@ public class PlayerTests{
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            new Image(Path.Combine("Assets", "Images", "player.png")));
+        player = new Player();
         eventBus = new GameEventBus();
         eventBus.InitializeEventBus(new List<GameEventType> 
             {GameEventType.PlayerEvent});

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Breakout.Powers;
 
-public class ReduceTime : Entity, IPowerUp {
+public class ReduceTime : Entity, IHazard {
     public ReduceTime (Vec2F pos) : base (
         new DynamicShape(pos, new Vec2F(0.04f, 0.04f), new Vec2F(0.0f, -0.005f)), 
         new Image(Path.Combine("Assets", "Images", "clock-down.png"))) {
