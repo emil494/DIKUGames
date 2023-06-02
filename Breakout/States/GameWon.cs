@@ -130,4 +130,9 @@ public class GameWon : IGameState {
             break;
         }
     }
+
+    //For testing purposes
+    public int GetActiveMenuButton(){
+        return activeMenuButton;
+    }
 }

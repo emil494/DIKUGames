@@ -20,4 +20,13 @@ public static class EventBus {
         }
         return EventBus.eventBus;
     }
+
+    //For testing purposes
+    public static void ResetBus(){
+        EventBus.eventBus = new GameEventBus();
+        EventBus.eventBus.InitializeEventBus(new List<GameEventType> 
+            { GameEventType.InputEvent, GameEventType.WindowEvent, 
+            GameEventType.PlayerEvent, GameEventType.GameStateEvent, 
+            GameEventType.StatusEvent});
+    }
 }

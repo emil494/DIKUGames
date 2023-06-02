@@ -34,6 +34,22 @@ public class PlayerTests{
     }
 
     [Test]
+    public void TestStopMoveRight(){
+        eventBus.RegisterEvent(
+            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+            StringArg1 = "RIGHT"}
+        );
+        var start = player.GetMoveRight();
+        eventBus.RegisterEvent(
+            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+            StringArg1 = "RIGHT"}
+        );
+        eventBus.ProcessEvents();
+        var temp = player.GetMoveRight();
+        Assert.That(start - start, Is.EqualTo(temp));
+    }
+
+    [Test]
     public void TestMoveRightOOB(){
         for (var i = 0; i <= 44; i++){
             eventBus.RegisterEvent(
@@ -66,6 +82,22 @@ public class PlayerTests{
         var temp = player.Shape.Position;
         var OtherTemp = start + new Vec2F(-0.03f, 0.0f); 
         Assert.That(temp.X, Is.EqualTo(OtherTemp.X));
+    }
+
+    [Test]
+    public void TestStopMoveLeft(){
+        eventBus.RegisterEvent(
+            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "MOVE",
+            StringArg1 = "LEFT"}
+        );
+        var start = player.GetMoveLeft();
+        eventBus.RegisterEvent(
+            new GameEvent {EventType = GameEventType.PlayerEvent, Message = "STOP_MOVE",
+            StringArg1 = "LEFT"}
+        );
+        eventBus.ProcessEvents();
+        var temp = player.GetMoveLeft();
+        Assert.That(start - start, Is.EqualTo(temp));
     }
 
     [Test]

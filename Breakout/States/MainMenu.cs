@@ -119,4 +119,9 @@ public class MainMenu : IGameState {
             break;
         }
     }
+
+    //For testing purposes
+    public int GetActiveMenuButton(){
+        return activeMenuButton;
+    }
 }
