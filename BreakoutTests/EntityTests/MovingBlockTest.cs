@@ -13,10 +13,10 @@ public class TestMovingBlock {
             new DynamicShape(
                 new Vec2F(0.0f, 0.0f), new Vec2F(0.10f, 0.01f), new Vec2F(0.01f, 0.0f)), 
             new Image(Path.Combine("Assets", "Images", "blue-block.png")), false);
-        container = new EntityContainer<Block>();
+        container = new EntityContainer<Entity>();
     }
 
-    private EntityContainer<Block> container;
+    private EntityContainer<Entity> container;
     private MovingBlock block;
 
     [Test]

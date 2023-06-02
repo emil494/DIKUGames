@@ -16,7 +16,7 @@ public class LevelHandler {
     private int lvlCount;
 
     public LevelHandler() {
-        loadOrder = new List<string> {"powerUpTest.txt", "level2.txt"};
+        loadOrder = new List<string> {"powerUpTest.txt", "level2.txt", "level3.txt"};
         lvlCount = 0;
         reader = new FileReader();
     }
@@ -35,7 +35,6 @@ public class LevelHandler {
     public void NewGame(){
         lvlCount = 0;
         NewLevel(loadOrder[lvlCount]);
-        lvlCount++;
     }
 
     /// <summary>
@@ -83,6 +82,7 @@ public class LevelHandler {
             EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
         }
         if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
+            lvlCount += 1;
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
     }

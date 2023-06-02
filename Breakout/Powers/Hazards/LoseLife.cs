@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Breakout.Powers;
 
-public class LoseLife : Entity, IPowerUp {
+public class LoseLife : Entity, IHazard {
     public LoseLife (Vec2F pos) : base (
         new DynamicShape(pos, new Vec2F(0.04f, 0.04f), new Vec2F(0.0f, -0.005f)), 
         new Image(Path.Combine("Assets", "Images", "LoseLife.png"))) {

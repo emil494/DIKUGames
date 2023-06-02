@@ -11,25 +11,22 @@ public class BallTest{
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        player = new Player(
-            new DynamicShape(new Vec2F(0.5f, 0.46f), new Vec2F(0.2f, 0.03f)),
-            new Image(Path.Combine("Assets", "Images", "player.png")));
+        player = new Player();
         
         ball = new Ball(
-            new DynamicShape(new Vec2F(0.5f, 0.5f), new Vec2F(0.05f, 0.05f)),
-            new Image(Path.Combine("Assets", "Images", "ball.png")));
+            new Vec2F(0.5f, 0.5f));
 
         block = new Block (
             new DynamicShape(
                 new Vec2F(0.56f, 0.5f), new Vec2F(0.05f, 0.05f)), 
             new Image(Path.Combine("Assets", "Images", "blue-block.png")), false);
 
-        container = new EntityContainer<Block>();
+        container = new EntityContainer<Entity>();
     }
     private Player player;
     private Ball ball;
     private Block block;
-    private EntityContainer<Block> container;
+    private EntityContainer<Entity> container;
 
     [Test] //R.3
     public void TestMoveSpeed() {
@@ -43,14 +40,16 @@ public class BallTest{
 
     [Test]
     public void TestUpdateDirectionX() {
-        ball.UpdateDirection(1.0f,2.0f);
+        ball.UpdateDirectionX(1.0f);
+        ball.UpdateDirectionY(2.0f);
         Vec2F exRes = new Vec2F(1.0f,2.0f); 
         Assert.That((ball.Shape.AsDynamicShape()).Direction.X, Is.EqualTo(exRes.X));
     }
 
     [Test]
     public void TestUpdateDirectionY() {
-        ball.UpdateDirection(1.0f,2.0f);
+        ball.UpdateDirectionX(1.0f);
+        ball.UpdateDirectionY(2.0f);
         Vec2F exRes = new Vec2F(1.0f,2.0f); 
         Assert.That((ball.Shape.AsDynamicShape()).Direction.Y, Is.EqualTo(exRes.Y));
     }
@@ -62,7 +61,7 @@ public class BallTest{
         block.DeleteBlock();
         Vec2F startPos = new Vec2F(0.5f, 0.5f);
         //Upper bound
-        ball.UpdateDirection(0.0f,0.5f);
+        ball.UpdateDirectionY(0.5f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.Y < 0) {
             list.Add(true);
@@ -71,7 +70,7 @@ public class BallTest{
         }
         //Right bound
         ball.Shape.SetPosition(startPos);
-        ball.UpdateDirection(0.46f,0.0f);
+        ball.UpdateDirectionX(0.46f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.X < 0) {
             list.Add(true);
@@ -80,7 +79,7 @@ public class BallTest{
         }
         //Left bound
         ball.Shape.SetPosition(startPos);
-        ball.UpdateDirection(-0.51f,0.0f);
+        ball.UpdateDirectionX(-0.51f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.X > 0) {
             list.Add(true);
@@ -89,7 +88,7 @@ public class BallTest{
         }
         //Lower bound
         ball.Shape.SetPosition(startPos);
-        ball.UpdateDirection(0.0f,-0.5f);
+        ball.UpdateDirectionY(-0.5f);
         ball.MoveBall();
         if (ball.IsDeleted()) {
             list.Add(true);
@@ -101,7 +100,7 @@ public class BallTest{
 
     [Test]
     public void TestBlockCollison() {
-        ball.UpdateDirection(0.01f,0.0f);
+        ball.UpdateDirectionX(0.01f);
         float dir = ball.Shape.AsDynamicShape().Direction.X;
         container.AddEntity(block);
         ball.MoveBall();
@@ -111,7 +110,7 @@ public class BallTest{
 
     [Test] //R.2
     public void TestBlockIsHit() {
-        ball.UpdateDirection(0.01f,0.0f);
+        ball.UpdateDirectionX(0.01f);
         float dir = ball.Shape.AsDynamicShape().Direction.X;
         container.AddEntity(block);
         ball.MoveBall();
@@ -121,7 +120,7 @@ public class BallTest{
 
     [Test] //R.4
     public void TestWontStickToSameTrajectory() {
-        ball.UpdateDirection(0.0f,-0.01f);
+        ball.UpdateDirectionY(-0.01f);
         ball.MoveBall();
         ball.PlayerCollision(player);
         Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X,0.0f);
@@ -129,7 +128,7 @@ public class BallTest{
 
     [Test]
     public void TestPlayerCollison() {
-        ball.UpdateDirection(0.0f,-0.01f);
+        ball.UpdateDirectionY(-0.01f);
         ball.MoveBall();
         ball.PlayerCollision(player);
         Assert.IsTrue(ball.Shape.AsDynamicShape().Direction.Y > 0.0f);
