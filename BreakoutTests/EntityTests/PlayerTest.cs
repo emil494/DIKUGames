@@ -10,7 +10,6 @@ using Breakout.States;
 
 public class PlayerTests{
     private Player player;
-    private GameRunning gameRunning;
 
     [SetUp] 
     public void Setup(){

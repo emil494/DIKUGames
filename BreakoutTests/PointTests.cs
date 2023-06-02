@@ -54,7 +54,7 @@ public class PointTests {
         hblock.DeleteBlock();
         EventBus.GetBus().ProcessEventsSequentially();
         int after = points.GetScore();
-        Assert.AreEqual( expected ,after);
+        Assert.That(expected, Is.EqualTo(after));
     }
 
     [Test]
@@ -64,7 +64,7 @@ public class PointTests {
         mblock.DeleteBlock();
         EventBus.GetBus().ProcessEventsSequentially();
         int after = points.GetScore();
-        Assert.AreEqual(expected, after);
+        Assert.That(expected, Is.EqualTo(after));
     }
 
 }
