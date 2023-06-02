@@ -21,6 +21,7 @@ public class HardenedBlock : Entity, IBlock {
     public HardenedBlock(DynamicShape shape, IBaseImage image, bool power, string file) : base(shape, image){
         hp = 2;
         value = 2;
+        powerUp = power;
         var split = file.Split(".");
         damaged = new Image(Path.Combine("Assets", "Images", $"{split[0]}-damaged.{split[1]}"));
     }
@@ -42,6 +43,16 @@ public class HardenedBlock : Entity, IBlock {
 
     public void DeleteBlock(){
         DeleteEntity();
+         if (powerUp) {
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.InputEvent, 
+                    Message = "ADD_POWERUP",
+                    StringArg1 = Shape.Position.X.ToString(),
+                    StringArg2 = Shape.Position.Y.ToString()
+                }
+            );
+        }
         EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.StatusEvent, 

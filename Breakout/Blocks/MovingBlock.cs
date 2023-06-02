@@ -13,6 +13,7 @@ public class MovingBlock : Entity, IBlock {
 
     public MovingBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image){
         value = 3;
+        powerUp = power;
     }
 
     public void LoseHealth(){
@@ -29,6 +30,16 @@ public class MovingBlock : Entity, IBlock {
     /// </summary>
     public void DeleteBlock() {
         DeleteEntity();
+         if (powerUp) {
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.InputEvent, 
+                    Message = "ADD_POWERUP",
+                    StringArg1 = Shape.Position.X.ToString(),
+                    StringArg2 = Shape.Position.Y.ToString()
+                }
+            );
+        }
         EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.StatusEvent, 
