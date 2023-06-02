@@ -123,6 +123,12 @@ public class Player : Entity, IGameEventProcessor {
                                 if (IsSmall){
                                     smallCounter -=1;
                                     if (smallCounter <= 0){
+                                        if (Shape.Position.X <= 0.1f) {
+                                            Shape.Position.X += 0.1f; 
+                                        } 
+                                        if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
+                                            Shape.Position.X -= 0.1f;
+                                        }
                                         Shape.ScaleXFromCenter(2.0f);
                                         IsSmall = false;
                                     }

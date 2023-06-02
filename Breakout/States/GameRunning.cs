@@ -41,7 +41,6 @@ public class GameRunning : IGameState {
     private void InitializeGameState(){
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
-        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, player);
 
         points = new Points();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, points);
