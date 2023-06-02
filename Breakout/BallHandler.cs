@@ -10,12 +10,17 @@ namespace Breakout;
 
 public class BallHandler : IGameEventProcessor {
     private EntityContainer<Ball> balls;
+    private bool noBalls;
     public BallHandler(){
         balls = new EntityContainer<Ball>();
+        noBalls = false;
     }
 
     private void AddBall(Vec2F pos){
         balls.AddEntity(new Ball(pos));
+        if (noBalls) {
+            noBalls = false;
+        }
     }
 
     public void InitializeGame() {
@@ -28,14 +33,14 @@ public class BallHandler : IGameEventProcessor {
                 ball.BlockCollision(blocks);
                 ball.PlayerCollision(player);
             });
-            if (balls.CountEntities() <= 0) {
+            if (balls.CountEntities() <= 0 && !noBalls) {
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.StatusEvent,
                         Message = "LOSE_HEALTH"
                     }
                 );
-                InitializeGame();
+                noBalls = true;
             }
     }
 
@@ -80,6 +85,16 @@ public class BallHandler : IGameEventProcessor {
                 break;
             case "RESET_BALLS":
                 Reset();
+                break;
+            case "SPACE":
+                if (noBalls) {
+                    if (gameEvent.ObjectArg1 is Player player) {
+                        float x = player.Shape.Position.X + (player.Shape.Extent.X/2.0f);
+                        float y = player.Shape.Position.Y;
+                        AddBall(new Vec2F(x,y));
+                    }
+                    noBalls = false;
+                }
                 break;
         }
     }

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace Breakout;
 
+    /// <summary>
+    /// A reader that can read a given ASCII-file (following the level standart), 
+    /// and arrange the data in specififed data structures.
+    /// </summary>
 public class FileReader {
     public List<string> map {get; private set;}
     public Dictionary<string, string> meta {get; private set;}
@@ -15,6 +19,11 @@ public class FileReader {
         legend = new Dictionary<char, string>();
     }
 
+    /// <summary>
+    /// A reader that can read a given ASCII-file (following the level standart), 
+    /// and arrange the data in specififed data structures.
+    /// </summary>
+    /// <param name="path"> A path to the ASCII file </param name>
     public bool Read (string path) {
         //Empty excisting data in fields, to prepare for new data
         map.Clear();
