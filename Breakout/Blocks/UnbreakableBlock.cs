@@ -8,7 +8,11 @@ public class UnbreakableBlock : Entity, IBlock {
     public int hp {get; set;}
     public bool powerUp {get;}
 
-    public UnbreakableBlock(DynamicShape shape, IBaseImage image, bool power) : base(shape, image){}
+    public UnbreakableBlock(DynamicShape shape, IBaseImage image) : base(shape, image){
+        value = 0;
+        hp = 0;
+        powerUp = false;
+    }
 
     /// <summary>
     /// Overrided to do nothing 

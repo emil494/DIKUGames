@@ -53,6 +53,31 @@ public class TestMovingBlock {
     }
 
     [Test]
+    public void TestMoveNoCollision() {
+        List<bool> list = new List<bool>{};
+        container.AddEntity(
+            new Block (
+                new DynamicShape(
+                    new Vec2F(0.40f, 0.0f), new Vec2F(0.01f, 0.01f)), 
+                new Image(Path.Combine("Assets", "Images", "blue-block.png")), false));
+        var dir = block.Shape.AsDynamicShape().Direction.X;
+        var before = block.Shape.Position.X;
+        block.UpdateBlock(container);
+        var after = block.Shape.Position.X;
+        if (before != after) {
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        if (dir == block.Shape.AsDynamicShape().Direction.X){
+            list.Add(true);
+        } else {
+            list.Add(false);
+        }
+        Assert.True(list.TrueForAll(ele => {return ele == true;}));
+    }
+
+    [Test]
     public void TestMoveOOB() {
         List<bool> list = new List<bool>{};
         var dir = block.Shape.AsDynamicShape().Direction.X;
@@ -77,6 +102,7 @@ public class TestMovingBlock {
 
     [Test]
     public void TestLoseHealth() {
+        block.hp = 2;
         var start = block.hp;
         block.LoseHealth();
         var after = block.hp;

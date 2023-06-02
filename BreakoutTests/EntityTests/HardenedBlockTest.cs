@@ -19,10 +19,19 @@ public class TestHardenedBlock {
 
     [Test]
     public void TestLoseHealth() {
+        block.hp = 4;
         var start = block.hp;
         block.LoseHealth();
         var after = block.hp;
         Assert.Less(after, start);
+    }
+
+    [Test]
+    public void TestDamaged() {
+        var start = block.Image;
+        block.LoseHealth();
+        var after = block.Image;
+        Assert.AreNotEqual(after, start);
     }
 
     [Test]

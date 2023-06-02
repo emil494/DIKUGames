@@ -5,30 +5,20 @@ using Breakout.Blocks;
 
 namespace BreakoutTests;
 
-public class TestBlock {
+public class TestUnbreakableBlock {
     [SetUp]
     public void Setup(){
-        block = new Block (
+        block = new UnbreakableBlock (
             new DynamicShape(
                 new Vec2F(0.0f, 0.0f), new Vec2F(1/12.0f, 1/25.0f)), 
             new Image(Path.Combine("Assets", "Images", "blue-block.png")), false);
     }
 
-    private Block block;
-
-    [Test]
-    public void TestLoseHealth() {
-        block.hp = 2;
-        var start = block.hp;
-        block.LoseHealth();
-        var after = block.hp;
-        Assert.Less(after, start);
-    }
+    private UnbreakableBlock block;
 
     [Test]
     public void TestDeleteBlock() {
-        block.hp = 0;
-        block.LoseHealth();
+        block.DeleteBlock();
         Assert.True(block.IsDeleted());
     }
 }

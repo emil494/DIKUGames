@@ -10,12 +10,12 @@ public interface IBlock {
     bool powerUp {get;}
 
     /// <summary>
-    /// Block loses one health. Calls DeleteBlock() if hp = 0 to delete block
+    /// Block should have the ability to lose health.
     /// </summary>
     void LoseHealth(){}
 
     /// <summary>
-    /// Deletes block and creates a StatusEvent to comunicate its points to the Point class. 
+    /// Deletes block with other possible conditions. 
     /// </summary>
     void DeleteBlock(){}
 
