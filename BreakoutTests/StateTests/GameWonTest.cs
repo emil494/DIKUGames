@@ -28,7 +28,7 @@ public class GameWonTest {
             new GameEvent{
                 EventType = GameEventType.GameStateEvent,
                 Message = "CHANGE_STATE",
-                StringArg1 = "GAME_OVER"
+                StringArg1 = "GAME_WON"
         });
         EventBus.GetBus().ProcessEventsSequentially();
         gameWon = GameWon.GetInstance();
