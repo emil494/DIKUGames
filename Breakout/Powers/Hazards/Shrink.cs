@@ -24,7 +24,7 @@ public class Shrink : Entity, IHazard {
     public void Apply(){
         EventBus.GetBus().RegisterEvent(
             new GameEvent {
-                EventType = GameEventType.StatusEvent,
+                EventType = GameEventType.PlayerEvent,
                 Message = "APPLY_POWERUP",
                 StringArg1 = "SLIM",
                 StringArg2 = "START"
@@ -32,7 +32,7 @@ public class Shrink : Entity, IHazard {
         );
         EventBus.GetBus().RegisterTimedEvent(
             (new GameEvent {
-                EventType = GameEventType.StatusEvent,
+                EventType = GameEventType.PlayerEvent,
                 Message = "APPLY_POWERUP",
                 StringArg1 = "SLIM",
                 StringArg2 = "STOP"
