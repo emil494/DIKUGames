@@ -148,6 +148,15 @@ public class Player : Entity, IGameEventProcessor {
                         ObjectArg1 = this
                     });
                 break;
+            case "SPACE":
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.StatusEvent,
+                        Message = "SPACE",
+                        ObjectArg1 = this
+                    });
+                break;
+
         }
     }
 }
