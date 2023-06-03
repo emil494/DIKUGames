@@ -118,4 +118,9 @@ public class GamePaused : IGameState {
             break;
         }
     }
+
+    //For testing purposes
+    public int GetActiveMenuButton(){
+        return activeMenuButton;
+    }
 }

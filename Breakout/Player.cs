@@ -159,4 +159,14 @@ public class Player : Entity, IGameEventProcessor {
 
         }
     }
+
+    //For testing purposes
+    public float GetMoveRight(){
+        return moveRight;
+    }
+
+    //For testing purposes
+    public float GetMoveLeft(){
+        return moveLeft;
+    }
 }

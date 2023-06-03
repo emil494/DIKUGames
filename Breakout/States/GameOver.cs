@@ -124,4 +124,9 @@ public class GameOver : IGameState {
             break;
         }
     }
+
+    //For testing purposes
+    public int GetActiveMenuButton(){
+        return activeMenuButton;
+    }
 }

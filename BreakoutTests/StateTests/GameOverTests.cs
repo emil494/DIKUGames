@@ -12,14 +12,14 @@ using Breakout;
 namespace BreakoutTests;
 
 [TestFixture]
-public class GameWonTest {
+public class GameOverTest {
     private StateHandler stateHandler;
-    private GameWon gameWon;
+    private GameOver gameOver;
 
     [SetUp]
     public void Setup() {
         Window.CreateOpenGLContext();
-        GameWon.GetInstance().ResetState();
+        GameOver.GetInstance().ResetState();
         EventBus.ResetBus();
         stateHandler = new StateHandler();
         EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
@@ -28,10 +28,10 @@ public class GameWonTest {
             new GameEvent{
                 EventType = GameEventType.GameStateEvent,
                 Message = "CHANGE_STATE",
-                StringArg1 = "GAME_WON"
+                StringArg1 = "GAME_OVER"
         });
         EventBus.GetBus().ProcessEventsSequentially();
-        gameWon = GameWon.GetInstance();
+        gameOver = GameOver.GetInstance();
     }
 
     [Test]
@@ -43,35 +43,35 @@ public class GameWonTest {
 
     [Test]
     public void TestPressDown() {
-        var before = gameWon.GetActiveMenuButton();
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
-        var after = gameWon.GetActiveMenuButton();
+        var before = gameOver.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
+        var after = gameOver.GetActiveMenuButton();
         Assert.That(after, Is.EqualTo(before + 1));
     }
 
     [Test]
     public void TestPressDownEdge() {
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
-        var before = gameWon.GetActiveMenuButton();
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
-        var after = gameWon.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
+        var before = gameOver.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
+        var after = gameOver.GetActiveMenuButton();
         Assert.That(after, Is.EqualTo(before - 1));
     }
 
     [Test]
     public void TestPressUp() {
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
-        var before = gameWon.GetActiveMenuButton();
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Up);
-        var after = gameWon.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Down);
+        var before = gameOver.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Up);
+        var after = gameOver.GetActiveMenuButton();
         Assert.That(after, Is.EqualTo(before - 1));
     }
 
     [Test]
     public void TestPressUpEdge() {
-        var before = gameWon.GetActiveMenuButton();
-        gameWon.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Up);
-        var after = gameWon.GetActiveMenuButton();
+        var before = gameOver.GetActiveMenuButton();
+        gameOver.HandleKeyEvent(KeyboardAction.KeyRelease, KeyboardKey.Up);
+        var after = gameOver.GetActiveMenuButton();
         Assert.That(after, Is.EqualTo(before + 1));
     }
 }

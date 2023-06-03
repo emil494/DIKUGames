@@ -8,37 +8,37 @@ using System;
 using System.Collections.Generic;
 using Breakout;
 
-
 namespace BreakoutTests;
 
 [TestFixture]
-public class GameLostTest {
+public class GameRunningTests {
     private StateHandler stateHandler;
+    private GameRunning gameRunning;
 
     [SetUp]
     public void Setup() {
         Window.CreateOpenGLContext();
+        GameRunning.GetInstance().ResetState();
+        EventBus.ResetBus();
         stateHandler = new StateHandler();
-        EventBus.GetBus();
         EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
-    }
 
-    [Test]
-    public void TestHasWon() {
         EventBus.GetBus().RegisterEvent(
-        new GameEvent{
-            EventType = GameEventType.GameStateEvent,
-            Message = "CHANGE_STATE",
-            StringArg1 = "GAME_RUNNING"
-        });
-        EventBus.GetBus().RegisterEvent(
-            new GameEvent{
-                EventType = GameEventType.GameStateEvent,
+            new GameEvent {
+                EventType = GameEventType.GameStateEvent, 
                 Message = "CHANGE_STATE",
-                StringArg1 = "GAME_WON"
+                StringArg1 = "GAME_RUNNING"
             }
         );
         EventBus.GetBus().ProcessEventsSequentially();
-        Assert.That(stateHandler.ActiveState, Is.InstanceOf<GameWon>());
+        
+        gameRunning = GameRunning.GetInstance();
+    }
+
+    [Test]
+    public void TestEscape() {
+        stateHandler.ActiveState.HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Escape);
+        EventBus.GetBus().ProcessEventsSequentially();
+        Assert.That(stateHandler.ActiveState, Is.InstanceOf<GamePaused>());
     }
 }

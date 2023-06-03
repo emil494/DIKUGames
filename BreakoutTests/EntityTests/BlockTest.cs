@@ -18,6 +18,7 @@ public class TestBlock {
 
     [Test]
     public void TestLoseHealth() {
+        block.hp = 2;
         var start = block.hp;
         block.LoseHealth();
         var after = block.hp;

@@ -75,8 +75,7 @@ public class Level : IGameEventProcessor{
                             new DynamicShape(
                                 new Vec2F(i, j), new Vec2F(1/12.0f, 1/25.0f)), 
                             new Image(
-                                Path.Combine("Assets", "Images", legend[c])), 
-                            PowerUp(c)
+                                Path.Combine("Assets", "Images", legend[c]))
                         )
                     );
                     
