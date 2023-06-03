@@ -79,23 +79,30 @@ public class BallHandler : IGameEventProcessor {
         balls.ClearContainer();
         InitializeGame();
     }
+
+    /// <summary>
+    /// Splits all balls into three new balls
+    /// </summary>
+    public void Split() {
+        EntityContainer<Ball> newBalls = new EntityContainer<Ball>();
+        foreach (Ball ball in balls) {
+            if (!ball.IsDeleted()) {
+                float x = ball.Shape.Position.X;
+                float y = ball.Shape.Position.Y;
+                ball.DeleteEntity();
+                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
+            }
+        }
+        balls = newBalls;
+    }
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "APPLY_POWERUP":
                 switch (gameEvent.StringArg1){
                     case "SPLIT":
-                        EntityContainer<Ball> newBalls = new EntityContainer<Ball>();
-                        foreach (Ball ball in balls) {
-                            if (!ball.IsDeleted()) {
-                                float x = ball.Shape.Position.X;
-                                float y = ball.Shape.Position.Y;
-                                ball.DeleteEntity();
-                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
-                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
-                                newBalls.AddEntity(new Ball(new Vec2F(x,y)));
-                            }
-                        }
-                        balls = newBalls;
+                        Split();
                         break;
                     case "INFINITE":
                         if (gameEvent.ObjectArg1 is Player player) {
