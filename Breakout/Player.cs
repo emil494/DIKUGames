@@ -69,7 +69,7 @@ public class Player : Entity, IGameEventProcessor {
             if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
                 Shape.Position.X -= 0.1f;
             }
-            Shape.ScaleXFromCenter(2f);
+            Shape.ScaleXFromCenter(2.0f);
             IsBig = true;
         }
     }
@@ -171,7 +171,6 @@ public class Player : Entity, IGameEventProcessor {
                         ObjectArg1 = this
                     });
                 break;
-
         }
     }
 

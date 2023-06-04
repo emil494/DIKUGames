@@ -55,30 +55,33 @@ public class BallTest{
     }
 
     [Test] //R.1
-    public void TestBallDeleteCondition() {
+    public void TestBallBounds() {
         List<bool> list = new List<bool>{};
         player.DeleteEntity();
         block.DeleteBlock();
         Vec2F startPos = new Vec2F(0.5f, 0.5f);
         //Upper bound
-        ball.UpdateDirectionY(0.5f);
+        ball.UpdateDirectionY(0.47f);
+        ball.UpdateDirectionX(0.0f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.Y < 0) {
             list.Add(true);
         } else {
             list.Add(false);
         }
-        //Right bound
+        // Right bound
         ball.Shape.SetPosition(startPos);
-        ball.UpdateDirectionX(0.46f);
+        ball.UpdateDirectionY(0.0f);
+        ball.UpdateDirectionX(0.47f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.X < 0) {
             list.Add(true);
         } else {
             list.Add(false);
         }
-        //Left bound
+        // // Left bound
         ball.Shape.SetPosition(startPos);
+        ball.UpdateDirectionY(0.0f);
         ball.UpdateDirectionX(-0.51f);
         ball.MoveBall();
         if (ball.Shape.AsDynamicShape().Direction.X > 0) {
@@ -86,9 +89,10 @@ public class BallTest{
         } else {
             list.Add(false);
         }
-        //Lower bound
+        // //Lower bound
         ball.Shape.SetPosition(startPos);
-        ball.UpdateDirectionY(-0.5f);
+        ball.UpdateDirectionX(0.0f);
+        ball.UpdateDirectionY(-0.57f);
         ball.MoveBall();
         if (ball.IsDeleted()) {
             list.Add(true);
@@ -128,7 +132,8 @@ public class BallTest{
 
     [Test]
     public void TestPlayerCollison() {
-        ball.UpdateDirectionY(-0.01f);
+        ball.UpdateDirectionY(-0.37f);
+        ball.UpdateDirectionX(0.0f);
         ball.MoveBall();
         ball.PlayerCollision(player);
         Assert.IsTrue(ball.Shape.AsDynamicShape().Direction.Y > 0.0f);
