@@ -42,7 +42,7 @@ public class LevelHandler {
     /// </summary>
     private void NextLevel() {
         if (currentLevel.IsEmpty()) {
-            if (lvlCount > loadOrder.Count - 1){
+            if (lvlCount + 1 >= loadOrder.Count){
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
                         EventType = GameEventType.GameStateEvent,
@@ -51,8 +51,8 @@ public class LevelHandler {
                     }
                 );
             } else {
-                NewLevel(loadOrder[lvlCount]);
                 lvlCount++;
+                NewLevel(loadOrder[lvlCount]);
             }
         }
     }
@@ -77,12 +77,14 @@ public class LevelHandler {
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
         } else {
-            reader.Read(Path.Combine("Assets", "Levels", lvl));
+            //Initialize first level
+            reader.Read(path(lvl));
             currentLevel = new Level(reader.map, reader.meta, reader.legend);
             EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
-        }
-        if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
-            lvlCount += 1;
+        } 
+
+        //Initialize next level
+        if (reader.Read(path(lvl))) {
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
     }
@@ -101,19 +103,7 @@ public class LevelHandler {
         NextLevel();
         currentLevel.Update();
     }
-
-    //For testing purposes
-    /// <summary>
-    /// By-passes other functions to immediatly create a level
-    /// </summary>
-    /// <param name="path"> Entire path for a txt file containing the level </param>
-    public void Initialize(string path){
-        if (currentLevel is null || currentLevel.IsEmpty()) {
-            reader.Read(path);
-            currentLevel = new Level(reader.map, reader.meta, reader.legend);
-        }
-    }
-
+    
     //For testing purposes
     /// <summary>
     /// A getter for the current level
@@ -121,5 +111,28 @@ public class LevelHandler {
     /// <returns> The current level </returns>
     public Level GetLevel(){
         return currentLevel;
+    }
+
+    //Exists for testing reasons, ideally a generalized path without this method
+    private string path(string lvl) {
+        
+        //Checks if it's a testing path
+        if (File.Exists(Path.Combine("..", "..", "..", "Assets", "Levels", lvl))){
+            return Path.Combine("..", "..", "..", "Assets", "Levels", lvl);
+
+        //Else normal path
+        } else {
+            return Path.Combine("Assets", "Levels", lvl);
+        }
+    }
+
+    //For testing purposes
+    public int GetLevelCount(){
+        return lvlCount;
+    }
+
+    //For testing purposes
+    public int GetLoadOrderSize(){
+        return loadOrder.Count;
     }
 }

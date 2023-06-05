@@ -47,6 +47,7 @@ public class GameRunning : IGameState {
 
         lvlHandler = new LevelHandler();
         lvlHandler.NewGame();
+        
         effectGenerator = new EffectGenerator();
         EventBus.GetBus().Subscribe(GameEventType.InputEvent, effectGenerator);
         
@@ -54,7 +55,6 @@ public class GameRunning : IGameState {
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, ballHandler);
         ballHandler.InitializeGame();
         
-
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
     }
@@ -63,7 +63,6 @@ public class GameRunning : IGameState {
     /// Resets the state
     /// </summary>
     public void ResetState(){
-        StaticTimer.RestartTimer();
         player.Reset();
         effectGenerator.Reset();
         points.Reset();
