@@ -60,6 +60,54 @@ public class Player : Entity, IGameEventProcessor {
         Shape.Position.Y = 0.1f;
     }
 
+    public void StartWide() {
+        bigCounter += 1;
+        if (!IsBig){
+            if (Shape.Position.X <= 0.1f) {
+                Shape.Position.X += 0.1f; 
+                } 
+            if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
+                Shape.Position.X -= 0.1f;
+            }
+            Shape.ScaleXFromCenter(2.0f);
+            IsBig = true;
+        }
+    }
+
+    public void EndWide() {
+        if (IsBig){
+            bigCounter -=1;
+            if (bigCounter <= 0){
+                Shape.ScaleXFromCenter(0.5f);
+                IsBig = false;
+            }
+        }    
+    }
+
+    public void StartSlim() {
+        if (!IsSmall){
+            smallCounter += 1;
+            Shape.ScaleXFromCenter(0.5f);
+            IsSmall = true;
+        }      
+    }
+
+    public void EndSlim() {
+        if (IsSmall){
+            smallCounter -=1;
+            if (smallCounter <= 0){
+                if (Shape.Position.X <= 0.1f) {
+                    Shape.Position.X += 0.1f; 
+                } 
+                if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
+                    Shape.Position.X -= 0.1f;
+                }
+                Shape.ScaleXFromCenter(2.0f);
+                IsSmall = false;
+            }
+        }
+    }
+
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "MOVE":
@@ -87,54 +135,21 @@ public class Player : Entity, IGameEventProcessor {
                     case "WIDE":
                         switch (gameEvent.StringArg2){
                             case "START":
-                                bigCounter += 1;
-                                if (!IsBig){
-                                    if (Shape.Position.X <= 0.1f) {
-                                        Shape.Position.X += 0.1f; 
-                                        } 
-                                    if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
-                                        Shape.Position.X -= 0.1f;
-                                    }
-                                    Shape.ScaleXFromCenter(2f);
-                                    IsBig = true;
-                                }      
+                                StartWide();
                                 break;
                             case "STOP":
-                                if (IsBig){
-                                    bigCounter -=1;
-                                    if (bigCounter <= 0){
-                                        Shape.ScaleXFromCenter(0.5f);
-                                        IsBig = false;
-                                    }
-                                }    
+                                EndWide();
                                 break; 
                         }
                         break;
                     case "SLIM":
                         switch (gameEvent.StringArg2){
                             case "START":
-                                if (!IsSmall){
-                                    smallCounter += 1;
-                                        Shape.ScaleXFromCenter(0.5f);
-                                        IsSmall = true;
-                                }      
+                                StartSlim();
                                 break;
                             case "STOP":
-                                if (IsSmall){
-                                    smallCounter -=1;
-                                    if (smallCounter <= 0){
-                                        if (Shape.Position.X <= 0.1f) {
-                                            Shape.Position.X += 0.1f; 
-                                        } 
-                                        if (Shape.Position.X + Shape.Extent.X >= 0.9f)  {
-                                            Shape.Position.X -= 0.1f;
-                                        }
-                                        Shape.ScaleXFromCenter(2.0f);
-                                        IsSmall = false;
-                                    }
-                                }
+                                EndSlim();
                                 break;     
-                        
                         }
                         break;
                 } 
@@ -145,6 +160,14 @@ public class Player : Entity, IGameEventProcessor {
                         EventType = GameEventType.StatusEvent,
                         Message = "APPLY_POWERUP",
                         StringArg1 = "INFINITE",
+                        ObjectArg1 = this
+                    });
+                break;
+            case "SPACE":
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.StatusEvent,
+                        Message = "SPACE",
                         ObjectArg1 = this
                     });
                 break;

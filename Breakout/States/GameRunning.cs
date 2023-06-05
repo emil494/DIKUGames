@@ -137,6 +137,14 @@ public class GameRunning : IGameState {
                     }
                 );
                 break;
+            case KeyboardKey.Space:
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
+                        EventType = GameEventType.PlayerEvent, 
+                        Message = "SPACE"
+                    }
+                );
+                break;
         }
     }
 
