@@ -16,7 +16,7 @@ public class LevelHandler {
     private int lvlCount;
 
     public LevelHandler() {
-        loadOrder = new List<string> {"powerUpTest.txt", "level2.txt", "level3.txt"};
+        loadOrder = new List<string> {"levelf1.txt","levelf2.txt","levelf3.txt","level1.txt", "level2.txt", "level3.txt"};
         lvlCount = 0;
         reader = new FileReader();
     }
