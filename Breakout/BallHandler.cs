@@ -132,7 +132,7 @@ public class BallHandler : IGameEventProcessor {
     }
 
     // For testing purposes
-    public EntityContainer<Entity> GetBalls() {
+    public EntityContainer<Ball> GetBalls() {
         return balls;
     }
 }
