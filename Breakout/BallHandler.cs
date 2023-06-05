@@ -46,20 +46,20 @@ public class BallHandler : IGameEventProcessor {
     /// <param name="blocks">All blocks on screen, for collision detection</param>
     /// <param name="player">The player, for collision detection</param>
     public void UpdateBalls(EntityContainer<Entity> blocks, Player player) {
-            balls.Iterate(ball => {
-                ball.MoveBall();
-                ball.BlockCollision(blocks);
-                ball.PlayerCollision(player);
-            });
-            if (balls.CountEntities() <= 0 && !noBalls) {
-                EventBus.GetBus().RegisterEvent(
-                    new GameEvent {
-                        EventType = GameEventType.StatusEvent,
-                        Message = "LOSE_HEALTH"
-                    }
-                );
-                noBalls = true;
-            }
+        balls.Iterate(ball => {
+            ball.MoveBall();
+            ball.BlockCollision(blocks);
+            ball.PlayerCollision(player);
+        });
+        if (balls.CountEntities() <= 0 && !noBalls) {
+            EventBus.GetBus().RegisterEvent(
+                new GameEvent {
+                    EventType = GameEventType.StatusEvent,
+                    Message = "LOSE_HEALTH"
+                }
+            );
+            noBalls = true;
+        }
     }
 
     /// <summary>
@@ -132,7 +132,16 @@ public class BallHandler : IGameEventProcessor {
     }
 
     // For testing purposes
-    public EntityContainer<Entity> GetBalls() {
+    public EntityContainer<Ball> GetBalls() {
         return balls;
+    }
+
+    // For testing purposes
+    public List<Ball> GetBallsList() {
+        List<Ball> list = new List<Ball>{};
+        balls.Iterate(ball => {
+            list.Add(ball);
+        });
+        return list;
     }
 }

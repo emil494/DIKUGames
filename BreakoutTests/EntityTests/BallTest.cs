@@ -124,10 +124,11 @@ public class BallTest{
 
     [Test] //R.4
     public void TestWontStickToSameTrajectory() {
-        ball.UpdateDirectionY(-0.01f);
+        ball.UpdateDirectionY(-0.37f);
+        float oldXDir = ball.Shape.AsDynamicShape().Direction.X;
         ball.MoveBall();
         ball.PlayerCollision(player);
-        Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X,0.0f);
+        Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X, oldXDir);
     }
 
     [Test]
