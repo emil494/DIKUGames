@@ -29,7 +29,7 @@ public class Health : IGameEventProcessor{
         }
     }
 
-    public void LoseHealth(){
+    private void LoseHealth(){
         if (hp - 1 <= 0){
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
@@ -76,5 +76,10 @@ public class Health : IGameEventProcessor{
                 }
                 break;
         }
+    }
+
+    //For testing purposes
+    public int GetHealth(){
+        return hp;
     }
 }

@@ -24,7 +24,8 @@ public class BallHandler : IGameEventProcessor {
     /// Adds a new ball at a specified location
     /// </summary>
     /// <param name="pos">A position vector of where the ball should be spawned</param>
-    private void AddBall(Vec2F pos){
+    // Public for testing reasons, ideally private
+    public void AddBall(Vec2F pos){
         balls.AddEntity(new Ball(pos));
         if (noBalls) {
             noBalls = false;
@@ -97,6 +98,7 @@ public class BallHandler : IGameEventProcessor {
         }
         balls = newBalls;
     }
+
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "APPLY_POWERUP":
@@ -127,5 +129,10 @@ public class BallHandler : IGameEventProcessor {
                 }
                 break;
         }
+    }
+
+    // For testing purposes
+    public EntityContainer<Entity> GetBalls() {
+        return balls;
     }
 }
