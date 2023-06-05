@@ -12,10 +12,8 @@ using System.Collections.Generic;
 namespace Breakout;
 
 public class Game : DIKUGame, IGameEventProcessor {
-    private StaticTimer timer;
     private StateHandler stateHandler;
     public Game(WindowArgs windowArgs) : base(windowArgs) {
-        timer = new StaticTimer();
         stateHandler = new StateHandler();
         EventBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateHandler);
         EventBus.GetBus().Subscribe(GameEventType.WindowEvent, this);

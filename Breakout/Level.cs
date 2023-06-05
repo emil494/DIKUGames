@@ -1,18 +1,19 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
-using DIKUArcade.Timers;
 using DIKUArcade.Events;
 using Breakout.Blocks;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Breakout;
 
 public class Level : IGameEventProcessor{
+    private Timer timer;
     private double addTime;
-    private double startTime;
+    private int newTime;
     private Text timeDisplay;
     private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
@@ -20,8 +21,10 @@ public class Level : IGameEventProcessor{
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_) {
         
-        startTime = StaticTimer.GetElapsedSeconds();
+        timer = new Timer();
+        timer.ResumeTimer();
         addTime = 0;
+        newTime = 0;
         timeDisplay = new Text($"Time: ", 
             new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
         timeDisplay.SetColor(System.Drawing.Color.Coral);
@@ -167,8 +170,8 @@ public class Level : IGameEventProcessor{
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
-        if (StaticTimer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + startTime + addTime){
-            StaticTimer.PauseTimer();
+        if (timer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + addTime){
+            timer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
                     EventType = GameEventType.GameStateEvent,
@@ -182,14 +185,16 @@ public class Level : IGameEventProcessor{
                 IB.UpdateBlock(blocks);
             }
         });
-        timeDisplay.SetText(
-            $"Time: {(Double.Parse(metaData["Time"]) + startTime + addTime) - StaticTimer.GetElapsedSeconds()}");
+        newTime = Convert.ToInt32((Double.Parse(metaData["Time"]) + addTime)
+            - timer.GetElapsedSeconds());
+        timeDisplay.SetText($"Time: {newTime}");
     }
-
+    
     public void Reset(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
         
-        startTime = StaticTimer.GetElapsedSeconds();
+        timer.RestartTimer();
+        timer.ResumeTimer();
         addTime = 0.0;
         blocks.ClearContainer();
         CreateBlocks(map_);
@@ -214,5 +219,9 @@ public class Level : IGameEventProcessor{
                 }
                 break;
         }
+    }
+
+    public int GetNewTime(){
+        return newTime;
     }
 }
