@@ -8,10 +8,16 @@ using DIKUArcade.Events;
 namespace BreakoutTests;
 
 public class PointTests {
+    private Points points;
+    private Block block;
+    private HardenedBlock hblock;
+    private MovingBlock mblock;
+
+
     [SetUp]
     public void Setup(){
 
-        EventBus.GetBus();
+        EventBus.ResetBus();
         block = new Block (
             new DynamicShape(
                 new Vec2F(0.0f, 0.0f), new Vec2F(1/12.0f, 1/25.0f)), 
@@ -31,11 +37,6 @@ public class PointTests {
         points = new Points();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, points);
     }
-
-    private Points points;
-    private Block block;
-    private HardenedBlock hblock;
-    private MovingBlock mblock;
 
     [Test]
     public void TestGainPoint() {
