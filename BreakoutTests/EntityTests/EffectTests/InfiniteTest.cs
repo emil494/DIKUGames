@@ -54,7 +54,7 @@ public class InfiniteTest{
         power.Move();
         power.PlayerCollision(player);
         player.Shape.Position = new Vec2F(0.0f, 0.5f);
-        //System.Threading.Thread.Sleep(1000);
+        System.Threading.Thread.Sleep(1000);
         EventBus.GetBus().ProcessEvents();
         EventBus.GetBus().ProcessEvents();
         List<Ball> balls = handler.GetBallsList();
