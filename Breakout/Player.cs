@@ -46,10 +46,16 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Updates the direction of the player
+    /// </summary>
     private void UpdateDirection(){
         (Shape.AsDynamicShape()).Direction.X = moveLeft + moveRight;
     }
 
+    /// <summary>
+    /// Moves the coordinates of the player 
+    /// </summary>
     public void Move() {
         if (Shape.Position.X + (Shape.AsDynamicShape()).Direction.X >= 0.0f && 
         Shape.Position.X + (Shape.AsDynamicShape()).Direction.X <= 1.0f-Shape.Extent.X){
@@ -57,11 +63,17 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Resets the player position
+    /// </summary>
     public void Reset(){
         Shape.Position.X = 0.45f;
         Shape.Position.Y = 0.1f;
     }
 
+    /// <summary>
+    /// Doubles the player size and makes sure it always stay in bounds
+    /// </summary>
     public void StartWide() {
         bigCounter += 1;
         if (!IsBig){
@@ -75,7 +87,9 @@ public class Player : Entity, IGameEventProcessor {
             IsBig = true;
         }
     }
-
+    /// <summary>
+    /// Reduces the player down to half size
+    /// </summary>
     public void EndWide() {
         if (IsBig){
             bigCounter -=1;
@@ -86,6 +100,9 @@ public class Player : Entity, IGameEventProcessor {
         }    
     }
 
+    /// <summary>
+    /// Reduces the player down to half size
+    /// </summary>
     public void StartSlim() {
         if (!IsSmall){
             smallCounter += 1;
@@ -93,7 +110,9 @@ public class Player : Entity, IGameEventProcessor {
             IsSmall = true;
         }      
     }
-
+    /// <summary>
+    /// Increases the player size back to the original size
+    /// </summary>
     public void EndSlim() {
         if (IsSmall){
             smallCounter -=1;
