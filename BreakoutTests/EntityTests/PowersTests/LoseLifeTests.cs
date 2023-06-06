@@ -41,7 +41,7 @@ public class LoseLifeTests{
     }
 
     [Test]
-    public void TestGainHealth(){
+    public void TestLoseHealth(){
         minustraLife.Move();       
         minustraLife.PlayerCollision(player);
         EventBus.GetBus().ProcessEvents();
