@@ -128,7 +128,7 @@ public class BallTest{
         float oldXDir = ball.Shape.AsDynamicShape().Direction.X;
         ball.MoveBall();
         ball.PlayerCollision(player);
-        Assert.AreNotEqual(ball.Shape.AsDynamicShape().Direction.X, oldXDir);
+        Assert.That(ball.Shape.AsDynamicShape().Direction.X, Is.Not.EqualTo(oldXDir));
     }
 
     [Test]

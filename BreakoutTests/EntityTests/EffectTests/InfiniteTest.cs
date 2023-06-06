@@ -8,7 +8,7 @@ using Breakout.Powers;
 using DIKUArcade.GUI;
 using System;
 
-public class SplitTest{
+public class InfiniteTest{
     [SetUp]
     public void Setup(){
         Window.CreateOpenGLContext();
@@ -17,13 +17,14 @@ public class SplitTest{
         handler = new BallHandler();
 
         player = new Player();
+        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
-        power = new Split(new Vec2F(0.5f, 0.135f));
+        power = new Infinite(new Vec2F(0.5f, 0.135f));
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, handler);
     }
     private Player player;
     private BallHandler handler;
-    private Split power;
+    private Infinite power;
 
     [Test]
     public void TestMovePower() {
@@ -49,20 +50,16 @@ public class SplitTest{
     }
 
     [Test]
-    public void TestSplit() {
-        handler.AddBall(new Vec2F(0.5f, 0.5f));
+    public void TestInfinite() {
         power.Move();
         power.PlayerCollision(player);
+        player.Shape.Position = new Vec2F(0.0f, 0.5f);
+        //System.Threading.Thread.Sleep(1000);
         EventBus.GetBus().ProcessEvents();
-        int res = handler.GetBalls().CountEntities();
-        Assert.That(res, Is.EqualTo(3));
-    }
-
-    [Test]
-    public void TestMoveOOB() {
-        for (int i = 0; i <= 100; i++){
-            power.Move();
-        }
-        Assert.True(power.IsDeleted());
+        EventBus.GetBus().ProcessEvents();
+        List<Ball> balls = handler.GetBallsList();
+        Ball ball = balls[0];
+        float ballX = ball.Shape.Position.X;
+        Assert.That(ballX, Is.EqualTo(0.1f));
     }
 }
