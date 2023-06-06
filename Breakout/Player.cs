@@ -84,6 +84,9 @@ public class Player : Entity, IGameEventProcessor {
         Shape.Position.Y = 0.1f;
     }
 
+    /// <summary>
+    /// Doubles the player size and makes sure it always stay in bounds
+    /// </summary>
     public void StartWide() {
         bigCounter += 1;
         if (!IsBig){
@@ -97,7 +100,9 @@ public class Player : Entity, IGameEventProcessor {
             IsBig = true;
         }
     }
-
+    /// <summary>
+    /// Reduces the player down to half size
+    /// </summary>
     public void EndWide() {
         if (IsBig){
             bigCounter -=1;
@@ -108,6 +113,9 @@ public class Player : Entity, IGameEventProcessor {
         }    
     }
 
+    /// <summary>
+    /// Reduces the player down to half size
+    /// </summary>
     public void StartSlim() {
         if (!IsSmall){
             smallCounter += 1;
@@ -115,7 +123,9 @@ public class Player : Entity, IGameEventProcessor {
             IsSmall = true;
         }      
     }
-
+    /// <summary>
+    /// Increases the player size back to the original size
+    /// </summary>
     public void EndSlim() {
         if (IsSmall){
             smallCounter -=1;
@@ -132,6 +142,10 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Parameter of the message/command, e.g. sound: sound filename or identifier 
+    /// </summary>
+    /// <param name="gameEvent">The game event being processed.</param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "MOVE":

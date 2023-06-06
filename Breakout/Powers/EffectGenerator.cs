@@ -14,7 +14,11 @@ public class EffectGenerator : IGameEventProcessor {
         effects = new EntityContainer<Entity>();
         number = new Random();
     }
-
+    /// <summary>
+    /// Chooses (depending on num) which powerup to be created and where (depending on pos).
+    /// </summary>
+    /// <param name="num">Number between one and five which dictates the powerup.</param>
+    /// <param name="pos">Position for where the powerup will be created.</param>
     private void CreatePowerUp(int num, Vec2F pos){
         switch(num) {
             case 0:
@@ -35,6 +39,11 @@ public class EffectGenerator : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Chooses (depending on num) which hazard to be created and where (depending on pos).
+    /// </summary>
+    /// <param name="num">Number between one and five which dictates the hazard.</param>
+    /// <param name="pos">Position for where the hazard will be created.</param>
     private void CreateHazard(int num, Vec2F pos){
         if (num == 1){
             switch(number.Next(3)) {
@@ -51,10 +60,17 @@ public class EffectGenerator : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Renders the effects
+    /// </summary>
     public void RenderEffects(){
         effects.RenderEntities();
     }
 
+    /// <summary>
+    /// Updates effect on the player
+    /// </summary>
+    /// <param name="player">Entity which the effect is checked for collision with</param>
     public void UpdateEffects(Player player){
         effects.Iterate(effect => {
             if (effect is IEffect IF){
@@ -64,10 +80,16 @@ public class EffectGenerator : IGameEventProcessor {
         });
     }
 
+    /// <summary>
+    /// Clears the container of all powers 
+    /// </summary>
     public void Reset(){
         effects.ClearContainer();
     }
-
+    /// <summary>
+    /// Parameter of the message/command, e.g. sound: sound filename or identifier 
+    /// </summary>
+    /// <param name="gameEvent">The game event being processed.</param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "ADD_POWERUP":
@@ -86,6 +108,9 @@ public class EffectGenerator : IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Public getter for the effects container
+    /// </summary>
     public EntityContainer<Entity> GetEffects(){
         return effects;
     }

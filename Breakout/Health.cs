@@ -29,6 +29,10 @@ public class Health : IGameEventProcessor{
         }
     }
 
+/// <summary>
+/// Creates a gameevent if the player has run out of points
+/// or changes the number of health points by -1
+/// </summary>
     private void LoseHealth(){
         if (hp - 1 <= 0){
             EventBus.GetBus().RegisterEvent(
@@ -44,16 +48,25 @@ public class Health : IGameEventProcessor{
         }
     }
 
+/// <summary>
+/// Renders the heart entities (the ones being displayed)
+/// </summary>
     public void RenderHearts(){
         for (int i = 0; i < hp; i++){
             hearts[i].RenderEntity();
         }
     }
-
+/// <summary>
+/// Resets the amount of health to the standard of three
+/// </summary>
     public void Reset(){
         hp = 3;
     }
 
+    /// <summary>
+    /// Parameter of the message/command, e.g. sound: sound filename or identifier 
+    /// </summary>
+    /// <param name="gameEvent">The game event being processed.</param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "LOSE_HEALTH":
@@ -78,7 +91,11 @@ public class Health : IGameEventProcessor{
         }
     }
 
-    //For testing purposes
+/// <summary>
+/// A public getter for accessing the amount of current health points
+/// </summary>
+/// <returns></returns>
+//For testing purposes    
     public int GetHealth(){
         return hp;
     }
