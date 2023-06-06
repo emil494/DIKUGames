@@ -14,44 +14,42 @@ using Breakout;
 
 
 
-public class WideTests{
+public class ShrinkTests{
     private Player player;
-    private Wide wide;
+    private Shrink shrink;
     private Vec2F pos;
 
 
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        //GameRunning.GetInstance().ResetState();
         EventBus.ResetBus();
         player = new Player();
         pos = new Vec2F(0.45f, 0.135f);
-        wide = new Wide(pos);
+        shrink = new Shrink(pos);
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
     }
 
     [Test]
     public void TestFall(){
-        wide.Move();
+        shrink.Move();
         var Temp = pos + new Vec2F(0.0f, -0.005f); 
-        Assert.That(wide.Shape.Position.Y,Is.EqualTo(Temp.Y));
+        Assert.That(shrink.Shape.Position.Y,Is.EqualTo(Temp.Y));
     }
 
     [Test]
-    public void TestGainSize(){
-        var Expected = player.Shape.Extent.X*2;      
-        wide.Move();    
-        wide.PlayerCollision(player);
+    public void TestLoseSize(){
+        var Expected = player.Shape.Extent.X/2;      
+        shrink.Move();    
+        shrink.PlayerCollision(player);
         EventBus.GetBus().ProcessEvents();
         Assert.That(Expected, Is.EqualTo(player.Shape.Extent.X));
     }
 
     [Test]
     public void TestsColision(){
-        wide.Move();    
-        wide.PlayerCollision(player);
-        Assert.True(wide.IsDeleted());
+        shrink.Move();    
+        shrink.PlayerCollision(player);
+        Assert.True(shrink.IsDeleted());
     }
-
 }

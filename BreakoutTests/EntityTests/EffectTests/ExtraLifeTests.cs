@@ -22,7 +22,6 @@ public class ExtraLifeTests{
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        //GameRunning.GetInstance().ResetState();
         EventBus.ResetBus();
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
@@ -30,8 +29,6 @@ public class ExtraLifeTests{
         xtraLife = new ExtraLife(pos);
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
-        
-        //EventBus.GetBus().Subscribe(GameEventType.StatusEvent, xtraLife);
     }
 
     [Test]
