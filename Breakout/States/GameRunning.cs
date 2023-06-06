@@ -112,6 +112,12 @@ public class GameRunning : IGameState {
             case KeyboardKey.Escape:
                 EventBus.GetBus().RegisterEvent(
                     new GameEvent {
+                        EventType = GameEventType.StatusEvent, 
+                        Message = "PAUSE_GAME"
+                    }
+                );
+                EventBus.GetBus().RegisterEvent(
+                    new GameEvent {
                         EventType = GameEventType.GameStateEvent, 
                         Message = "CHANGE_STATE",
                         StringArg1 = "GAME_PAUSED"

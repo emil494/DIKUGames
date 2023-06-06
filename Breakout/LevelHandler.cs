@@ -104,7 +104,7 @@ public class LevelHandler {
         currentLevel.Update();
     }
     
-    //For testing purposes
+    
     /// <summary>
     /// A getter for the current level
     /// </summary>

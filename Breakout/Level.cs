@@ -223,6 +223,12 @@ public class Level : IGameEventProcessor{
                         break;
                 }
                 break;
+            case "RESUME_GAME":
+                timer.ResumeTimer();
+                break;
+            case "PAUSE_GAME":
+                timer.PauseTimer();
+                break;
         }
     }
 

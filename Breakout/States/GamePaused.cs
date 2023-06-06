@@ -112,6 +112,12 @@ public class GamePaused : IGameState {
                                     StringArg1 = "GAME_RUNNING"
                                 }
                             );
+                            EventBus.GetBus().RegisterEvent(
+                                new GameEvent{
+                                    EventType = GameEventType.StatusEvent,
+                                    Message = "RESUME_GAME",
+                                }
+                            );
                         }
                         break;
                 }
