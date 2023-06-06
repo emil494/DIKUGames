@@ -132,11 +132,19 @@ public class BallHandler : IGameEventProcessor {
     }
 
     // For testing purposes
+    /// <summary>
+    /// Getter for balls
+    /// </summary>
+    /// <returns> balls as an EntityContainer<Ball> </returns>
     public EntityContainer<Ball> GetBalls() {
         return balls;
     }
 
     // For testing purposes
+    /// <summary>
+    /// Turns balls into a list
+    /// </summary>
+    /// <returns> balls as a List<Ball> </returns>
     public List<Ball> GetBallsList() {
         List<Ball> list = new List<Ball>{};
         balls.Iterate(ball => {

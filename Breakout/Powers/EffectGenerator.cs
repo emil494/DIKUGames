@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Breakout.Powers;
 
+/// <summary>
+/// Keeps track of and creates random effects according to provided events
+/// </summary>
 public class EffectGenerator : IGameEventProcessor {
     private EntityContainer<Entity> effects;
     public Random number;

@@ -10,6 +10,9 @@ using Breakout;
 
 namespace Breakout.States;
 
+/// <summary>
+/// Contains the won gamestates logic
+/// </summary>
 public class GameWon : IGameState {
     private static GameWon instance = null;
     private Entity backGroundImage;

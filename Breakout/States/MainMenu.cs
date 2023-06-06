@@ -9,6 +9,9 @@ using DIKUArcade.Events;
 
 namespace Breakout.States;
 
+/// <summary>
+/// Contains the main menus logic
+/// </summary>
 public class MainMenu : IGameState {
     private static MainMenu instance = null;
     private Entity backGroundImage;

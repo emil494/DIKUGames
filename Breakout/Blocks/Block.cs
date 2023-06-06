@@ -5,6 +5,9 @@ using System;
 
 namespace Breakout.Blocks;
 
+/// <summary>
+/// A basic block, which can make hazards when killed
+/// </summary>
 public class Block : Entity, IBlock {
     public int value {get; set;}
     public int hp {get; set;}

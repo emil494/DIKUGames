@@ -3,6 +3,9 @@ using DIKUArcade.Graphics;
 
 namespace Breakout.Blocks;
 
+/// <summary>
+/// An unbreakable block
+/// </summary>
 public class UnbreakableBlock : Entity, IBlock {
     public int value {get; set;}
     public int hp {get; set;}

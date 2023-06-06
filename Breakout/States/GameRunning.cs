@@ -14,6 +14,9 @@ using Breakout.Powers;
 
 namespace Breakout.States;
 
+/// <summary>
+/// Coordinates between the different objects to create the running game
+/// </summary>
 public class GameRunning : IGameState {
     private static GameRunning instance = null;
     private Player player;

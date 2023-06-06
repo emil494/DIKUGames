@@ -8,6 +8,9 @@ using System;
 
 namespace Breakout;
 
+/// <summary>
+/// Keeps track of the players health and condition tied to it
+/// </summary>
 public class Health : IGameEventProcessor{
     private int hp;
     private List<Entity> hearts;

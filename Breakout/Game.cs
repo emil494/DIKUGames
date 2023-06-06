@@ -11,6 +11,9 @@ using System.Collections.Generic;
 
 namespace Breakout;
 
+/// <summary>
+/// Creates the game, handles events related to the game window and keybindings
+/// </summary>
 public class Game : DIKUGame, IGameEventProcessor {
     private StateHandler stateHandler;
     public Game(WindowArgs windowArgs) : base(windowArgs) {

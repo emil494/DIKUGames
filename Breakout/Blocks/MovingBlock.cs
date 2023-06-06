@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Breakout.Blocks;
 
+/// <summary>
+/// A moving block
+/// </summary>
 public class MovingBlock : Entity, IBlock {
     public int value {get; set;}
     public int hp {get; set;}

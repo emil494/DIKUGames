@@ -5,6 +5,9 @@ using System.IO;
 
 namespace Breakout.Blocks;
 
+/// <summary>
+/// A hardened block with 2 health (can be set to whatever)
+/// </summary>
 public class HardenedBlock : Entity, IBlock {
     public int value {get; set;}
     public int hp {get; set;}
@@ -33,7 +36,7 @@ public class HardenedBlock : Entity, IBlock {
         if (hp - 1 <= 0){
             hp -= 1;
             DeleteBlock();
-        } else if(hp - 1 == 1){
+        } else if(hp - 1 == hp / 2){
             hp -= 1;
             this.Image = damaged;
         } else {

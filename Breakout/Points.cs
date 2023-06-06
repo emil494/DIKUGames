@@ -6,6 +6,9 @@ using System;
 
 namespace Breakout;
 
+/// <summary>
+/// Keeps track of the points accummulated in a game
+/// </summary>
 public class Points : IGameEventProcessor {
     private int score; // The numerical score
     private Text dscore; //The display score
@@ -44,6 +47,9 @@ public class Points : IGameEventProcessor {
         return score;
     }
 
+    /// <summary>
+    /// Resets the points
+    /// </summary>
     public void Reset(){
         score = 0;
     }

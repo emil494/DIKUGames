@@ -9,6 +9,9 @@ using DIKUArcade.Events;
 
 namespace Breakout.States;
 
+/// <summary>
+/// Contains pause menus logic
+/// </summary>
 public class GamePaused : IGameState {
     private static GamePaused instance = null;
     private IGameState backGroundImage;

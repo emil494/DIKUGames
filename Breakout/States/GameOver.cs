@@ -10,6 +10,9 @@ using DIKUArcade.GUI;
 
 namespace Breakout.States;
 
+/// <summary>
+/// Contains the lost gamestates logic
+/// </summary>
 public class GameOver : IGameState {
     private static GameOver instance = null;
     private Entity backGroundImage;

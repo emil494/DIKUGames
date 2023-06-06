@@ -213,11 +213,19 @@ public class Player : Entity, IGameEventProcessor {
     }
 
     //For testing purposes
+    /// <summary>
+    /// Getter for moveRight
+    /// </summary>
+    /// <returns> moveRight as a float </returns>
     public float GetMoveRight(){
         return moveRight;
     }
-
+    
     //For testing purposes
+    /// <summary>
+    /// Getter for moveLeft
+    /// </summary>
+    /// <returns> moveLeft as a float </returns>
     public float GetMoveLeft(){
         return moveLeft;
     }

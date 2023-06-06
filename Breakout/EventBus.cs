@@ -22,6 +22,9 @@ public static class EventBus {
     }
 
     //For testing purposes
+    /// <summary>
+    /// Resets the eventbus
+    /// </summary>
     public static void ResetBus(){
         EventBus.eventBus = new GameEventBus();
         EventBus.eventBus.InitializeEventBus(new List<GameEventType> 
