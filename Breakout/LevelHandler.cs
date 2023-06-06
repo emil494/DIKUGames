@@ -78,13 +78,13 @@ public class LevelHandler {
             currentLevel.DeleteBlocks();
         } else {
             //Initialize first level
-            reader.Read(path(lvl));
+            reader.Read(Path.Combine("Assets", "Levels", lvl));
             currentLevel = new Level(reader.map, reader.meta, reader.legend);
             EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
         } 
 
         //Initialize next level
-        if (reader.Read(path(lvl))) {
+        if (reader.Read(Path.Combine("Assets", "Levels", lvl))) {
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
     }
@@ -111,19 +111,6 @@ public class LevelHandler {
     /// <returns> The current level </returns>
     public Level GetLevel(){
         return currentLevel;
-    }
-
-    //Exists for testing reasons, ideally a generalized path without this method
-    private string path(string lvl) {
-        
-        //Checks if it's a testing path
-        if (File.Exists(Path.Combine("..", "..", "..", "Assets", "Levels", lvl))){
-            return Path.Combine("..", "..", "..", "Assets", "Levels", lvl);
-
-        //Else normal path
-        } else {
-            return Path.Combine("Assets", "Levels", lvl);
-        }
     }
 
     //For testing purposes
