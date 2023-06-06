@@ -60,4 +60,12 @@ public class SplitTest{
         int res = handler.GetBalls().CountEntities();
         Assert.That(3, Is.EqualTo(res));
     }
+
+    [Test]
+    public void TestMoveOOB() {
+        for (int i = 0; i <= 100; i++){
+            power.Move();
+        }
+        Assert.True(power.IsDeleted());
+    }
 }
