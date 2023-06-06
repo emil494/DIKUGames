@@ -2,6 +2,7 @@ namespace BreakoutTests;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
 using Breakout;
 using Breakout.Blocks;
 using DIKUArcade.GUI;
@@ -111,5 +112,25 @@ public class BallHandlerTest{
             }
         });
         Assert.True(listRes.TrueForAll(ele => {return ele;}));
+    }
+
+    [Test]
+    public void TestReset_BallHandler() {
+        EventBus.ResetBus();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, handler);
+
+        handler.AddBall(new Vec2F(0.22f, 0.35f));
+        handler.AddBall(new Vec2F(0.22f, 0.4f));
+        handler.AddBall(new Vec2F(0.22f, 0.45f));
+        handler.AddBall(new Vec2F(0.22f, 0.5f));
+        handler.AddBall(new Vec2F(0.22f, 0.55f));
+
+        var lvlhandler = new LevelHandler();
+        lvlhandler.NewGame();
+
+        EventBus.GetBus().ProcessEvents();
+        var after = handler.GetBalls().CountEntities();
+
+        Assert.That(after, Is.EqualTo(1));
     }
 }
