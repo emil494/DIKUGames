@@ -41,6 +41,9 @@ public class HardenedBlock : Entity, IBlock {
         }
     }
 
+    /// <summary>
+    /// Deletes the block and (depending on powerUp) creates a powerup
+    /// </summary>
     public void DeleteBlock(){
         DeleteEntity();
          if (powerUp) {
