@@ -107,6 +107,10 @@ public class GameRunning : IGameState {
         }
     }
 
+    /// <summary>
+    /// Registers a game event depending on the keyinput.
+    /// </summary>
+    /// <param name="key">key input</param>
     private void KeyPress(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Escape:
@@ -153,6 +157,10 @@ public class GameRunning : IGameState {
         }
     }
 
+    /// <summary>
+    /// Registers a game event bases on the key input to stop the previous game event.
+    /// </summary>
+    /// <param name="key">key input</param>
     private void KeyRelease(KeyboardKey key) {
         switch (key){
             case KeyboardKey.Left:
@@ -175,6 +183,11 @@ public class GameRunning : IGameState {
                 break;
         }
     }
+    
+    /// <summary>
+    /// A public getter to gain acces to the amount of final points.
+    /// </summary>
+    /// <returns>Public amount of points for displaying and testing.</returns>
     public int GetFinalScore(){ //This functions helps GameWon display the final points
         return points.GetScore();
     }

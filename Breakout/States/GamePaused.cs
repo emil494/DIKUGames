@@ -125,7 +125,10 @@ public class GamePaused : IGameState {
         }
     }
 
-    //For testing purposes
+    /// <summary>
+    /// Public getter for the Active Menu Buttons
+    /// </summary>
+    /// <returns>What number the active menu button is</returns>
     public int GetActiveMenuButton(){
         return activeMenuButton;
     }
