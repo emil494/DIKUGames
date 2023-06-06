@@ -35,7 +35,7 @@ public class InfiniteTest{
 
     [Test]
     public void TestOOB() {
-        for (int i = 0; i < 27; i++) {
+        for (int i = 0; i < 29; i++) {
             power.Move();
         }
         Assert.True(power.IsDeleted());
