@@ -21,7 +21,6 @@ public class LoseLifeTests{
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        //GameRunning.GetInstance().ResetState();
         EventBus.ResetBus();
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
@@ -29,8 +28,6 @@ public class LoseLifeTests{
         minustraLife = new LoseLife(pos);
         health = new Health();
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, health);
-        
-        //EventBus.GetBus().Subscribe(GameEventType.StatusEvent, minustraLife);
     }
 
     [Test]

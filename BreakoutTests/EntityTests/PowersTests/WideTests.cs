@@ -22,8 +22,6 @@ public class WideTests{
 
     [SetUp] 
     public void Setup(){
-        Window.CreateOpenGLContext();
-        //GameRunning.GetInstance().ResetState();
         EventBus.ResetBus();
         player = new Player();
         pos = new Vec2F(0.45f, 0.135f);
