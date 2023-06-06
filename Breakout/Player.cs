@@ -7,6 +7,10 @@ using DIKUArcade.Timers;
 using System;
 namespace Breakout;
 
+/// <summary>
+/// Responsible for all logic related to the players
+/// movement and powerups/hazards related to the player.
+/// </summary>
 public class Player : Entity, IGameEventProcessor {
     private float moveLeft;
     private float moveRight;
@@ -26,6 +30,10 @@ public class Player : Entity, IGameEventProcessor {
                 smallCounter = 0;
             }
 
+    /// <summary>
+    /// Sets the players left movement
+    /// </summary>
+    /// <param name="val"> Bool indicating if moving left </param>
     private void SetMoveLeft(bool val){
         if (val){
             moveLeft = -MOVEMENT_SPEED;
@@ -36,6 +44,10 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Sets the players right movement
+    /// </summary>
+    /// <param name="val"> Bool indicating if moving right </param>
     private void SetMoveRight(bool val){
         if (val){
             moveRight = MOVEMENT_SPEED;
@@ -46,10 +58,17 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Updates the players horizontal direction according to SetMoveRight and SetMoveLeft
+    /// </summary>
     private void UpdateDirection(){
         (Shape.AsDynamicShape()).Direction.X = moveLeft + moveRight;
     }
 
+    /// <summary>
+    /// Moves the player horizontally according to the set direction, 
+    /// also prevents moving OOB.
+    /// </summary>
     public void Move() {
         if (Shape.Position.X + (Shape.AsDynamicShape()).Direction.X >= 0.0f && 
         Shape.Position.X + (Shape.AsDynamicShape()).Direction.X <= 1.0f-Shape.Extent.X){
@@ -57,6 +76,9 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Resets the players position
+    /// </summary>
     public void Reset(){
         Shape.Position.X = 0.45f;
         Shape.Position.Y = 0.1f;

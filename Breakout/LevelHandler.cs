@@ -9,6 +9,10 @@ using System.Threading;
 
 namespace Breakout;
 
+/// <summary>
+/// LevelHandler is responsible reading the correct file and create the correct level 
+/// in the correct order according to its set loadOrder.
+/// </summary>
 public class LevelHandler {
     private List<string> loadOrder;
     private FileReader reader;
@@ -114,6 +118,11 @@ public class LevelHandler {
     }
 
     //Exists for testing reasons, ideally a generalized path without this method
+    /// <summary>
+    /// Makes the correct pathing for testing and normal play
+    /// </summary>
+    /// <param name="lvl"> The name of the levels textfile </param>
+    /// <returns> The correct path as a string </returns>
     private string path(string lvl) {
         
         //Checks if it's a testing path
@@ -127,11 +136,19 @@ public class LevelHandler {
     }
 
     //For testing purposes
+    /// <summary>
+    /// Getter for levelcount
+    /// </summary>
+    /// <returns> lvlcount as an int </returns>
     public int GetLevelCount(){
         return lvlCount;
     }
 
     //For testing purposes
+    /// <summary>
+    /// Getter for LoadOrder size
+    /// </summary>
+    /// <returns> LoadOrder.Count as an int </returns>
     public int GetLoadOrderSize(){
         return loadOrder.Count;
     }

@@ -10,6 +10,10 @@ using System.Diagnostics;
 
 namespace Breakout;
 
+/// <summary>
+/// Creates the level and is responsible for keeping track of logic related to 
+/// level timer and blocks in a level.
+/// </summary>
 public class Level : IGameEventProcessor{
     private Timer timer;
     private Text timeDisplay;
@@ -194,6 +198,12 @@ public class Level : IGameEventProcessor{
         }
     }
     
+    /// <summary>
+    /// Reinitializes the game with given paramaters
+    /// </summary>
+    /// <param name="map_"> Map data as a List<string> </param>
+    /// <param name="metaData_"> Meta data as a Dictionary<string, string> </param>
+    /// <param name="legend_">Legend data as a Dictionary<char, string> </param>
     public void Reset(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
         
@@ -233,6 +243,10 @@ public class Level : IGameEventProcessor{
     }
 
     //For testing reasons
+    /// <summary>
+    /// Getter for the remaning time in the level
+    /// </summary>
+    /// <returns> Remaning time as an int </returns>
     public int GetRemaningTime(){
         return timer.RemaningTime();
     }
