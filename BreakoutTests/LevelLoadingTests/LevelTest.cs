@@ -112,7 +112,7 @@ public class LevelTest {
     public void TestTime() {
         lvl2.Update();
         int before = lvl2.GetRemaningTime();
-        //System.Threading.Thread.Sleep(2000);
+        System.Threading.Thread.Sleep(2000);
         lvl2.Update();
         int after = lvl2.GetRemaningTime();
         Assert.That(after, Is.EqualTo(before - 2));
