@@ -17,6 +17,7 @@ public class InfiniteTest{
         handler = new BallHandler();
 
         player = new Player();
+        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
 
         power = new Infinite(new Vec2F(0.5f, 0.135f));
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, handler);
@@ -35,7 +36,7 @@ public class InfiniteTest{
 
     [Test]
     public void TestOOB() {
-        for (int i = 0; i < 29; i++) {
+        for (int i = 0; i < 36; i++) {
             power.Move();
         }
         Assert.True(power.IsDeleted());
@@ -49,12 +50,16 @@ public class InfiniteTest{
     }
 
     [Test]
-    public void TestSplit() {
-        handler.AddBall(new Vec2F(0.5f, 0.5f));
+    public void TestInfinite() {
         power.Move();
         power.PlayerCollision(player);
+        player.Shape.Position = new Vec2F(0.0f, 0.5f);
+        //System.Threading.Thread.Sleep(1000);
         EventBus.GetBus().ProcessEvents();
-        int res = handler.GetBalls().CountEntities();
-        Assert.That(3, Is.EqualTo(res));
+        EventBus.GetBus().ProcessEvents();
+        List<Ball> balls = handler.GetBallsList();
+        Ball ball = balls[0];
+        float ballX = ball.Shape.Position.X;
+        Assert.That(ballX, Is.EqualTo(0.1f));
     }
 }

@@ -34,6 +34,14 @@ public class SplitTest{
     }
 
     [Test]
+    public void TestOOB() {
+        for (int i = 0; i < 36; i++) {
+            power.Move();
+        }
+        Assert.True(power.IsDeleted());
+    }
+
+    [Test]
     public void TestCollision() {
         power.Move();
         power.PlayerCollision(player);
