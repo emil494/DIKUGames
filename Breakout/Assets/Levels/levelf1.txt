@@ -13,10 +13,10 @@ a----11----a
 --a------a--
 ---a----a---
 ----a--a----
-------------
-------------
 cccccccccccc
-%%%%%%%%%%%%
+------------
+------------
+------------
 ------------
 ------------
 ------------
@@ -36,7 +36,6 @@ Unbreakable: 1
 Meta/
 
 Legend:
-%) blue-block.png
 0) orange-block.png
 1) grey-block.png
 a) purple-block.png

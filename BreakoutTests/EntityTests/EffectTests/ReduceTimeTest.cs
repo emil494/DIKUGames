@@ -23,7 +23,8 @@ public class ReduceTimeTests {
         reader = new FileReader();
         reader.Read(Path.Combine("..", "..", "..", "Assets", "Levels", "levelf1.txt"));
         lvl = new Level(reader.map, reader.meta, reader.legend);
-        hazard = new ReduceTime(player.Shape.Position + new Vec2F(0.0f, 0.005f));
+        hazard = new ReduceTime(player.Shape.Position + 
+            new Vec2F(0.0f, 0.005f) + new Vec2F(0.0f, player.Shape.Extent.Y));
         EventBus.GetBus().Subscribe(GameEventType.StatusEvent, lvl);
     }
 
@@ -39,7 +40,7 @@ public class ReduceTimeTests {
     [Test]
     public void TestMoveOOB() {
         player.DeleteEntity();
-        for (int i = 0; i <= 28; i++){
+        for (int i = 0; i <= 38; i++){
             hazard.Move();
         }
         Assert.True(hazard.IsDeleted());
@@ -48,6 +49,17 @@ public class ReduceTimeTests {
     [Test]
     public void TestPlayerCollision() {
         hazard.Move();
+        hazard.PlayerCollision(player);
         Assert.True(hazard.IsDeleted());
+    }
+
+    [Test]
+    public void TestApply() {
+        hazard.Move();
+        hazard.PlayerCollision(player);
+        var start = lvl.GetRemaningTime();
+        EventBus.GetBus().ProcessEvents();
+        var after = lvl.GetRemaningTime();
+        Assert.That(after, Is.EqualTo(start - 30));
     }
 }

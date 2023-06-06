@@ -8,8 +8,8 @@ using System;
 namespace Breakout;
 
 public class Player : Entity, IGameEventProcessor {
-    private float moveLeft = 0.0f;
-    private float moveRight = 0.0f;
+    private float moveLeft;
+    private float moveRight;
     private const float MOVEMENT_SPEED = 0.03f;
     private bool IsBig;
     private bool IsSmall;
@@ -20,6 +20,8 @@ public class Player : Entity, IGameEventProcessor {
             new Image(Path.Combine("Assets", "Images", "player.png"))) {
                 IsBig = false;
                 IsSmall = false;
+                moveLeft = 0.0f;
+                moveRight = 0.0f;
                 bigCounter = 0;
                 smallCounter = 0;
             }

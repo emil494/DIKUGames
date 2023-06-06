@@ -12,7 +12,6 @@ public class Points : IGameEventProcessor {
 
     public Points(){
         score = 0;
-
         // Creating the visuals 
         dscore = new Text ($"Points: {score.ToString()}", new Vec2F(0.0f,-0.25f), new Vec2F(0.3f,0.3f)); 
         dscore.SetColor(System.Drawing.Color.Coral); //Coloring the visuals
