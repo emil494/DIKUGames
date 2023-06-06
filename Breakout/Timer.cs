@@ -39,6 +39,7 @@ public class Timer {
 
     public bool OutOfTime(){
         if (Convert.ToInt32(GetElapsedSeconds()) >= addedTime){
+            PauseTimer();
             return true;
         } else {
             return false;

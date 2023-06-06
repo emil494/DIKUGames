@@ -17,6 +17,7 @@ public class Level : IGameEventProcessor{
     private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
+
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_) {
 
@@ -175,7 +176,6 @@ public class Level : IGameEventProcessor{
     /// </summary>
     public void Update(){
         if (containTimer && timer.OutOfTime()){
-            timer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
                     EventType = GameEventType.GameStateEvent,
@@ -196,8 +196,11 @@ public class Level : IGameEventProcessor{
     
     public void Reset(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
-        timer = new Timer(Int32.Parse(metaData["Time"]));
-        timer.ResumeTimer();
+        
+        if (metaData.ContainsKey("Time")){
+            timer = new Timer(Int32.Parse(metaData["Time"]));
+            timer.ResumeTimer();   
+        }
         blocks.ClearContainer();
         CreateBlocks(map_);
         metaData = metaData_;
