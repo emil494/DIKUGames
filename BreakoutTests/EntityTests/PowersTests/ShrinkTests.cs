@@ -53,4 +53,13 @@ public class ShrinkTests{
         shrink.PlayerCollision(player);
         Assert.True(shrink.IsDeleted());
     }
+
+    [Test]
+    public void TestMoveOOB() {
+        player.DeleteEntity();
+        for (int i = 0; i <= 100; i++){
+            shrink.Move();
+        }
+        Assert.True(shrink.IsDeleted());
+    }
 }

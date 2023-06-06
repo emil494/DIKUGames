@@ -54,4 +54,12 @@ public class WideTests{
         Assert.True(wide.IsDeleted());
     }
 
+    [Test]
+    public void TestMoveOOB() {
+        player.DeleteEntity();
+        for (int i = 0; i <= 100; i++){
+            wide.Move();
+        }
+        Assert.True(wide.IsDeleted());
+    }
 }
