@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.GUI;
 using Breakout;
 using Breakout.States;
 using DIKUArcade.Events;
@@ -13,6 +14,7 @@ public class HealthTests {
 
     [SetUp]
     public void Setup(){
+        Window.CreateOpenGLContext();
         EventBus.ResetBus();
         hp = new Health();
         bh = new BallHandler();
