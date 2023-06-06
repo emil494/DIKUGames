@@ -34,6 +34,14 @@ public class InfiniteTest{
     }
 
     [Test]
+    public void TestOOB() {
+        for (int i = 0; i < 27; i++) {
+            power.Move();
+        }
+        Assert.True(power.IsDeleted());
+    }
+
+    [Test]
     public void TestCollision() {
         power.Move();
         power.PlayerCollision(player);
