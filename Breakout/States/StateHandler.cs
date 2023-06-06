@@ -21,10 +21,10 @@ public class StateHandler : IGameEventProcessor {
     private void SwitchState(StateType state) {
         switch (state){
             case StateType.GameRunning:
+                ActiveState = GameRunning.GetInstance();
                 if (typeof (MainMenu) == ActiveState.GetType()){
                     GameRunning.GetInstance().ResetState();
                 }
-                ActiveState = GameRunning.GetInstance();
                 break;
             case StateType.GamePaused:
                 ActiveState = GamePaused.GetInstance();

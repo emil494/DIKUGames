@@ -21,7 +21,7 @@ public class LoseLifeTests{
     [SetUp] 
     public void Setup(){
         Window.CreateOpenGLContext();
-        GameRunning.GetInstance().ResetState();
+        //GameRunning.GetInstance().ResetState();
         EventBus.ResetBus();
         player = new Player();
         EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
