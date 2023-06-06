@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.GUI;
 using Breakout.Blocks;
 using Breakout;
 using DIKUArcade.Events;
@@ -16,7 +17,7 @@ public class PointTests {
 
     [SetUp]
     public void Setup(){
-
+        Window.CreateOpenGLContext();
         EventBus.ResetBus();
         block = new Block (
             new DynamicShape(
