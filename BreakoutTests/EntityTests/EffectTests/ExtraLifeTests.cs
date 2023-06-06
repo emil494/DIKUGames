@@ -53,4 +53,13 @@ public class ExtraLifeTests{
         Assert.True(xtraLife.IsDeleted());
     }
 
+    [Test]
+    public void TestMoveOOB() {
+        player.DeleteEntity();
+        for (int i = 0; i <= 100; i++){
+            xtraLife.Move();
+        }
+        Assert.True(xtraLife.IsDeleted());
+    }
+
 }

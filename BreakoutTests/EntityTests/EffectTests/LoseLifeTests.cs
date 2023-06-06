@@ -52,4 +52,12 @@ public class LoseLifeTests{
         Assert.True(minustraLife.IsDeleted());
     }
 
+    [Test]
+    public void TestMoveOOB() {
+        player.DeleteEntity();
+        for (int i = 0; i <= 100; i++){
+            minustraLife.Move();
+        }
+        Assert.True(minustraLife.IsDeleted());
+    }
 }
