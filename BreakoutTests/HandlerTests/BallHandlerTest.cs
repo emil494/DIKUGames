@@ -7,6 +7,8 @@ using Breakout;
 using Breakout.Blocks;
 using DIKUArcade.GUI;
 using System;
+using Breakout.States;
+using DIKUArcade.Input;
 
 public class BallHandlerTest{
     [SetUp] 
@@ -132,5 +134,18 @@ public class BallHandlerTest{
         var after = handler.GetBalls().CountEntities();
 
         Assert.That(after, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void TestSpaceKey() {
+        EventBus.ResetBus();
+        GameRunning.GetInstance().ResetState();
+        EventBus.GetBus().Subscribe(GameEventType.StatusEvent, handler);
+        EventBus.GetBus().Subscribe(GameEventType.PlayerEvent, player);
+        GameRunning.GetInstance().HandleKeyEvent(KeyboardAction.KeyPress, KeyboardKey.Space);
+        EventBus.GetBus().ProcessEvents();
+        EventBus.GetBus().ProcessEvents();
+        int res = handler.GetBalls().CountEntities();
+        Assert.That(res, Is.EqualTo(1));
     }
 }
