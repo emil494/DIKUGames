@@ -1,4 +1,5 @@
 using Breakout;
+using DIKUArcade.GUI;
 
 namespace BreakoutTests;
 
@@ -6,6 +7,7 @@ public class FileReaderTest
 {
     [SetUp]
     public void Setup() {
+        Window.CreateOpenGLContext();
         reader = new FileReader();
         lvl1Path = Path.Combine("..", "..", "..", "Assets", "Levels", "level1.txt");
     }
