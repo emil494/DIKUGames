@@ -110,6 +110,10 @@ public class Player : Entity, IGameEventProcessor {
         }
     }
 
+    /// <summary>
+    /// Parameter of the message/command, e.g. sound: sound filename or identifier 
+    /// </summary>
+    /// <param name="gameEvent">The game event being processed.</param>
     public void ProcessEvent(GameEvent gameEvent) {
         switch (gameEvent.Message){
             case "MOVE":
