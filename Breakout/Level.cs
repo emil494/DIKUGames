@@ -12,24 +12,28 @@ namespace Breakout;
 
 public class Level : IGameEventProcessor{
     private Timer timer;
-    private double addTime;
-    private int newTime;
     private Text timeDisplay;
+    private bool containTimer;
     private EntityContainer<Entity> blocks;
     private Dictionary<string, string> metaData;
     private Dictionary<char, string> legend;
     public Level(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_) {
-        
-        timer = new Timer();
-        timer.ResumeTimer();
-        addTime = 0;
-        newTime = 0;
-        timeDisplay = new Text($"Time: ", 
-            new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
-        timeDisplay.SetColor(System.Drawing.Color.Coral);
+
         metaData = metaData_;
         legend = legend_;
+
+        if (metaData.ContainsKey("Time")){
+            timer = new Timer(Int32.Parse(metaData["Time"]));
+            timer.ResumeTimer();
+            timeDisplay = new Text($"Time: ", 
+                new Vec2F(0.36f, -0.25f), new Vec2F(0.3f, 0.3f));
+            timeDisplay.SetColor(System.Drawing.Color.Coral);
+            containTimer = true;
+        } else {
+            containTimer = false;
+        }
+
         blocks = new EntityContainer<Entity>();
         CreateBlocks(map_);
     }
@@ -170,7 +174,7 @@ public class Level : IGameEventProcessor{
     /// Updates all blocks on the board
     /// </summary>
     public void Update(){
-        if (timer.GetElapsedSeconds() >= Int32.Parse(metaData["Time"]) + addTime){
+        if (containTimer && timer.OutOfTime()){
             timer.PauseTimer();
             EventBus.GetBus().RegisterEvent(
                 new GameEvent {
@@ -185,17 +189,15 @@ public class Level : IGameEventProcessor{
                 IB.UpdateBlock(blocks);
             }
         });
-        newTime = Convert.ToInt32((Double.Parse(metaData["Time"]) + addTime)
-            - timer.GetElapsedSeconds());
-        timeDisplay.SetText($"Time: {newTime}");
+        if (containTimer) {
+            timeDisplay.SetText($"Time: {timer.RemaningTime()}");
+        }
     }
     
     public void Reset(List<string> map_, Dictionary<string, string> metaData_,
         Dictionary<char, string> legend_){
-        
-        timer.RestartTimer();
+        timer = new Timer(Int32.Parse(metaData["Time"]));
         timer.ResumeTimer();
-        addTime = 0.0;
         blocks.ClearContainer();
         CreateBlocks(map_);
         metaData = metaData_;
@@ -207,21 +209,22 @@ public class Level : IGameEventProcessor{
             case "APPLY_POWERUP":
                 switch (gameEvent.StringArg1){
                     case "ADD_TIME":
-                        addTime += 30.0;
+                        timer.AddTime(30);
                         break;
                 }
                 break;
             case "APPLY_HAZARD":
                 switch (gameEvent.StringArg1) {
                     case "REDUCE_TIME":
-                        addTime -= 30;
+                        timer.AddTime(-30);
                         break;
                 }
                 break;
         }
     }
 
-    public int GetNewTime(){
-        return newTime;
+    //For testing reasons
+    public int GetRemaningTime(){
+        return timer.RemaningTime();
     }
 }
