@@ -9,6 +9,7 @@ using DIKUArcade.Events;
 
 namespace Breakout.States;
 
+
 /// <summary>
 /// Contains pause menus logic
 /// </summary>
