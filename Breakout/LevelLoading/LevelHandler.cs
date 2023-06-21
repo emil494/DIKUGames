@@ -80,15 +80,26 @@ public class LevelHandler {
         );
         if (currentLevel is not null){
             currentLevel.DeleteBlocks();
-        } else {
+        } 
+        
+        if (currentLevel is null){
             //Initialize first level
-            reader.Read(path(lvl));
-            currentLevel = new Level(reader.map, reader.meta, reader.legend);
-            EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
+            if (reader.Read(path(lvl))){
+                currentLevel = new Level(reader.map, reader.meta, reader.legend);
+                EventBus.GetBus().Subscribe(GameEventType.StatusEvent, currentLevel);
+            } else {
+                System.Console.WriteLine($"Unable to load ASCII file: {lvl}");
+                reader.Read(path("level1.txt"));
+                currentLevel = new Level(reader.map, reader.meta, reader.legend);
+            }
         } 
 
         //Initialize next level
-        if (reader.Read(path(lvl))) {
+        else if (reader.Read(path(lvl))) {
+            currentLevel.Reset(reader.map, reader.meta, reader.legend);
+        } else {
+            System.Console.WriteLine($"Unable to load ASCII file: {lvl}");
+            reader.Read(path("level1.txt"));
             currentLevel.Reset(reader.map, reader.meta, reader.legend);
         }
     }
